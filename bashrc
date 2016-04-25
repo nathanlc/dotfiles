@@ -128,3 +128,6 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+export VISUAL=/usr/bin/vim
+export EDITOR="$VISUAL"
