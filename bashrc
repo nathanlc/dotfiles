@@ -103,6 +103,7 @@ alias fiallno='find . -name "*" -type f | xargs egrep -ino '
 alias fiphp='find . -name "*.php" -type f | xargs egrep -in '
 alias fiphpno='find . -name "*.php" -type f | xargs egrep -ino '
 alias fiswp='find . -name "*.swp" -type f'
+alias tmuxat='tmux attach -t'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
