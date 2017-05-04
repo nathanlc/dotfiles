@@ -11,17 +11,20 @@ esac
 # Do not enable Ctrl-s to stop I/O in terminal
 stty -ixon
 
+# Append to the history file, don't overwrite it
+# And share history in tmux windows and panes
+shopt -s histappend
+shopt -s histreedit
+shopt -s histverify
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
-
-# append to the history file, don't overwrite it
-shopt -s histappend
-
+PROMPT_COMMAND="history -a;history -c;history -r; $PROMPT_COMMAND"
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=100000
 HISTFILESIZE=200000
 HISTTIMEFORMAT="%d/%m/%y %H:%M  "
+
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -98,6 +101,7 @@ alias l='ls -CF'
 # other aliases
 alias ivm='vim'
 alias vi='vim'
+alias snv='svn'
 alias rm='rm -i'
 alias ..='cd ..'
 alias ...='cd ../..'
