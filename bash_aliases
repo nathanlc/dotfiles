@@ -1,3 +1,5 @@
+alias ..='cd ..'
+alias ...='cd ../..'
 alias cl='clear'
 alias dc='docker-compose'
 alias l='ls'

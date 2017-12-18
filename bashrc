@@ -93,25 +93,6 @@ fi
 # change LS colors
 LS_COLORS=$LS_COLORS:'di=0;36:' ; export LS_COLORS
 
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-
-# other aliases
-alias ivm='vim'
-alias vi='vim'
-alias snv='svn'
-alias rm='rm -i'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias fiall='find . -name "*" -type f | xargs egrep -in '
-alias fiallno='find . -name "*" -type f | xargs egrep -ino '
-alias fiphp='find . -name "*.php" -type f | xargs egrep -in '
-alias fiphpno='find . -name "*.php" -type f | xargs egrep -ino '
-alias fiswp='find . -name "*.swp" -type f'
-alias tmuxat='tmux attach -t'
-
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -141,6 +122,13 @@ if ! shopt -oq posix; then
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
   fi
+fi
+
+export RBENV_ROOT="$HOME/.rbenv"
+
+if [ -d "$RBENV_ROOT" ]; then
+  export PATH="$RBENV_ROOT/bin:$PATH"
+  eval "$(rbenv init -)"
 fi
 
 export VISUAL=/usr/bin/vim
