@@ -127,9 +127,12 @@ fi
 export RBENV_ROOT="$HOME/.rbenv"
 
 if [ -d "$RBENV_ROOT" ]; then
-  export PATH="$RBENV_ROOT/bin:$PATH"
+  PATH="$RBENV_ROOT/bin:$PATH"
   eval "$(rbenv init -)"
 fi
 
-export VISUAL=/usr/bin/vim
-export EDITOR="$VISUAL"
+export ORG="$HOME/org"
+export SCRIPTS="$HOME/sandbox/scripts"
+export EDITOR="$SCRIPTS/spacemacs.sh"
+PATH="$SCRIPTS:$PATH"
+export PATH="$SCRIPTS/diasend:$PATH"
