@@ -31,6 +31,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     mu4e
      ruby
      javascript
      html
@@ -317,14 +318,18 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   ;; Functions
-  (defun spacemacs/find-org-gtd ()
-    "Edit the gtd org mode file."
+  (defun spacemacs/find-org-archive ()
+    "Edit the documentation org mode file."
     (interactive)
-    (find-file-existing "~/org/gtd.org"))
+    (find-file-existing "~/org/gtd.org_archive"))
   (defun spacemacs/find-org-documentation ()
     "Edit the documentation org mode file."
     (interactive)
     (find-file-existing "~/org/documentation.org"))
+  (defun spacemacs/find-org-gtd ()
+    "Edit the gtd org mode file."
+    (interactive)
+    (find-file-existing "~/org/gtd.org"))
   (defun spacemacs/find-org-inlist ()
     "Edit the in-list org mode file."
     (interactive)
@@ -332,12 +337,16 @@ you should place your code here."
 
   ;; Key bindings
   (setq-default evil-escape-key-sequence "jk")
-
+  ;; (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+  ;; (define-key evil-normal-state-map (kbd "C-j") 'evil-window-bottom)
+  ;; (define-key evil-normal-state-map (kbd "C-k") 'evil-window-top)
+  ;; (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
   (spacemacs/declare-prefix "o" "own-bindings")
   (spacemacs/declare-prefix "og" "goto")
   (spacemacs/set-leader-keys
-    "ogt" 'spacemacs/find-org-gtd
+    "oga" 'spacemacs/find-org-archive
     "ogd" 'spacemacs/find-org-documentation
+    "ogt" 'spacemacs/find-org-gtd
     "ogi" 'spacemacs/find-org-inlist)
   (spacemacs/set-leader-keys
     "aog" 'org-clock-goto)
@@ -348,34 +357,50 @@ you should place your code here."
   (setq-default js-indent-level 2)
 
   ;; Org config
-  (setq-default org-agenda-files (list "~/org/gtd.org"))
-  (setq-default org-bullets-bullet-list '("*"))
-  (setq-default org-default-notes-file '"~/org/in-list.org")
-  (setq-default org-log-into-drawer t)
+  (setq org-agenda-files (list "~/org/gtd.org"))
+  (setq org-bullets-bullet-list '("*"))
+  (setq org-default-notes-file '"~/org/in-list.org")
+  (setq org-log-into-drawer t)
   ;;   A project is stuck if it is todo headline of level 2 that is not done and
   ;;   does not have a next action defined.
-  (setq-default org-stuck-projects
+  (setq org-stuck-projects
                 '("PROJECT+LEVEL=2/-DONE" ("NEXT") nil ""))
-  (setq-default org-cycle-separator-lines -1)
-  (setq-default org-todo-keywords
+  (setq org-cycle-separator-lines -1)
+  (setq org-todo-keywords
                 '((sequence "TODO(t!)" "NEXT(n)" "WAITING(w@/!)" "|" "DONE(d)" "CANCELED(c@)")))
-  (setq-default org-tag-alist
+  (setq org-tag-alist
                 '(("WORK" . ?w) ("HOME" . ?h) ("ERRAND" . ?e) ("PROJECT" . ?p)))
-  (setq-default org-refile-targets
+  (setq org-refile-targets
                 ' (("~/org/gtd.org" :level . 1)))
-  (setq-default org-capture-templates
+  (setq org-capture-templates
                 '(("t" "Task" entry (file+headline "~/org/gtd.org" "Tasks")
                    "* TODO %?\n  CREATED: %U\n  %a")))
-  (setq-default org-enforce-todo-dependencies t)
-  (setq-default org-enforce-todo-checkbox-dependencies t)
-  (setq-default org-tags-column -90)
-  (setq-default org-agenda-window-setup 'current-window)
-  (setq-default org-agenda-default-appointment-duration 30)
-  (setq-default org-icalendar-include-todo t)
-  (setq-default org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start))
-  (setq-default org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due))
-  (setq-default org-agenda-skip-scheduled-if-done t)
-  (setq-default org-agenda-skip-deadline-if-done t))
+  (setq org-enforce-todo-dependencies t)
+  (setq org-enforce-todo-checkbox-dependencies t)
+  (setq org-tags-column -90)
+  (setq org-agenda-window-setup 'current-window)
+  (setq org-agenda-default-appointment-duration 30)
+  (setq org-icalendar-include-todo t)
+  (setq org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start))
+  (setq org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due))
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-agenda-skip-deadline-if-done t)
+  ;; Mu4e configs
+  (with-eval-after-load "mu4e"
+    (setq mu4e-maildir "~/Maildir")
+    (setq mu4e-contexts
+          `( ,(make-mu4e-context
+               :name "work-gmail"
+               :enter-func (lambda () (mu4e-message "Entering work-gmail context."))
+               :leave-func (lambda () (mu4e-message "Leaving work-gmail context."))
+               ;; :match-func ()
+               :vars '((mu4e-trash-folder . "/work/gmail/Trash")
+                       (mu4e-sent-folder . "/work/gmail/Sent")
+                       (user-mail-address . "nathan.lecourt@glooko.com")
+                       (user-full-name . "Nathan Lecourt")
+                       (mu4e-compose-signature . "Nathan Lecourt")))
+             )))
+)
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -420,7 +445,7 @@ you should place your code here."
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby origami web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode phpunit phpcbf php-extras php-auto-yasnippets yasnippet drupal-mode php-mode yaml-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+    (mu4e-maildirs-extension mu4e-alert ht zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby origami web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode phpunit phpcbf php-extras php-auto-yasnippets yasnippet drupal-mode php-mode yaml-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -467,6 +492,7 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:background nil))))
  '(org-agenda-done ((t (:foreground "#86dc2f" :height 1.0))))
  '(org-level-1 ((t (:inherit nil :foreground "#4f97d7" :height 1.1))))
  '(org-level-2 ((t (:inherit nil :foreground "#2d9574" :height 1.0))))

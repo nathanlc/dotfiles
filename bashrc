@@ -91,7 +91,10 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # change LS colors
-LS_COLORS=$LS_COLORS:'di=0;36:' ; export LS_COLORS
+LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+LS_COLORS=$LSCOLORS
+export LSCOLORS
+export LS_COLORS
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
