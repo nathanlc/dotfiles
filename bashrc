@@ -1,13 +1,3 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
-
-# If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
-
 # Do not enable Ctrl-s to stop I/O in terminal
 stty -ixon
 
@@ -24,7 +14,6 @@ PROMPT_COMMAND="history -a;history -c;history -r; $PROMPT_COMMAND"
 HISTSIZE=100000
 HISTFILESIZE=200000
 HISTTIMEFORMAT="%d/%m/%y %H:%M  "
-
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -92,7 +81,7 @@ fi
 
 # change LS colors
 LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
-LS_COLORS=$LSCOLORS
+LS_COLORS=$LS_COLORS:'di=0;35:'
 export LSCOLORS
 export LS_COLORS
 
@@ -105,12 +94,17 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+# A local .bashrc_local file just to have another custom prompt color on a different server.
+if [ -f ~/.bashrc_local ]; then
+    . ~/.bashrc_local
 fi
 
-if [ -f ~/.bash_aliases.local ]; then
-    . ~/.bash_aliases.local
+if [ -f ~/.dotfiles/bash_aliases ]; then
+    . ~/.dotfiles/bash_aliases
+fi
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
 fi
 
 if [ -f /usr/local/etc/bash_completion ]; then
@@ -136,6 +130,7 @@ fi
 
 export ORG="$HOME/org"
 export SCRIPTS="$HOME/sandbox/scripts"
-export EDITOR="$SCRIPTS/spacemacs.sh"
+# export EDITOR="$SCRIPTS/spacemacs.sh"
+export EDITOR="vi"
 PATH="$SCRIPTS:$PATH"
 export PATH="$SCRIPTS/diasend:$PATH"
