@@ -1,3 +1,5 @@
-if [ -f ~/.dotfiles/bashrc ]; then
-    . ~/.dotfiles/bashrc
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
 fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
