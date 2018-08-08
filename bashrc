@@ -121,6 +121,10 @@ if ! shopt -oq posix; then
   fi
 fi
 
+if [ -f ~/sandbox/mine/alacritty/alacritty-completions.bash ]; then
+  . ~/sandbox/mine/alacritty/alacritty-completions.bash
+fi
+
 export RBENV_ROOT="$HOME/.rbenv"
 
 if [ -d "$RBENV_ROOT" ]; then
@@ -132,5 +136,8 @@ export ORG="$HOME/org"
 export SCRIPTS="$HOME/sandbox/scripts"
 # export EDITOR="$SCRIPTS/spacemacs.sh"
 export EDITOR="vi"
+PATH="/usr/local/bin:$PATH"
 PATH="$SCRIPTS:$PATH"
-export PATH="$SCRIPTS/diasend:$PATH"
+PATH="$SCRIPTS/diasend:$PATH"
+PATH="$SCRIPTS/glooko:$PATH"
+export PATH
