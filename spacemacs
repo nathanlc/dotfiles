@@ -51,9 +51,10 @@ This function should only modify configuration layer settings."
      python
      react
      ruby
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+     (shell :variables
+            shell-default-shell 'eshell
+            shell-default-height 30
+            shell-default-position 'bottom)
      ;; slack
      spell-checking
      (sql :variables
@@ -71,12 +72,7 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages
-   '(
-     ;; There is no official geben integration for Spacemacs so using the
-     ;; emacs package.
-     ;; geben
-     )
+   dotspacemacs-additional-packages '()
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -439,19 +435,27 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-pretty-docs nil))
 
+(defun dotspacemacs/user-env ()
+  "Environment variables setup.
+This function defines the environment variables for your Emacs session. By
+default it calls `spacemacs/load-spacemacs-env' which loads the environment
+variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
+See the header of this file for more information."
+  (spacemacs/load-spacemacs-env))
+
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
 This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  )
+  (setq-default git-magit-status-fullscreen t))
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
-This function is called while dumping Spacemacs configuration. You can
-`require' or `load' the libraries of your choice that will be included
-in the dump."
+This function is called only while dumping Spacemacs configuration. You can
+`require' or `load' the libraries of your choice that will be included in the
+dump."
   )
 
 (defun dotspacemacs/user-config ()
@@ -478,11 +482,11 @@ you should place your code here."
     "Edit the in-list org mode file."
     (interactive)
     (find-file-existing "~/org/in-list.org"))
-  (defun spacemacs/open-eshell-below ()
-    "Split current window below, focus it and open eshell."
-    (interactive)
-    (split-window-below-and-focus)
-    (eshell))
+  ;; (defun spacemacs/open-eshell-below ()
+  ;;   "Split current window below, focus it and open eshell."
+  ;;   (interactive)
+  ;;   (split-window-below-and-focus)
+  ;;   (eshell))
   (defun add-node-modules-path ()
     "Search the current buffer's parent directories for `node_modules/.bin`.
 If it's found, then add it to the `exec-path'."
@@ -501,22 +505,16 @@ If it's found, then add it to the `exec-path'."
         (when add-node-modules-path-debug
           (message (concat "node_modules not found in " root))))))
 
-  (defun mine/get-test-pass ()
-    "Edit the documentation org mode file."
-    (interactive)
-    (insert (shell-command-to-string "security find-generic-password -s test-password -w")))
-
   ;; Key bindings
   (setq-default evil-escape-key-sequence "jk")
-  ;; (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-  ;; (define-key evil-normal-state-map (kbd "C-j") 'evil-window-bottom)
-  ;; (define-key evil-normal-state-map (kbd "C-k") 'evil-window-top)
-  ;; (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+  (define-key evil-normal-state-local-map (kbd "M-h") #'evil-window-left)
+  (define-key evil-normal-state-local-map (kbd "M-j") #'evil-window-down)
+  (define-key evil-normal-state-local-map (kbd "M-k") #'evil-window-up)
+  (define-key evil-normal-state-local-map (kbd "M-l") #'evil-window-right)
   (spacemacs/declare-prefix "o" "own-bindings")
   (spacemacs/declare-prefix "og" "goto")
   (spacemacs/set-leader-keys
-    "\"" 'spacemacs/open-eshell-below
-    "oc" 'comment-line
+    ;; "\"" 'spacemacs/open-eshell-below
     "oga" 'spacemacs/find-org-archive
     "ogd" 'spacemacs/find-org-documentation
     "ogt" 'spacemacs/find-org-gtd
@@ -558,14 +556,27 @@ If it's found, then add it to the `exec-path'."
   ;; Setting org-log-done to nil since it's already logged with the above
   (setq org-log-done nil)
   (setq org-tag-alist
-                '(("WORK" . ?w) ("HOME" . ?h) ("ERRAND" . ?e)))
+                '(("HOME" . ?h) ("ERRAND" . ?e)))
   (setq org-refile-targets
                 ' (("~/org/gtd.org" :maxlevel . 3)))
   (setq org-outline-path-complete-in-steps nil)
   (setq org-refile-use-outline-path t)
   (setq org-capture-templates
-                '(("t" "Task" entry (file+headline "~/org/gtd.org" "Tasks")
-                   "* NEXT %? :WORK:\n  SCHEDULED: %t\n  %a")))
+        '(("t" "Task" entry (file+headline "~/org/gtd.org" "Tasks")
+           "* NEXT  %?\n  SCHEDULED: %t\n  %a")
+          ("r" "Recipe" entry (file+headline "~/org/food.org" "Recipes")
+           "* %^{Recipe name}
+:PROPERTIES:
+:Link: %^{Link}p
+:Servings: %^{Servings}p
+:Total_time: %^{Total_time}p
+:END:
+** Ingredients
+   | Quantity | Unit | Ingredient | Preparation |
+   | %?       |      |            |             |
+
+** Instructions
+   1. \n")))
   (setq org-enforce-todo-dependencies t)
   (setq org-enforce-todo-checkbox-dependencies t)
   (setq org-tags-column -90)
@@ -762,7 +773,7 @@ This function is called at the very end of Spacemacs initialization."
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
  '(evil-want-Y-yank-to-eol nil)
- '(fci-rule-color "#383838")
+ '(fci-rule-color "#383838" t)
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
    (--map
@@ -792,7 +803,7 @@ This function is called at the very end of Spacemacs initialization."
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (sqlup-mode mu4e-maildirs-extension mu4e-alert ht zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby origami web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode phpunit phpcbf php-extras php-auto-yasnippets yasnippet drupal-mode php-mode yaml-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+    (xterm-color tern symon string-inflection sqlup-mode spaceline-all-the-icons all-the-icons memoize smeargle shell-pop ruby-refactor ruby-hash-syntax rjsx-mode pippel pipenv password-generator ox-reveal overseer orgit org-mime org-brain nameless multi-term markdown-toc markdown-mode magit-svn magit-gitflow json-navigator hierarchy importmagic epc ctable concurrent deferred impatient-mode helm-xref helm-purpose window-purpose imenu-list helm-mu helm-gitignore gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md geben flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-org evil-magit magit magit-popup git-commit ghub with-editor evil-lion evil-goggles evil-cleverparens paredit eshell-z eshell-prompt-extras esh-help editorconfig diff-hl counsel-projectile counsel swiper ivy centered-cursor-mode browse-at-remote auto-dictionary dotenv-mode mu4e-maildirs-extension mu4e-alert ht zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby origami web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode phpunit phpcbf php-extras php-auto-yasnippets yasnippet drupal-mode php-mode yaml-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
