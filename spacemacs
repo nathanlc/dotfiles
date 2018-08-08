@@ -507,10 +507,11 @@ If it's found, then add it to the `exec-path'."
 
   ;; Key bindings
   (setq-default evil-escape-key-sequence "jk")
-  (define-key evil-normal-state-local-map (kbd "M-h") #'evil-window-left)
-  (define-key evil-normal-state-local-map (kbd "M-j") #'evil-window-down)
-  (define-key evil-normal-state-local-map (kbd "M-k") #'evil-window-up)
-  (define-key evil-normal-state-local-map (kbd "M-l") #'evil-window-right)
+  ;; Use bind-key to prevent any keybinding to overwrite these.
+  (bind-key* "M-h" #'evil-window-left)
+  (bind-key* "M-j" #'evil-window-down)
+  (bind-key* "M-k" #'evil-window-up)
+  (bind-key* "M-l" #'evil-window-right)
   (spacemacs/declare-prefix "o" "own-bindings")
   (spacemacs/declare-prefix "og" "goto")
   (spacemacs/set-leader-keys
