@@ -508,10 +508,10 @@ If it's found, then add it to the `exec-path'."
   ;; Key bindings
   (setq-default evil-escape-key-sequence "jk")
   ;; Use bind-key to prevent any keybinding to overwrite these.
-  (bind-key* "M-h" #'evil-window-left)
-  (bind-key* "M-j" #'evil-window-down)
-  (bind-key* "M-k" #'evil-window-up)
-  (bind-key* "M-l" #'evil-window-right)
+  (bind-key* "C-h" #'evil-window-left)
+  (bind-key* "C-j" #'evil-window-down)
+  (bind-key* "C-k" #'evil-window-up)
+  (bind-key* "C-l" #'evil-window-right)
   (spacemacs/declare-prefix "o" "own-bindings")
   (spacemacs/declare-prefix "og" "goto")
   (spacemacs/set-leader-keys
