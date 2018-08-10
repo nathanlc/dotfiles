@@ -134,8 +134,7 @@ fi
 
 export ORG="$HOME/org"
 export SCRIPTS="$HOME/sandbox/scripts"
-# export EDITOR="$SCRIPTS/spacemacs.sh"
-export EDITOR="vi"
+export EDITOR="emacsclient -s ~/.emacs.d/server/server -c"
 PATH="/usr/local/bin:$PATH"
 PATH="$SCRIPTS:$PATH"
 PATH="$SCRIPTS/diasend:$PATH"
