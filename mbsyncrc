@@ -23,12 +23,12 @@ Create Both
 Expunge Both
 SyncState *
 
-Channel work-gmail-trash
-Master :work-gmail-remote:"[Gmail]/Trash"
-Slave :work-gmail-local:"Trash"
-Create Both
-Expunge Both
-SyncState *
+# Channel work-gmail-trash
+# Master :work-gmail-remote:"[Gmail]/Trash"
+# Slave :work-gmail-local:"Trash"
+# Create Both
+# Expunge Both
+# SyncState *
 
 Channel work-gmail-sent
 Master :work-gmail-remote:"[Gmail]/Sent Mail"
@@ -54,6 +54,6 @@ SyncState *
 Group work-gmail
 Channel work-gmail-inbox
 Channel work-gmail-sent
-Channel work-gmail-trash
+# Channel work-gmail-trash
 Channel work-gmail-all
 Channel work-gmail-starred
