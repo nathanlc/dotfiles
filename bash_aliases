@@ -23,3 +23,4 @@ alias tmuxat='tmux a -t'
 alias psg='ps aux | grep --color -i'
 alias zz='pmset sleepnow'
 alias dnd="bash $SCRIPTS/do_not_disturb_toggle.sh"
+alias f="bash $SCRIPTS/search-firefox-history.sh"

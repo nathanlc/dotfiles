@@ -121,8 +121,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if [ -f ~/sandbox/mine/alacritty/alacritty-completions.bash ]; then
-  . ~/sandbox/mine/alacritty/alacritty-completions.bash
+if [ -f "$HOME/.bash_completion/alacritty" ]; then
+  . "$HOME/.bash_completion/alacritty"
 fi
 
 export RBENV_ROOT="$HOME/.rbenv"
@@ -135,6 +135,7 @@ fi
 export ORG="$HOME/org"
 export SCRIPTS="$HOME/sandbox/scripts"
 export EDITOR="emacsclient -s ~/.emacs.d/server/server -c"
+PATH="$HOME/.composer/vendor/bin:$PATH"
 PATH="/usr/local/bin:$PATH"
 PATH="$SCRIPTS:$PATH"
 PATH="$SCRIPTS/diasend:$PATH"

@@ -33,37 +33,41 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(markdown
-     ;; auto-completion
+   '(
+     ;; markdown
+     (auto-completion :variables
+                      auto-completion-enable-help-tooltip t)
      ;; better-defaults
-     emacs-lisp
-     helm
+     elm
+     ;; emacs-lisp
+     ;; haskell
      git
+     gtags
+     helm
      html
      javascript
      (mu4e
       :variables
-      mu4e-installation-path "/usr/local/Cellar/mu/1.0/share/emacs/site-lisp/mu/mu4e")
-     my-geben
+      mu4e-installation-path "/usr/local/Cellar/mu/1.0_1/share/emacs/site-lisp/mu/mu4e")
      (org :variables
           org-enable-reveal-js-support t)
      osx
      php
-     python
-     react
-     ruby
+     ;; python
+     ;; react
+     ;; ruby
      (shell :variables
             shell-default-shell 'eshell
             shell-default-height 30
             shell-default-position 'bottom)
      ;; slack
      spell-checking
-     (sql :variables
-          sql-capitalize-keywords t
-          sql-capitalize-keywords-blacklist '("name"))
+     ;; (sql :variables
+     ;;      sql-capitalize-keywords t
+     ;;      sql-capitalize-keywords-blacklist '("name"))
      syntax-checking
      version-control
-     yaml
+     ;; yaml
      )
 
    ;; List of additional packages that will be installed without being
@@ -73,7 +77,8 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(
+                                      geben)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -495,6 +500,30 @@ you should place your code here."
     "Edit the in-list org mode file."
     (interactive)
     (find-file-existing "~/org/in-list.org"))
+
+  (defun open-url-in-default-browser (url)
+    "Open URL in default browser"
+    (shell-command-to-string (concat "open " url)))
+
+  (defun spacemacs/search-firefox-history ()
+    "Search firefox history."
+    (interactive)
+
+    (setq firefoxDbPath
+          (car (file-expand-wildcards "~/Library/Application Support/Firefox/Profiles/*/places.sqlite")))
+    (setq firefoxDbCopyPath "/tmp/places.sqlite")
+
+    (copy-file firefoxDbPath firefoxDbCopyPath t)
+
+    (setq historyString (shell-command-to-string
+                   (concat "sqlite3 " firefoxDbCopyPath " 'select url from moz_places order by visit_count desc'")))
+    (setq historyCandidates (split-string historyString "\n"))
+
+    (helm :sources (helm-build-in-buffer-source "history"
+                     :data historyCandidates
+                     :action (helm-make-actions "Open URL" 'open-url-in-default-browser))
+          :buffer "*helm firefox history"))
+
   ;; (defun spacemacs/open-eshell-below ()
   ;;   "Split current window below, focus it and open eshell."
   ;;   (interactive)
@@ -541,9 +570,10 @@ If it's found, then add it to the `exec-path'."
   (define-key evil-normal-state-map (kbd "H-(") #'spacemacs/persp-switch-to-5)
   (define-key evil-normal-state-map (kbd "H--") #'spacemacs/persp-switch-to-5)
   (spacemacs/declare-prefix "o" "own-bindings")
+  (spacemacs/set-leader-keys
+    "of" 'spacemacs/search-firefox-history)
   (spacemacs/declare-prefix "og" "goto")
   (spacemacs/set-leader-keys
-    ;; "\"" 'spacemacs/open-eshell-below
     "oga" 'spacemacs/find-org-archive
     "ogd" 'spacemacs/find-org-documentation
     "ogt" 'spacemacs/find-org-gtd
@@ -563,9 +593,11 @@ If it's found, then add it to the `exec-path'."
                 web-mode-code-indent-offset 2
                 web-mode-attr-indent-offset 2)
 
-  ;; Org config
-  (add-to-list 'org-file-apps '(directory . emacs))
+  ;; PHP configs
+  (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
 
+  ;; Org config
+  ;; (add-to-list 'org-file-apps '(directory . emacs))
   (org-babel-do-load-languages
     'org-babel-load-languages
     '((python . t)
@@ -593,7 +625,7 @@ If it's found, then add it to the `exec-path'."
   (setq org-outline-path-complete-in-steps nil)
   (setq org-refile-use-outline-path t)
   (setq org-capture-templates
-        '(("t" "Task" entry (file+headline "~/org/gtd.org" "Tasks")
+        `(("t" "Task" entry (file+headline "~/org/gtd.org" "Tasks")
            "* NEXT  %?\n  SCHEDULED: %t\n  %a")
           ("r" "Recipe" entry (file+headline "~/org/food.org" "Recipes")
            "* %^{Recipe name}
@@ -609,7 +641,7 @@ If it's found, then add it to the `exec-path'."
 ** Instructions
    1. \n")
           ("T" "Ticket" entry (file+headline "~/org/gtd.org" "Projects")
-           "* TODO %^{title}
+           "* TODO [[https://jira.glooko.com/browse/%^{ticket}][%\\1]] %^{title}
 :PROPERTIES:
 :CATEGORY: %^{CATEGORY}p
 :END:
@@ -623,6 +655,7 @@ If it's found, then add it to the `exec-path'."
    - [ ] Are the requirements clear?
    - [ ] Are discussions, inputs, opinions needed/useful?
    - [ ] Are the keywords/labels present?
+** NEXT Create separate branch.
 ** NEXT Implement [%]
    - [ ] What to do?
    - [ ] Can something simple be done?
@@ -644,7 +677,24 @@ If it's found, then add it to the `exec-path'."
      - [ ] Is the code self explanatory?
 ** TODO Put in review
 ** TODO Squash, rebase on master and merge into master.
-** TODO Put in QA")))
+** TODO Put in QA.
+** TODO Write testing instructions and what data to use.")
+          ("w" "Weekly review" entry (file "~/org/weekly_reviews.org")
+           ,(concat "* "
+                   (format-time-string "%Y - w%W")
+                   "\n"
+                   "- [ ] Check for waiting items.\n"
+                   "- [ ] Check for \"stuck\" projects.\n"
+                   "- [ ] Check the tickets in the current version.\n"
+                   "  - [ ] Are the tickets in the correct version?\n"
+                   "- [ ] Schedule the projects and tasks for next week.\n"
+                   "- [ ] Fill in the done tickets in the category below.\n"
+                   "\n"
+                   "** Done\n"
+                   "\n"
+                   "*** Tickets\n"
+                   "%?\n\n"
+                   "** Todo\n\n"))))
   (setq org-enforce-todo-dependencies t)
   (setq org-enforce-todo-checkbox-dependencies t)
   (setq org-tags-column -90)
@@ -748,11 +798,15 @@ If it's found, then add it to the `exec-path'."
   ;;  :subscribed-channels '(general slackbot))
 
   ;; Geben config (examples)
-  ;; (evil-set-initial-state 'geben-mode 'evil)
-  ;; (setq geben-dbgp-default-port 9000)
+  ;; (evil-set-initial-state 'geben-mode 'emacs)
+  (setq geben-dbgp-default-port 9000)
+  (setq dbgp-default-port 9000)
 
   ;; SQL Config
-  (setq sql-mysql-program "/usr/local/bin/mycli")
+  ;; (setq sql-mysql-program "/usr/local/bin/mycli")
+
+  ;; Text config
+  (setq sentence-end-double-space nil)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -845,12 +899,13 @@ If it's found, then add it to the `exec-path'."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:background nil))))
+ ;; '(default ((t (:background nil))))
  '(org-agenda-done ((t (:foreground "#86dc2f" :height 1.0))))
  '(org-level-1 ((t (:inherit nil :foreground "#4f97d7" :height 1.1))))
  '(org-level-2 ((t (:inherit nil :foreground "#2d9574" :height 1.0))))
  '(org-level-3 ((t (:foreground "#67b11d" :weight normal :height 1.0))))
- '(org-todo ((t (:inherit nil :background "#32322c" :foreground "#dc752f")))))
+ '(org-todo ((t (:inherit nil :background "#32322c" :foreground "#dc752f"))))
+ )
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
@@ -897,7 +952,7 @@ This function is called at the very end of Spacemacs initialization."
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (impatient-mode doom-modeline counsel-projectile counsel ivy magit ghub mu4e-alert ht zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby origami web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode phpunit phpcbf php-extras php-auto-yasnippets yasnippet drupal-mode php-mode yaml-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+    (selectric-mode mu4e-alert ht zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby origami web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode phpunit phpcbf php-extras php-auto-yasnippets yasnippet drupal-mode php-mode yaml-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -944,7 +999,6 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:background nil))))
  '(org-agenda-done ((t (:foreground "#86dc2f" :height 1.0))))
  '(org-level-1 ((t (:inherit nil :foreground "#4f97d7" :height 1.1))))
  '(org-level-2 ((t (:inherit nil :foreground "#2d9574" :height 1.0))))
