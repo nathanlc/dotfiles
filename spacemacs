@@ -39,8 +39,9 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-help-tooltip t)
      ;; better-defaults
      elm
-     ;; emacs-lisp
+     emacs-lisp
      ;; haskell
+     (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
      git
      gtags
      helm
@@ -56,15 +57,16 @@ This function should only modify configuration layer settings."
      ;; python
      ;; react
      ;; ruby
+     search-engine
      (shell :variables
             shell-default-shell 'eshell
-            shell-default-height 30
+            shell-default-height 32
             shell-default-position 'bottom)
      ;; slack
      spell-checking
-     ;; (sql :variables
-     ;;      sql-capitalize-keywords t
-     ;;      sql-capitalize-keywords-blacklist '("name"))
+     (sql :variables
+          sql-capitalize-keywords t
+          sql-capitalize-keywords-blacklist '("name" "value" "type" "admin" "timestamp"))
      syntax-checking
      version-control
      ;; yaml
@@ -191,6 +193,11 @@ It should only modify the values of Spacemacs settings."
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
+
+   ;; Default major mode for a new empty buffer. Possible values are mode
+   ;; names such as `text-mode'; and `nil' to use Fundamental mode.
+   ;; (default `text-mode')
+   dotspacemacs-new-empty-buffer-major-mode 'text-mode
 
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'text-mode
@@ -324,6 +331,11 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil) (Emacs 24.4+ only)
    dotspacemacs-maximized-at-startup t
 
+   ;; If non-nil the frame is undecorated when Emacs starts up. Combine this
+   ;; variable with `dotspacemacs-maximized-at-startup' in OSX to obtain
+   ;; borderless fullscreen. (default nil)
+   dotspacemacs-undecorated-at-startup t
+
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -351,10 +363,14 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-smooth-scrolling t
 
    ;; Control line numbers activation.
-   ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
-   ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
+   ;; If set to `t', `relative' or `visual' then line numbers are enabled in all
+   ;; `prog-mode' and `text-mode' derivatives. If set to `relative', line
+   ;; numbers are relative. If set to `visual', line numbers are also relative,
+   ;; but lines are only visual lines are counted. For example, folded lines
+   ;; will not be counted and wrapped lines are counted as multiple lines.
    ;; This variable can also be set to a property list for finer control:
    ;; '(:relative nil
+   ;;   :visual nil
    ;;   :disabled-for-modes dired-mode
    ;;                       doc-view-mode
    ;;                       markdown-mode
@@ -362,6 +378,7 @@ It should only modify the values of Spacemacs settings."
    ;;                       pdf-view-mode
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
+   ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
    dotspacemacs-line-numbers nil
 
@@ -524,28 +541,70 @@ you should place your code here."
                      :action (helm-make-actions "Open URL" 'open-url-in-default-browser))
           :buffer "*helm firefox history"))
 
-  ;; (defun spacemacs/open-eshell-below ()
-  ;;   "Split current window below, focus it and open eshell."
-  ;;   (interactive)
-  ;;   (split-window-below-and-focus)
-  ;;   (eshell))
-  (defun add-node-modules-path ()
-    "Search the current buffer's parent directories for `node_modules/.bin`.
-If it's found, then add it to the `exec-path'."
+  (defun spacemacs/org-setup ()
+    "Switch to my org setup."
     (interactive)
-    (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-           (path (and root
-                      (expand-file-name "node_modules/.bin/" root))))
-      (if root
-          (progn
-            (make-local-variable 'exec-path)
-            (add-to-list 'exec-path path)
-            (when add-node-modules-path-debug
-              (message (concat "added " path  " to exec-path"))))
-        (when add-node-modules-path-debug
-          (message (concat "node_modules not found in " root))))))
+    (spacemacs/layouts-transient-state/spacemacs/persp-switch-to-2)
+    (spacemacs/toggle-maximize-buffer)
+    (spacemacs/find-org-gtd)
+    (split-window-horizontally)
+    (org-agenda "" "D"))
+
+  ;; Geben config
+  (setq geben-path-mappings '(
+                              ("/Users/nathan/sandbox/diasend/A06109-diasend_web_app/diasend" "/srv/www/diasend")))
+
+  (spacemacs|define-transient-state debug-geben
+    :title "Geben Debugger Transient State"
+    :on-enter (if (bound-and-true-p geben-mode)
+                  ()
+                (geben-mode))
+    :foreign-keys run
+    :doc "
+   Debug^^^^                  Setup^^^^
+   ─────^^^^────────────────  ─────^^^^──────────
+   [_r_] run                  [_m_] geben-mode
+   [_c_] run to cursor        [_s_/_S_] start/stop
+   [_b_] set line breakpoint  [_E_] end
+   [_n_] step over            [_p_] set predefined breakpoint
+   [_i_] step into            [_u_] clear predefined breakpoints
+   [_o_] step out             [_q_] quit
+   [_l_] eval line
+   [_e_] eval expression"
+    :bindings
+    ("q" nil :exit t)
+    ("m" geben-mode)
+    ("s" geben)
+    ("S" geben-stop)
+    ("E" geben-end)
+    ("p" geben-add-current-line-to-predefined-breakpoints)
+    ("u" geben-clear-predefined-breakpoints)
+    ("r" geben-run)
+    ("c" geben-run-to-cursor)
+    ("b" geben-set-breakpoint-line)
+    ("n" geben-step-over)
+    ("i" geben-step-into)
+    ("o" geben-step-out)
+    ("e" geben-eval-expression)
+    ("l" geben-eval-current-line))
+
+;;   (defun add-node-modules-path ()
+;;     "Search the current buffer's parent directories for `node_modules/.bin`.
+;; If it's found, then add it to the `exec-path'."
+;;     (interactive)
+;;     (let* ((root (locate-dominating-file
+;;                   (or (buffer-file-name) default-directory)
+;;                   "node_modules"))
+;;            (path (and root
+;;                       (expand-file-name "node_modules/.bin/" root))))
+;;       (if root
+;;           (progn
+;;             (make-local-variable 'exec-path)
+;;             (add-to-list 'exec-path path)
+;;             (when add-node-modules-path-debug
+;;               (message (concat "added " path  " to exec-path"))))
+;;         (when add-node-modules-path-debug
+;;           (message (concat "node_modules not found in " root))))))
 
   ;; Key bindings
   (setq-default evil-escape-key-sequence "jk")
@@ -572,6 +631,8 @@ If it's found, then add it to the `exec-path'."
   (spacemacs/declare-prefix "o" "own-bindings")
   (spacemacs/set-leader-keys
     "of" 'spacemacs/search-firefox-history)
+  (spacemacs/set-leader-keys
+    "oo" 'spacemacs/org-setup)
   (spacemacs/declare-prefix "og" "goto")
   (spacemacs/set-leader-keys
     "oga" 'spacemacs/find-org-archive
@@ -580,6 +641,8 @@ If it's found, then add it to the `exec-path'."
     "ogi" 'spacemacs/find-org-inlist)
   (spacemacs/set-leader-keys
     "aog" 'org-clock-goto)
+  (spacemacs/set-leader-keys
+    "G" 'spacemacs/debug-geben-transient-state/body)
 
   ;; Global configs
   (setq-default mac-right-option-modifier nil)
@@ -798,12 +861,34 @@ If it's found, then add it to the `exec-path'."
   ;;  :subscribed-channels '(general slackbot))
 
   ;; Geben config (examples)
-  ;; (evil-set-initial-state 'geben-mode 'emacs)
-  (setq geben-dbgp-default-port 9000)
-  (setq dbgp-default-port 9000)
+  ;; (setq geben-dbgp-default-port 9000)
+  ;; (setq dbgp-default-port 9000)
 
   ;; SQL Config
-  ;; (setq sql-mysql-program "/usr/local/bin/mycli")
+  (setq sql-mysql-program "/usr/local/bin/mycli")
+  (setq sql-connection-alist
+        '((dockerDB (sql-product 'mysql)
+                    (sql-server "localhost")
+                    (sql-user "root")
+                    (sql-password "")
+                    (sql-database "diasend"))
+          (devtestDB (sql-product 'mysql)
+                     (sql-server "devtest.diasend.com")
+                     (sql-user "nathan_ro")
+                     (sql-password
+                      (shell-command-to-string "security find-generic-password -s mysql-nathan-read -w"))
+                     (sql-database "diasend_int"))
+          (diasendBetaC2CDB (sql-product 'mysql)
+                     (sql-server "devtest.diasend.com")
+                     (sql-user "diasend_beta")
+                     (sql-password "")
+                     (sql-database "diasend_beta"))
+          (prodSlaveDB (sql-product 'mysql)
+                       (sql-server "prod-slave")
+                       (sql-user "nathan_ro")
+                       (sql-password
+                        (shell-command-to-string "security find-generic-password -s mysql-nathan-read -w"))
+                       (sql-database "diasend_int"))))
 
   ;; Text config
   (setq sentence-end-double-space nil)
@@ -922,7 +1007,7 @@ This function is called at the very end of Spacemacs initialization."
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
  '(evil-want-Y-yank-to-eol nil)
- '(fci-rule-color "#383838" t)
+ '(fci-rule-color "#383838")
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
    (--map
@@ -952,7 +1037,7 @@ This function is called at the very end of Spacemacs initialization."
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (selectric-mode mu4e-alert ht zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby origami web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode phpunit phpcbf php-extras php-auto-yasnippets yasnippet drupal-mode php-mode yaml-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+    (geben mu4e-alert ht zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby origami web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode phpunit phpcbf php-extras php-auto-yasnippets yasnippet drupal-mode php-mode yaml-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
