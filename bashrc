@@ -134,7 +134,7 @@ fi
 
 export ORG="$HOME/org"
 export SCRIPTS="$HOME/sandbox/scripts"
-export EDITOR="emacsclient -s ~/.emacs.d/server/server -c"
+export EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c -s ~/.emacs.d/server/server"
 PATH="$HOME/.composer/vendor/bin:$PATH"
 PATH="/usr/local/bin:$PATH"
 PATH="$SCRIPTS:$PATH"
