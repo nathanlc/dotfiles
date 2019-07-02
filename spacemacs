@@ -413,7 +413,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
 
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
@@ -517,6 +517,11 @@ you should place your code here."
     "Edit the in-list org mode file."
     (interactive)
     (find-file-existing "~/org/in-list.org"))
+  (defun spacemacs/create-some-buffer ()
+    "Creates a buffer."
+    (interactive)
+    (let ((buffer (generate-new-buffer "*some-buffer*")))
+      (with-current-buffer buffer (insert "Some buffer created"))))
 
   (defun open-url-in-default-browser (url)
     "Open URL in default browser"
@@ -553,23 +558,33 @@ you should place your code here."
   ;; Geben config
   (setq geben-path-mappings '(
                               ("/Users/nathan/sandbox/diasend/A06109-diasend_web_app/diasend" "/srv/www/diasend")))
+  ;;; Overwriting how the result from geben eval is displayed
+  (eval-after-load "geben"
+    `(defun geben-dbgp-response-eval (session cmd msg)
+       "Custom response message handler for \`eval\' command."
+       (let ((geben-eval-buffer (get-buffer-create "*geben-eval*"))
+             (result-eval-message (concat
+                                   "\n"
+                                   (pp-to-string (geben-dbgp-decode-value (car-safe (xml-get-children msg 'property)))))))
+         (with-current-buffer geben-eval-buffer (progn
+                                                  (goto-char (point-max))
+                                                  (insert result-eval-message))))))
 
   (spacemacs|define-transient-state debug-geben
     :title "Geben Debugger Transient State"
     :on-enter (if (bound-and-true-p geben-mode)
                   ()
                 (geben-mode))
-    :foreign-keys run
     :doc "
-   Debug^^^^                  Setup^^^^
-   ─────^^^^────────────────  ─────^^^^──────────
-   [_r_] run                  [_m_] geben-mode
-   [_c_] run to cursor        [_s_/_S_] start/stop
-   [_b_] set line breakpoint  [_E_] end
-   [_n_] step over            [_p_] set predefined breakpoint
-   [_i_] step into            [_u_] clear predefined breakpoints
-   [_o_] step out             [_q_] quit
-   [_l_] eval line
+   Debug                    Setup^^^^^^^^                             Navigation
+   ───────────────────────  ────────────────────────────────^^^^^^^^  ─────────────────
+   [_r_] run                  [_m_] geben-mode^^^^                    [_z_] center
+   [_c_] run to cursor        [_s_/_S_/_E_] start/stop/end            [_j_/_k_] down/up
+   [_b_] set line breakpoint  [_p_] set predefined breakpoint^^^^     [_C-d_/_C-u_] page down/up
+   [_u_] clear breakpoints    [_P_] list predefined breakpoints
+   [_n_] step over            [_U_] clear predefined breakpoints
+   [_i_] step into            [_q_] quit
+   [_o_] step out
    [_e_] eval expression"
     :bindings
     ("q" nil :exit t)
@@ -578,7 +593,9 @@ you should place your code here."
     ("S" geben-stop)
     ("E" geben-end)
     ("p" geben-add-current-line-to-predefined-breakpoints)
-    ("u" geben-clear-predefined-breakpoints)
+    ("P" (message "%s" geben-predefined-breakpoints))
+    ("u" geben-clear-breakpoints)
+    ("U" geben-clear-predefined-breakpoints)
     ("r" geben-run)
     ("c" geben-run-to-cursor)
     ("b" geben-set-breakpoint-line)
@@ -586,7 +603,11 @@ you should place your code here."
     ("i" geben-step-into)
     ("o" geben-step-out)
     ("e" geben-eval-expression)
-    ("l" geben-eval-current-line))
+    ("z" evil-scroll-line-to-center)
+    ("j" evil-next-line)
+    ("k" evil-previous-line)
+    ("C-d" evil-scroll-up)
+    ("C-u" evil-scroll-down))
 
 ;;   (defun add-node-modules-path ()
 ;;     "Search the current buffer's parent directories for `node_modules/.bin`.
