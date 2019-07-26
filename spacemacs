@@ -38,6 +38,7 @@ This function should only modify configuration layer settings."
      (auto-completion :variables
                       auto-completion-enable-help-tooltip t)
      ;; better-defaults
+     dap
      elm
      emacs-lisp
      ;; haskell
@@ -75,8 +76,7 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(
-                                      geben)
+   dotspacemacs-additional-packages '()
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -551,62 +551,22 @@ you should place your code here."
     (split-window-horizontally)
     (org-agenda "" "D"))
 
-  ;; Geben config
-  (setq geben-path-mappings '(
-                              ("/Users/nathan/sandbox/diasend/A06109-diasend_web_app/diasend" "/srv/www/diasend")))
-  ;;; Overwriting how the result from geben eval is displayed
-  (eval-after-load "geben"
-    `(defun geben-dbgp-response-eval (session cmd msg)
-       "Custom response message handler for \`eval\' command."
-       (let ((geben-eval-buffer (get-buffer-create "*geben-eval*"))
-             (result-eval-message (concat
-                                   "\n"
-                                   (pp-to-string (geben-dbgp-decode-value (car-safe (xml-get-children msg 'property)))))))
-         (with-current-buffer geben-eval-buffer (progn
-                                                  (goto-char (point-max))
-                                                  (insert result-eval-message))))))
-
-  (spacemacs|define-transient-state debug-geben
-    :title "Geben Debugger Transient State"
-    :on-enter (if (bound-and-true-p geben-mode)
-                  ()
-                (geben-mode))
-    :doc "
-   Debug                    Setup^^^^^^^^                             Navigation
-   ───────────────────────  ────────────────────────────────^^^^^^^^  ─────────────────
-   [_r_] run                  [_m_] geben-mode^^^^                    [_z_] center
-   [_c_] run to cursor        [_s_/_S_/_E_] start/stop/end            [_j_/_k_] down/up
-   [_b_] set line breakpoint  [_p_] set predefined breakpoint^^^^     [_C-d_/_C-u_] page down/up
-   [_u_] clear breakpoints    [_P_] list predefined breakpoints
-   [_n_] step over            [_U_] clear predefined breakpoints
-   [_i_] step into            [_q_] quit
-   [_o_] step out
-   [_e_] eval expression"
-    :bindings
-    ("q" nil :exit t)
-    ("m" geben-mode)
-    ("s" geben)
-    ("S" geben-stop)
-    ("E" geben-end)
-    ("p" geben-add-current-line-to-predefined-breakpoints)
-    ("P" (message "%s" geben-predefined-breakpoints))
-    ("u" geben-clear-breakpoints)
-    ("U" geben-clear-predefined-breakpoints)
-    ("r" geben-run)
-    ("c" geben-run-to-cursor)
-    ("b" geben-set-breakpoint-line)
-    ("n" geben-step-over)
-    ("i" geben-step-into)
-    ("o" geben-step-out)
-    ("e" geben-eval-expression)
-    ("z" evil-scroll-line-to-center)
-    ("j" evil-next-line)
-    ("k" evil-previous-line)
-    ("C-d" evil-scroll-up)
-    ("C-u" evil-scroll-down))
   (defun spacemacs/my-php-hook-config ()
     "Configuration for when in php-mode"
     (php-enable-psr2-coding-style))
+
+  ;; dap-mode config
+  (require 'dap-php)
+  (dap-register-debug-template "Custom Php Debug"
+                               (list :type "php"
+                                     :cwd nil
+                                     :request "launch"
+                                     :name "Custom Php Debug"
+                                     :args '("--server=4711")
+                                     :sourceMaps t
+                                     :stopOnEntry t
+                                     :pathMappings '(
+                                                     ("/srv/www/diasend" . "/Users/nathan/sandbox/diasend/A06109-diasend_web_app/diasend"))))
 
 ;;   (defun add-node-modules-path ()
 ;;     "Search the current buffer's parent directories for `node_modules/.bin`.
@@ -661,8 +621,6 @@ you should place your code here."
     "ogi" 'spacemacs/find-org-inlist)
   (spacemacs/set-leader-keys
     "aog" 'org-clock-goto)
-  (spacemacs/set-leader-keys
-    "G" 'spacemacs/debug-geben-transient-state/body)
 
   ;; Global configs
   (setq-default mac-right-option-modifier nil)
