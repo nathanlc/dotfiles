@@ -54,15 +54,11 @@ This function should only modify configuration layer settings."
           org-enable-reveal-js-support t)
      osx
      php
-     ;; python
-     ;; react
-     ;; ruby
      search-engine
      (shell :variables
             shell-default-shell 'eshell
             shell-default-height 32
             shell-default-position 'bottom)
-     ;; slack
      spell-checking
      (sql :variables
           sql-capitalize-keywords t
