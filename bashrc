@@ -125,23 +125,33 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if [ -f "$HOME/.bash_completion/alacritty" ]; then
-  . "$HOME/.bash_completion/alacritty"
-fi
-
-export RBENV_ROOT="$HOME/.rbenv"
-
-if [ -d "$RBENV_ROOT" ]; then
-  PATH="$RBENV_ROOT/bin:$PATH"
-  eval "$(rbenv init -)"
-fi
+vterm_printf(){
+    if [ -n "$TMUX" ]; then
+        # Tell tmux to pass the escape sequences through
+        # (Source: http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324)
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
+    fi
+}
 
 export ORG="$HOME/org"
 export SCRIPTS="$HOME/sandbox/scripts"
 export EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c -s ~/.emacs.d/server/server"
+export LESS="-SXR"
 PATH="$HOME/.composer/vendor/bin:$PATH"
 PATH="/usr/local/bin:$PATH"
+PATH="/usr/local/opt:$PATH"
+PATH="/usr/local/opt/qt/bin:$PATH"
+PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+PATH=/opt/local/bin:/opt/local/sbin:$PATH
 PATH="$SCRIPTS:$PATH"
 PATH="$SCRIPTS/diasend:$PATH"
 PATH="$SCRIPTS/glooko:$PATH"
+MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+MANPATH=/opt/local/share/man:$MANPATH
 export PATH
+export MANPATH
