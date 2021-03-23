@@ -26,7 +26,6 @@ This function should only modify configuration layer settings."
    ;; a layer lazily. (default t)
    dotspacemacs-ask-for-lazy-installation t
 
-   ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '()
@@ -34,47 +33,71 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     ;; markdown
-     (auto-completion :variables
-                      auto-completion-enable-help-tooltip t)
-     ;; better-defaults
+     python
+     restclient
+     react
+     ruby
+     yaml
+     ;; ----------------------------------------------------------------
+     ;; Example of useful layers you may want to use right away.
+     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
+     ;; `M-m f e R' (Emacs style) to install them.
+     ;; ----------------------------------------------------------------
+     auto-completion
      dap
-     elm
+     ;; (elm :variables elm-backend 'lsp) ;; npm i -g elm-analysis @elm-tooling/elm-language-server
+     (elm :variables elm-backend 'company-elm) ;; npm install -g elm-oracle 
+     ;; better-defaults
      emacs-lisp
-     ;; haskell
-     (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
+     (evil-snipe :variables
+                 evil-snipe-enable-alternate-f-and-t-behaviors t)
      git
      helm
      html
-     javascript
-     lsp ; Needed for php: npm install -g intelephense
-     (mu4e
-      :variables
-      mu4e-installation-path "/usr/local/Cellar/mu/1.0_1/share/emacs/site-lisp/mu/mu4e")
-     (org :variables
-          org-enable-reveal-js-support t)
-     osx
-     php
-     search-engine
+     (javascript :variables
+                 js2-basic-offset 2
+                 js-indent-level 2)
+     lsp
+     ;; markdown
+     multiple-cursors
+     (mu4e :variables
+           mu4e-installation-path "/usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e")
+     org
+     (osx :variables
+          osx-command-as       'hyper
+          osx-option-as        'meta
+          osx-control-as       'control
+          osx-function-as      nil
+          osx-right-command-as 'left
+          osx-right-option-as  'none
+          osx-right-control-as 'left
+          osx-swap-option-and-command nil)
+     (php :variables php-backend 'lsp) ;; npm i -g intelephense
+     restclient
+     ;; (ruby :variables ruby-backend 'lsp) ;; gem install solargraph
+     (ruby :variables ruby-backend 'robe) ;; gem install solargraph
+     ruby-on-rails
      (shell :variables
-            shell-default-shell 'eshell
-            shell-default-height 32
-            shell-default-position 'bottom)
+            shell-default-shell 'vterm
+            shell-default-height 30
+            shell-default-position 'bottom
+            spacemacs-vterm-history-file-location "~/.bash_history")
      spell-checking
      (sql :variables
           sql-capitalize-keywords t
           sql-capitalize-keywords-blacklist '("name" "value" "type" "admin" "timestamp"))
      syntax-checking
      version-control
-     ;; yaml
      )
 
-   ;; List of additional packages that will be installed without being
-   ;; wrapped in a layer. If you need some configuration for these
-   ;; packages, then consider creating a layer. You can also put the
-   ;; configuration in `dotspacemacs/user-config'.
-   ;; To use a local version of a package, use the `:location' property:
-   ;; '(your-package :location "~/path/to/your-package/")
+
+   ;; List of additional packages that will be installed without being wrapped
+   ;; in a layer (generally the packages are installed only and should still be
+   ;; loaded using load/require/use-package in the user-config section below in
+   ;; this file). If you need some configuration for these packages, then
+   ;; consider creating a layer. You can also put the configuration in
+   ;; `dotspacemacs/user-config'. To use a local version of a package, use the
+   ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '()
 
@@ -108,18 +131,18 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-enable-emacs-pdumper nil
 
-   ;; File path pointing to emacs 27.1 executable compiled with support
-   ;; for the portable dumper (this is currently the branch pdumper).
-   ;; (default "emacs-27.0.50")
-   dotspacemacs-emacs-pdumper-executable-file "emacs-27.0.50"
+   ;; Name of executable file pointing to emacs 27+. This executable must be
+   ;; in your PATH.
+   ;; (default "emacs")
+   dotspacemacs-emacs-pdumper-executable-file "emacs"
 
    ;; Name of the Spacemacs dump file. This is the file will be created by the
    ;; portable dumper in the cache directory under dumps sub-directory.
    ;; To load it when starting Emacs add the parameter `--dump-file'
    ;; when invoking Emacs 27.1 executable on the command line, for instance:
-   ;;   ./emacs --dump-file=~/.emacs.d/.cache/dumps/spacemacs.pdmp
-   ;; (default spacemacs.pdmp)
-   dotspacemacs-emacs-dumper-dump-file "spacemacs.pdmp"
+   ;;   ./emacs --dump-file=$HOME/.emacs.d/.cache/dumps/spacemacs-27.1.pdmp
+   ;; (default (format "spacemacs-%s.pdmp" emacs-version))
+   dotspacemacs-emacs-dumper-dump-file (format "spacemacs-%s.pdmp" emacs-version)
 
    ;; If non-nil ELPA repositories are contacted via HTTPS whenever it's
    ;; possible. Set it to nil if you have no way to use HTTPS in your
@@ -139,14 +162,23 @@ It should only modify the values of Spacemacs settings."
    ;; (default '(100000000 0.1))
    dotspacemacs-gc-cons '(100000000 0.1)
 
+   ;; Set `read-process-output-max' when startup finishes.
+   ;; This defines how much data is read from a foreign process.
+   ;; Setting this >= 1 MB should increase performance for lsp servers
+   ;; in emacs 27.
+   ;; (default (* 1024 1024))
+   dotspacemacs-read-process-output-max (* 1024 1024)
+
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
-   ;; latest version of packages from MELPA. (default nil)
+   ;; latest version of packages from MELPA. Spacelpa is currently in
+   ;; experimental state please use only for testing purposes.
+   ;; (default nil)
    dotspacemacs-use-spacelpa nil
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
-   ;; (default nil)
-   dotspacemacs-verify-spacelpa-archives nil
+   ;; (default t)
+   dotspacemacs-verify-spacelpa-archives t
 
    ;; If non-nil then spacemacs will check for updates at startup
    ;; when the current branch is not `develop'. Note that checking for
@@ -167,8 +199,10 @@ It should only modify the values of Spacemacs settings."
    ;; (default 'vim)
    dotspacemacs-editing-style 'vim
 
-   ;; If non-nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
+   ;; If non-nil show the version string in the Spacemacs buffer. It will
+   ;; appear as (spacemacs version)@(emacs version)
+   ;; (default t)
+   dotspacemacs-startup-buffer-show-version t
 
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
@@ -181,9 +215,13 @@ It should only modify the values of Spacemacs settings."
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
    ;; Possible values for list-type are:
-   ;; `recents' `bookmarks' `projects' `agenda' `todos'.
+   ;; `recents' `recents-by-project' `bookmarks' `projects' `agenda' `todos'.
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
+   ;; The exceptional case is `recents-by-project', where list-type must be a
+   ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
+   ;; number is the project limit and the second the limit on the recent files
+   ;; within a project.
    dotspacemacs-startup-lists '((recents . 5)
                                 (projects . 7))
 
@@ -197,6 +235,14 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'text-mode
+
+   ;; If non-nil, *scratch* buffer will be persistent. Things you write down in
+   ;; *scratch* buffer will be saved and restored automatically.
+   dotspacemacs-scratch-buffer-persistent nil
+
+   ;; If non-nil, `kill-buffer' on *scratch* buffer
+   ;; will bury it instead of killing.
+   dotspacemacs-scratch-buffer-unkillable nil
 
    ;; Initial message in the scratch buffer, such as "Welcome to Spacemacs!"
    ;; (default nil)
@@ -221,10 +267,11 @@ It should only modify the values of Spacemacs settings."
    ;; (default t)
    dotspacemacs-colorize-cursor-according-to-state t
 
-   ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
-   ;; quickly tweak the mode-line size to make separators look not too crappy.
+   ;; Default font or prioritized list of fonts. The `:size' can be specified as
+   ;; a non-negative integer (pixel size), or a floating-point (point size).
+   ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+                               :size 12.5
                                :weight normal
                                :width normal)
 
@@ -247,8 +294,10 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-major-mode-leader-key ","
 
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
-   ;; (default "C-M-m")
-   dotspacemacs-major-mode-emacs-leader-key "C-M-m"
+   ;; (default "C-M-m" for terminal mode, "<M-return>" for GUI mode).
+   ;; Thus M-RET should work as leader key in both GUI and terminal modes.
+   ;; C-M-m also should work in terminal mode, but not in GUI mode.
+   dotspacemacs-major-mode-emacs-leader-key (if window-system "<M-return>" "C-M-m")
 
    ;; These variables control whether separate commands are bound in the GUI to
    ;; the key pairs `C-i', `TAB' and `C-m', `RET'.
@@ -330,7 +379,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil the frame is undecorated when Emacs starts up. Combine this
    ;; variable with `dotspacemacs-maximized-at-startup' in OSX to obtain
    ;; borderless fullscreen. (default nil)
-   dotspacemacs-undecorated-at-startup t
+   dotspacemacs-undecorated-at-startup nil
 
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
@@ -376,18 +425,23 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers 'relative
 
-   ;; Code folding method. Possible values are `evil' and `origami'.
+   ;; Code folding method. Possible values are `evil', `origami' and `vimish'.
    ;; (default 'evil)
-   dotspacemacs-folding-method 'origami
+   dotspacemacs-folding-method 'evil
 
-   ;; If non-nil `smartparens-strict-mode' will be enabled in programming modes.
+   ;; If non-nil and `dotspacemacs-activate-smartparens-mode' is also non-nil,
+   ;; `smartparens-strict-mode' will be enabled in programming modes.
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
 
+   ;; If non-nil smartparens-mode will be enabled in programming modes.
+   ;; (default t)
+   dotspacemacs-activate-smartparens-mode t
+
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
-   ;; over any automatically added closing parenthesis, bracket, quote, etc…
+   ;; over any automatically added closing parenthesis, bracket, quote, etc...
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
    dotspacemacs-smart-closing-parenthesis nil
 
@@ -405,11 +459,11 @@ It should only modify the values of Spacemacs settings."
    ;; like \"~/.emacs.d/server\". It has no effect if
    ;; `dotspacemacs-enable-server' is nil.
    ;; (default nil)
-   dotspacemacs-server-socket-dir "~/.emacs.d/server"
+   dotspacemacs-server-socket-dir nil
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server t
+   dotspacemacs-persistent-server nil
 
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
@@ -432,12 +486,18 @@ It should only modify the values of Spacemacs settings."
    ;; %n - Narrow if appropriate
    ;; %z - mnemonics of buffer, terminal, and keyboard coding systems
    ;; %Z - like %z, but including the end-of-line format
+   ;; If nil then Spacemacs uses default `frame-title-format' to avoid
+   ;; performance issues, instead of calculating the frame title by
+   ;; `spacemacs/title-prepare' all the time.
    ;; (default "%I@%S")
    dotspacemacs-frame-title-format "%I@%S"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
    dotspacemacs-icon-title-format nil
+
+   ;; Show trailing whitespace (default t)
+   dotspacemacs-show-trailing-whitespace t
 
    ;; Delete whitespace while saving buffer. Possible values are `all'
    ;; to aggressively delete empty line and long sequences of whitespace,
@@ -446,6 +506,20 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
 
+   ;; If non nil activate `clean-aindent-mode' which tries to correct
+   ;; virtual indentation of simple modes. This can interfer with mode specific
+   ;; indent handling like has been reported for `go-mode'.
+   ;; If it does deactivate it here.
+   ;; (default t)
+   dotspacemacs-use-clean-aindent-mode t
+
+   ;; If non-nil shift your number row to match the entered keyboard layout
+   ;; (only in insert state). Currently supported keyboard layouts are:
+   ;; `qwerty-us', `qwertz-de' and `querty-ca-fr'.
+   ;; New layouts can be added in `spacemacs-editing' layer.
+   ;; (default nil)
+   dotspacemacs-swap-number-row nil
+
    ;; Either nil or a number of seconds. If non-nil zone out after the specified
    ;; number of seconds. (default nil)
    dotspacemacs-zone-out-when-idle nil
@@ -453,7 +527,14 @@ It should only modify the values of Spacemacs settings."
    ;; Run `spacemacs/prettify-org-buffer' when
    ;; visiting README.org files of Spacemacs.
    ;; (default nil)
-   dotspacemacs-pretty-docs nil))
+   dotspacemacs-pretty-docs nil
+
+   ;; If nil the home buffer shows the full path of agenda items
+   ;; and todos. If non nil only the file name is shown.
+   dotspacemacs-home-shorten-agenda-source nil
+
+   ;; If non-nil then byte-compile some of Spacemacs files.
+   dotspacemacs-byte-compile nil))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -461,130 +542,45 @@ This function defines the environment variables for your Emacs session. By
 default it calls `spacemacs/load-spacemacs-env' which loads the environment
 variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
-  (spacemacs/load-spacemacs-env))
+  (spacemacs/load-spacemacs-env)
+  (setq-default git-magit-status-fullscreen t)
+  )
 
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
 This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
-If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  (setq-default git-magit-status-fullscreen t))
+If you are unsure, try setting them in `dotspacemacs/user-config' first.")
+
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
 This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
-dump."
-  )
+dump.")
+
 
 (defun dotspacemacs/user-config ()
-  "Configuration function for user code.
-This function is called at the very end of Spacemacs initialization after
-layers configuration.
-This is the place where most of your configurations should be done. Unless it is
-explicitly specified that a variable should be set before a package is loaded,
-you should place your code here."
+  "Configuration for user code:
+This function is called at the very end of Spacemacs startup, after layer
+configuration.
+Put your configuration code here, except for variables that should be set
+before packages are loaded."
   ;; Functions
-  (defun spacemacs/delete-capture-task-frame (x)
-    (if (equal "Capture task" (frame-parameter nil 'name))
-        (delete-frame)))
-  (defun spacemacs/org-capture-other-frame ()
-    (interactive)
-    (make-frame
-     '((name . "Capture task")))
-    (select-frame-set-input-focus (get-a-frame "Capture task"))
-    (org-capture nil "t")
-    (spacemacs/toggle-maximize-buffer)
-    (advice-add 'org-capture-finalize :after #'spacemacs/delete-capture-task-frame))
-  (defun spacemacs/find-org-archive ()
-    "Edit the documentation org mode file."
-    (interactive)
-    (find-file-existing "~/org/gtd.org_archive"))
-  (defun spacemacs/find-org-documentation ()
-    "Edit the documentation org mode file."
-    (interactive)
-    (find-file-existing "~/org/documentation.org"))
   (defun spacemacs/find-org-gtd ()
-    "Edit the gtd org mode file."
-    (interactive)
-    (find-file-existing "~/org/gtd.org"))
-  (defun spacemacs/find-org-inlist ()
-    "Edit the in-list org mode file."
-    (interactive)
-    (find-file-existing "~/org/in-list.org"))
-  (defun spacemacs/create-some-buffer ()
-    "Creates a buffer."
-    (interactive)
-    (let ((buffer (generate-new-buffer "*some-buffer*")))
-      (with-current-buffer buffer (insert "Some buffer created"))))
-
-  (defun open-url-in-default-browser (url)
-    "Open URL in default browser"
-    (shell-command-to-string (concat "open " url)))
-
-  (defun spacemacs/search-firefox-history ()
-    "Search firefox history."
-    (interactive)
-
-    (setq firefoxDbPath
-          (car (file-expand-wildcards "~/Library/Application Support/Firefox/Profiles/*/places.sqlite")))
-    (setq firefoxDbCopyPath "/tmp/places.sqlite")
-
-    (copy-file firefoxDbPath firefoxDbCopyPath t)
-
-    (setq historyString (shell-command-to-string
-                   (concat "sqlite3 " firefoxDbCopyPath " 'select url from moz_places order by visit_count desc'")))
-    (setq historyCandidates (split-string historyString "\n"))
-
-    (helm :sources (helm-build-in-buffer-source "history"
-                     :data historyCandidates
-                     :action (helm-make-actions "Open URL" 'open-url-in-default-browser))
-          :buffer "*helm firefox history"))
+       "Edit the gtd org mode file."
+       (interactive)
+       (find-file-existing "~/org/gtd.org"))
 
   (defun spacemacs/org-setup ()
-    "Switch to my org setup."
-    (interactive)
-    (spacemacs/layouts-transient-state/spacemacs/persp-switch-to-2)
-    (spacemacs/toggle-maximize-buffer)
-    (spacemacs/find-org-gtd)
-    (split-window-horizontally)
-    (org-agenda "" "D"))
-
-  (defun spacemacs/my-php-hook-config ()
-    "Configuration for when in php-mode"
-    (php-enable-psr2-coding-style))
-
-  ;; dap-mode config
-  (require 'dap-php)
-  (dap-register-debug-template "Custom Php Debug"
-                               (list :type "php"
-                                     :cwd nil
-                                     :request "launch"
-                                     :name "Custom Php Debug"
-                                     :args '("--server=4711")
-                                     :sourceMaps t
-                                     :stopOnEntry t
-                                     :pathMappings '(
-                                                     ("/srv/www/diasend" . "/Users/nathan/sandbox/diasend/A06109-diasend_web_app/diasend"))))
-
-;;   (defun add-node-modules-path ()
-;;     "Search the current buffer's parent directories for `node_modules/.bin`.
-;; If it's found, then add it to the `exec-path'."
-;;     (interactive)
-;;     (let* ((root (locate-dominating-file
-;;                   (or (buffer-file-name) default-directory)
-;;                   "node_modules"))
-;;            (path (and root
-;;                       (expand-file-name "node_modules/.bin/" root))))
-;;       (if root
-;;           (progn
-;;             (make-local-variable 'exec-path)
-;;             (add-to-list 'exec-path path)
-;;             (when add-node-modules-path-debug
-;;               (message (concat "added " path  " to exec-path"))))
-;;         (when add-node-modules-path-debug
-;;           (message (concat "node_modules not found in " root))))))
+       "Switch to my org setup."
+       (interactive)
+       (spacemacs/layouts-transient-state/spacemacs/persp-switch-to-1)
+       (spacemacs/toggle-maximize-buffer)
+       (spacemacs/find-org-gtd)
+       (split-window-horizontally)
+       (org-agenda "" "D"))
 
   ;; Key bindings
   (setq-default evil-escape-key-sequence "jk")
@@ -602,164 +598,20 @@ you should place your code here."
   (define-key evil-motion-state-map (kbd "C-l") #'evil-window-right)
   (define-key evil-normal-state-map (kbd "M-j") #'move-line-down)
   (define-key evil-normal-state-map (kbd "M-k") #'move-line-up)
-  (define-key evil-normal-state-map (kbd "H-&") #'spacemacs/persp-switch-to-1)
-  (define-key evil-normal-state-map (kbd "H-é") #'spacemacs/persp-switch-to-2)
-  (define-key evil-normal-state-map (kbd "H-\"") #'spacemacs/persp-switch-to-3)
-  (define-key evil-normal-state-map (kbd "H-\'") #'spacemacs/persp-switch-to-4)
-  (define-key evil-normal-state-map (kbd "H-(") #'spacemacs/persp-switch-to-5)
-  (define-key evil-normal-state-map (kbd "H--") #'spacemacs/persp-switch-to-5)
+
+
   (spacemacs/declare-prefix "o" "own-bindings")
   (spacemacs/set-leader-keys
-    "of" 'spacemacs/search-firefox-history)
+       "of" 'spacemacs/search-firefox-history)
   (spacemacs/set-leader-keys
-    "oo" 'spacemacs/org-setup)
-  (spacemacs/declare-prefix "og" "goto")
-  (spacemacs/set-leader-keys
-    "oga" 'spacemacs/find-org-archive
-    "ogd" 'spacemacs/find-org-documentation
-    "ogt" 'spacemacs/find-org-gtd
-    "ogi" 'spacemacs/find-org-inlist)
-  (spacemacs/set-leader-keys
-    "aog" 'org-clock-goto)
+       "oo" 'spacemacs/org-setup)
 
   ;; Global configs
   (setq-default mac-right-option-modifier nil)
+  (setq scroll-margin 1)
 
-  ;; Javascript configs
-  (setq-default js2-basic-offset 2
-                js-indent-level 2
-                css-indent-offset 2
-                web-mode-markup-indent-offset 2
-                web-mode-css-indent-offset 2
-                web-mode-code-indent-offset 2
-                web-mode-attr-indent-offset 2)
-
-  ;; PHP configs
-  (add-hook 'php-mode-hook 'spacemacs/my-php-hook-config)
-
-  ;; Org config
-  ;; (add-to-list 'org-file-apps '(directory . emacs))
-  (org-babel-do-load-languages
-    'org-babel-load-languages
-    '((python . t)
-      (shell . t)
-      (emacs-lisp . t)))
-  (setq org-agenda-files (list "~/org/gtd.org"))
-  (setq org-bullets-bullet-list '("*"))
-  (setq org-default-notes-file '"~/org/in-list.org")
-  (setq org-log-into-drawer t)
-  ;; Not using CLOSED as we already have set it in org-log-into-drawer
-  (setq org-log-done nil)
-  ;; Display in status line the ongoing clocked task.
-  (setq spaceline-org-clock-p t)
-  ;;   A project is stuck if it is todo headline of level 2 that is not done and
-  ;;   does not have a next action defined.
-  (setq org-stuck-projects
-                '("PROJECT+LEVEL=2/-DONE" ("NEXT") nil ""))
-  (setq org-cycle-separator-lines -1)
-  (setq org-todo-keywords
-                '((sequence "TODO(t)" "NEXT(n)" "MAYBE(m)" "WAITING(w@/!)" "|" "DONE(d@/!)" "CANCELED(c@/!)")))
-  (setq org-tag-alist
-                '(("HOME" . ?h) ("ERRAND" . ?e)))
-  (setq org-refile-targets
-                ' (("~/org/gtd.org" :maxlevel . 3)))
-  (setq org-outline-path-complete-in-steps nil)
-  (setq org-refile-use-outline-path t)
-  (setq org-capture-templates
-        `(("t" "Task" entry (file+headline "~/org/gtd.org" "Tasks")
-           "* NEXT  %?\n  SCHEDULED: %t\n  %a")
-          ("r" "Recipe" entry (file+headline "~/org/food.org" "Recipes")
-           "* %^{Recipe name}
-:PROPERTIES:
-:Link: %^{Link}p
-:Servings: %^{Servings}p
-:Total_time: %^{Total_time}p
-:END:
-** Ingredients
-   | Quantity | Unit | Ingredient | Preparation |
-   | %?       |      |            |             |
-
-** Instructions
-   1. \n")
-          ("T" "Ticket" entry (file+headline "~/org/gtd.org" "Projects")
-           "* TODO [[https://jira.glooko.com/browse/%^{ticket}][%\\1]] %^{title}
-:PROPERTIES:
-:CATEGORY: %^{CATEGORY}p
-:END:
-** NEXT Verify the requirements [%]
-   SCHEDULED: %t
-   - [ ] What is the goal of the ticket?
-     - [ ] Is the goal clear?
-     - [ ] What is the reason behind it?
-   - [ ] What is the value?
-     - [ ] Is it worth doing it?
-   - [ ] Are the requirements clear?
-   - [ ] Are discussions, inputs, opinions needed/useful?
-   - [ ] Are the keywords/labels present?
-** NEXT Create separate branch.
-** NEXT Implement [%]
-   - [ ] What to do?
-   - [ ] Can something simple be done?
-   - [ ] Make it work
-   - [ ] Make it clean
-     - [ ] Is there code duplication?
-       - [ ] If so, why? Should it be factorised?
-     - [ ] Can state be removed/limited/extracted?
-     - [ ] Functions
-       - [ ] Typed arguments?
-       - [ ] Unique return type?
-       - [ ] Pure (stateless)?
-       - [ ] InvalidArgumentException?
-     - [ ] Can tests be written?
-       - [ ] Unit tests?
-         - [ ] One concern per test.
-         - [ ] Test the what, not the how.
-         - [ ] Use correct assert methods.
-     - [ ] Is the code self explanatory?
-** TODO Put in review
-** TODO Squash, rebase on master and merge into master.
-** TODO Put in QA.
-** TODO Write testing instructions and what data to use.")
-          ("w" "Weekly review" entry (file "~/org/weekly_reviews.org")
-           ,(concat "* "
-                   (format-time-string "%Y - w%W")
-                   "\n"
-                   "- [ ] Check for waiting items.\n"
-                   "- [ ] Check for \"stuck\" projects.\n"
-                   "- [ ] Check the tickets in the current version.\n"
-                   "  - [ ] Are the tickets in the correct version?\n"
-                   "- [ ] Schedule the projects and tasks for next week.\n"
-                   "- [ ] Fill in the done tickets in the category below.\n"
-                   "\n"
-                   "** Done\n"
-                   "\n"
-                   "*** Tickets\n"
-                   "%?\n\n"
-                   "** Todo\n\n"))))
-  (setq org-enforce-todo-dependencies t)
-  (setq org-enforce-todo-checkbox-dependencies t)
-  (setq org-tags-column -90)
-  (setq org-agenda-window-setup 'current-window)
-  (setq org-agenda-default-appointment-duration 60)
-  (setq org-icalendar-include-todo t)
-  (setq org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start))
-  (setq org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due))
-  (setq org-agenda-skip-scheduled-if-done t)
-  (setq org-agenda-skip-deadline-if-done t)
-  (setq org-reveal-root "file:///Users/nathan/sandbox/apps/revealjs/")
-  (setq org-agenda-custom-commands
-        '(("D" "Today's work"
-           (
-            (tags "-HIDE/!WAITING"
-                  (
-                   (org-agenda-overriding-header "Work Waiting\n")))
-            (tags "-HIDE+SCHEDULED<\"<tomorrow>\"/!-WAITING-MAYBE"
-                  (
-                   (org-agenda-overriding-header "Today's TODOs\n")))
-            (agenda "" ((org-agenda-span 1)))
-            )
-           ())
-          ))
+  ;; vterm config
+  (setq vterm-always-compile-module t)
 
   ;; Mu4e configs
   (with-eval-after-load "mu4e"
@@ -770,13 +622,14 @@ you should place your code here."
     (setq mu4e-headers-auto-update nil)
     (setq mu4e-attachment-dir  "~/Downloads")
     (setq mu4e-change-filenames-when-moving t)
-    ;; (setq mu4e-headers-skip-duplicates t)
+    (setq mu4e-headers-skip-duplicates t)
     (setq mu4e-headers-date-format "%Y-%m-%d %H:%M")
     (setq mu4e-headers-fields '((:date . 20)
-                               (:flags . 6)
-                               (:mailing-list . 10)
-                               (:from . 22)
-                               (:subject)))
+                                (:flags . 6)
+                                (:mailing-list . 10)
+                                (:from . 22)
+                                (:subject)))
+
     (setq mu4e-bookmarks
           `( ,(make-mu4e-bookmark
                :name  "@Action"
@@ -814,9 +667,11 @@ you should place your code here."
                                                          "Nellickevägen 20\n"
                                                          "412 63 Göteborg\n"
                                                          "+46 (0)7 07 66 02 86)\n")
-                                                         )))
+                                               )))
 
              )))
+
+
   ;; msmtp config
   (setq message-send-mail-function 'message-send-mail-with-sendmail)
   (setq sendmail-program "/usr/local/bin/msmtp")
@@ -856,11 +711,6 @@ you should place your code here."
                      (sql-password
                       (shell-command-to-string "security find-generic-password -s mysql-nathan-read -w"))
                      (sql-database "diasend_int"))
-          (diasendBetaC2CDB (sql-product 'mysql)
-                     (sql-server "devtest.diasend.com")
-                     (sql-user "diasend_beta")
-                     (sql-password "")
-                     (sql-database "diasend_beta"))
           (prodSlaveDB (sql-product 'mysql)
                        (sql-server "prod-slave")
                        (sql-user "nathan_ro")
@@ -870,7 +720,9 @@ you should place your code here."
 
   ;; Text config
   (setq sentence-end-double-space nil)
-)
+
+
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
