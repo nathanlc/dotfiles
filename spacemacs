@@ -619,6 +619,7 @@ before packages are loaded."
   ;; Global configs
   (setq-default mac-right-option-modifier nil)
   (setq scroll-margin 1)
+  (setq auth-sources '("~/.authinfo"))
 
   ;; vterm config
   (setq vterm-always-compile-module t)
