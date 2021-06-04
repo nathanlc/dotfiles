@@ -1,24 +1,25 @@
-alias ..='cd ..'
 alias ...='cd ../..'
-alias o='open'
-alias s='for i in {1..15}; do echo; done' # Create some space in the terminal
-alias cp='cp -iv'
-alias mv='mv -iv'
-alias ls='ls -AF --color=always'
-alias ll='ls -AlhF --color=always'
-alias lt='ls -AlhFrt --color=always'
-alias lt1='ls -Frt | tail -1'
+alias ..='cd ..'
 alias cat1='cat $(lt1)'
-alias less1='less -S $(lt1)'
+alias cp='cp -iv'
 alias dc='docker compose'
+alias dnd="bash $SCRIPTS/do_not_disturb_toggle.sh"
 alias dx='docker compose exec'
 alias ec='emacsclient -nc'
+alias f="bash $SCRIPTS/search-firefox-history.sh"
 alias gb='git branch --list'
 alias gc='git checkout'
 alias gd='git diff'
 alias gs='git status'
-alias tmuxat='tmux a -t'
+alias less1='less -S $(lt1)'
+alias ll='ls -AlhF --color=always'
+alias ls='ls -AF --color=always'
+alias lt1='ls -Frt | tail -1'
+alias lt='ls -AlhFrt --color=always'
+alias mv='mv -iv'
+alias o='open'
 alias psg='ps aux | grep --color -i'
+alias s='for i in {1..15}; do echo; done' # Create some space in the terminal
+alias tmuxat='tmux a -t'
+alias vim='~/sandbox/apps/nvim-osx64/bin/nvim'
 alias zz='pmset sleepnow'
-alias dnd="bash $SCRIPTS/do_not_disturb_toggle.sh"
-alias f="bash $SCRIPTS/search-firefox-history.sh"
