@@ -21,5 +21,5 @@ alias o='open'
 alias psg='ps aux | grep --color -i'
 alias s='for i in {1..15}; do echo; done' # Create some space in the terminal
 alias tmuxat='tmux a -t'
-alias vim='~/sandbox/apps/nvim-osx64/bin/nvim'
+alias vim='nvim'
 alias zz='pmset sleepnow'

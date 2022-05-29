@@ -32,7 +32,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(vimscript
+     lua
      python
      restclient
      react
@@ -61,7 +62,7 @@ This function should only modify configuration layer settings."
      ;; markdown
      multiple-cursors
      (mu4e :variables
-           mu4e-installation-path "/usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e")
+           mu4e-installation-path "/usr/local/Cellar/mu/1.6.3/share/emacs/site-lisp/mu/mu4e")
      org
      (osx :variables
           osx-command-as       'hyper
@@ -99,7 +100,7 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(tree-sitter tree-sitter-langs)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -421,8 +422,8 @@ It should only modify the values of Spacemacs settings."
    ;; If set to `t', `relative' or `visual' then line numbers are enabled in all
    ;; `prog-mode' and `text-mode' derivatives. If set to `relative', line
    ;; numbers are relative. If set to `visual', line numbers are also relative,
-   ;; but lines are only visual lines are counted. For example, folded lines
-   ;; will not be counted and wrapped lines are counted as multiple lines.
+   ;; but only visual lines are counted. For example, folded lines will not be
+   ;; counted and wrapped lines are counted as multiple lines.
    ;; This variable can also be set to a property list for finer control:
    ;; '(:relative nil
    ;;   :visual nil
@@ -516,14 +517,14 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
 
-   ;; If non nil activate `clean-aindent-mode' which tries to correct
-   ;; virtual indentation of simple modes. This can interfer with mode specific
+   ;; If non-nil activate `clean-aindent-mode' which tries to correct
+   ;; virtual indentation of simple modes. This can interfere with mode specific
    ;; indent handling like has been reported for `go-mode'.
    ;; If it does deactivate it here.
    ;; (default t)
    dotspacemacs-use-clean-aindent-mode t
 
-   ;; Accept SPC as y for prompts if non nil. (default nil)
+   ;; Accept SPC as y for prompts if non-nil. (default nil)
    dotspacemacs-use-SPC-as-y nil
 
    ;; If non-nil shift your number row to match the entered keyboard layout
@@ -543,7 +544,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-pretty-docs nil
 
    ;; If nil the home buffer shows the full path of agenda items
-   ;; and todos. If non nil only the file name is shown.
+   ;; and todos. If non-nil only the file name is shown.
    dotspacemacs-home-shorten-agenda-source nil
 
    ;; If non-nil then byte-compile some of Spacemacs files.
@@ -596,20 +597,18 @@ before packages are loaded."
 
   ;; Key bindings
   (setq-default evil-escape-key-sequence "jk")
-  (define-key global-map (kbd "C-h") #'evil-window-left)
-  (define-key global-map (kbd "C-j") #'evil-window-down)
-  (define-key global-map (kbd "C-k") #'evil-window-up)
-  (define-key global-map (kbd "C-l") #'evil-window-right)
-  (define-key evil-normal-state-map (kbd "C-h") #'evil-window-left)
-  (define-key evil-normal-state-map (kbd "C-j") #'evil-window-down)
-  (define-key evil-normal-state-map (kbd "C-k") #'evil-window-up)
-  (define-key evil-normal-state-map (kbd "C-l") #'evil-window-right)
-  (define-key evil-motion-state-map (kbd "C-h") #'evil-window-left)
-  (define-key evil-motion-state-map (kbd "C-j") #'evil-window-down)
-  (define-key evil-motion-state-map (kbd "C-k") #'evil-window-up)
-  (define-key evil-motion-state-map (kbd "C-l") #'evil-window-right)
-  (define-key evil-normal-state-map (kbd "M-j") #'move-line-down)
-  (define-key evil-normal-state-map (kbd "M-k") #'move-line-up)
+  (define-key global-map (kbd "M-h") #'evil-window-left)
+  (define-key global-map (kbd "M-j") #'evil-window-down)
+  (define-key global-map (kbd "M-k") #'evil-window-up)
+  (define-key global-map (kbd "M-l") #'evil-window-right)
+  (define-key evil-normal-state-map (kbd "M-h") #'evil-window-left)
+  (define-key evil-normal-state-map (kbd "M-j") #'evil-window-down)
+  (define-key evil-normal-state-map (kbd "M-k") #'evil-window-up)
+  (define-key evil-normal-state-map (kbd "M-l") #'evil-window-right)
+  (define-key evil-motion-state-map (kbd "M-h") #'evil-window-left)
+  (define-key evil-motion-state-map (kbd "M-j") #'evil-window-down)
+  (define-key evil-motion-state-map (kbd "M-k") #'evil-window-up)
+  (define-key evil-motion-state-map (kbd "M-l") #'evil-window-right)
 
 
   (spacemacs/declare-prefix "o" "own-bindings")
@@ -622,6 +621,20 @@ before packages are loaded."
   (setq-default mac-right-option-modifier nil)
   (setq scroll-margin 1)
   (setq auth-sources '("~/.authinfo"))
+
+  ;; Tree sitter
+  (use-package tree-sitter)
+  (use-package tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+
+  ;; PHP config
+  ;; (add-hook 'php-mode-hook
+  ;;           (progn
+  ;;             ;; (tree-sitter-require 'php)
+  ;;             (tree-sitter-mode)
+  ;;             (tree-sitter-hl-mode)
+  ;;             ))
 
   ;; vterm config
   (setq vterm-always-compile-module t)
@@ -749,7 +762,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
-   '(yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope cython-mode company-anaconda blacken anaconda-mode pythonic restclient-helm ob-restclient ob-http company-restclient restclient know-your-http-well tide typescript-mode tern rjsx-mode import-js grizzl add-node-modules-path seeing-is-believing rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rbenv rake minitest helm-gtags ggtags enh-ruby-mode counsel-gtags counsel swiper ivy chruby bundler inf-ruby yaml-mode yasnippet-snippets xterm-color web-mode web-beautify vterm treemacs-magit terminal-here tagedit sqlup-mode sql-indent smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder pug-mode prettier-js phpunit phpcbf php-extras php-auto-yasnippets osx-trash osx-dictionary osx-clipboard orgit org-rich-yank org-projectile org-category-capture org-present org-pomodoro org-mime org-download org-cliplink org-brain nodejs-repl multi-term mu4e-alert alert log4e gntp magit-svn magit-section magit-gitflow magit-popup lsp-ui lsp-origami origami livid-mode skewer-mode launchctl json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc impatient-mode simple-httpd htmlize helm-org-rifle helm-mu helm-lsp helm-gitignore helm-git-grep helm-css-scss helm-company helm-c-yasnippet haml-mode gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ fringe-helper git-gutter+ geben fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-elm evil-snipe evil-org evil-magit magit git-commit with-editor transient eshell-z eshell-prompt-extras esh-help emmet-mode elm-test-runner elm-mode reformatter drupal-mode dap-mode posframe lsp-treemacs bui lsp-mode markdown-mode dash-functional company-web web-completion-data company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode company browse-at-remote auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
+   '(vimrc-mode dactyl-mode company-lua lua-mode yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope cython-mode company-anaconda blacken anaconda-mode pythonic restclient-helm ob-restclient ob-http company-restclient restclient know-your-http-well tide typescript-mode tern rjsx-mode import-js grizzl add-node-modules-path seeing-is-believing rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rbenv rake minitest helm-gtags ggtags enh-ruby-mode counsel-gtags counsel swiper ivy chruby bundler inf-ruby yaml-mode yasnippet-snippets xterm-color web-mode web-beautify vterm treemacs-magit terminal-here tagedit sqlup-mode sql-indent smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder pug-mode prettier-js phpunit phpcbf php-extras php-auto-yasnippets osx-trash osx-dictionary osx-clipboard orgit org-rich-yank org-projectile org-category-capture org-present org-pomodoro org-mime org-download org-cliplink org-brain nodejs-repl multi-term mu4e-alert alert log4e gntp magit-svn magit-section magit-gitflow magit-popup lsp-ui lsp-origami origami livid-mode skewer-mode launchctl json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc impatient-mode simple-httpd htmlize helm-org-rifle helm-mu helm-lsp helm-gitignore helm-git-grep helm-css-scss helm-company helm-c-yasnippet haml-mode gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ fringe-helper git-gutter+ geben fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-elm evil-snipe evil-org evil-magit magit git-commit with-editor transient eshell-z eshell-prompt-extras esh-help emmet-mode elm-test-runner elm-mode reformatter drupal-mode dap-mode posframe lsp-treemacs bui lsp-mode markdown-mode dash-functional company-web web-completion-data company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode company browse-at-remote auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
  '(safe-local-variable-values
    '((eval projectile-register-project-type 'glooko-web
            '("Gemfile")

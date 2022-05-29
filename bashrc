@@ -140,18 +140,23 @@ vterm_printf(){
 
 export ORG="$HOME/org"
 export SCRIPTS="$HOME/sandbox/scripts"
-export EDITOR="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c -s ~/.emacs.d/server/server"
+export EDITOR="nvim"
 export LESS="-SXR"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export GOPATH="${HOME}/go"
+export GOROOT="/usr/local/opt/go/libexec"
+PATH="${GOPATH}/bin:${GOROOT}/bin:$PATH"
 PATH="$HOME/.composer/vendor/bin:$PATH"
+# PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/opt:$PATH"
-PATH="/usr/local/opt/qt/bin:$PATH"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-PATH=/opt/local/bin:/opt/local/sbin:$PATH
+PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 PATH="$SCRIPTS:$PATH"
 PATH="$SCRIPTS/diasend:$PATH"
 PATH="$SCRIPTS/glooko:$PATH"
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-MANPATH=/opt/local/share/man:$MANPATH
+MANPATH="/opt/local/share/man:$MANPATH"
 export PATH
 export MANPATH
