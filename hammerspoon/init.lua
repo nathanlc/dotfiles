@@ -82,24 +82,31 @@ local function bindScrool(key, lambda)
     hs.hotkey.bind({"ctrl", "alt"}, key, lambda)
 end
 
-bindScrool("u", function()
+local function centerMouse()
     local frame = hs.window.focusedWindow():frame()
     local frameCenter = {
         x = frame.x + (frame.w / 2),
         y = frame.y + (frame.h / 2)
     }
     hs.mouse.absolutePosition(frameCenter)
+end
+
+bindScrool("u", function()
+    centerMouse()
     hs.eventtap.scrollWheel({0, 10}, {}, "line")
 end)
 
 bindScrool("d", function()
+    centerMouse()
     hs.eventtap.scrollWheel({0, -10}, {}, "line")
 end)
 
 bindScrool("p", function()
+    centerMouse()
     hs.eventtap.scrollWheel({0, 1}, {}, "line")
 end)
 
 bindScrool("n", function()
+    centerMouse()
     hs.eventtap.scrollWheel({0, -1}, {}, "line")
 end)
