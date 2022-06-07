@@ -1,9 +1,5 @@
 -- Application manipulations
--- Ctrl + 1 is not working for some reason. It worked in Quicksilver
--- hs.hotkey.bind({"ctrl"}, "1", function()
-    -- hs.application.launchOrFocus("iTerm")
--- end)
-hs.hotkey.bind({"ctrl"}, "²", function()
+hs.hotkey.bind({"ctrl"}, "²", function() -- ctrl + 1 is not working for some reason
     hs.application.launchOrFocus("iTerm")
 end)
 hs.hotkey.bind({"ctrl"}, "2", function()
@@ -11,16 +7,20 @@ hs.hotkey.bind({"ctrl"}, "2", function()
 end)
 
 hs.hotkey.bind({"ctrl"}, "3", function()
-    hs.application.launchOrFocus("Slack")
+    hs.application.launchOrFocus("Google Chrome")
 end)
 
 hs.hotkey.bind({"ctrl"}, "4", function()
+    hs.application.launchOrFocus("Slack")
+end)
+
+hs.hotkey.bind({"ctrl"}, "5", function()
     hs.application.launchOrFocus("zoom.us")
 end)
 
 
 -- Window manipulations
-hs.window.animationDuration = 0.1
+hs.window.animationDuration = 0.01
 
 hs.hotkey.bind({"cmd", "alt"}, "H", function()
     local window = hs.window.focusedWindow()
