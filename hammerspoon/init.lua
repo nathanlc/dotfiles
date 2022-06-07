@@ -21,8 +21,11 @@ end)
 
 -- Window manipulations
 hs.window.animationDuration = 0.01
+local function bindWindow(key, lambda)
+    hs.hotkey.bind({"cmd", "alt"}, key, lambda)
+end
 
-hs.hotkey.bind({"cmd", "alt"}, "H", function()
+bindWindow("H", function()
     local window = hs.window.focusedWindow()
     local frame = window:frame()
     local screenFrame = window:screen():frame()
@@ -34,7 +37,7 @@ hs.hotkey.bind({"cmd", "alt"}, "H", function()
     window:setFrame(frame)
 end)
 
-hs.hotkey.bind({"cmd", "alt"}, "L", function()
+bindWindow("L", function()
     local window = hs.window.focusedWindow()
     local frame = window:frame()
     local screenFrame = window:screen():frame()
@@ -47,8 +50,28 @@ hs.hotkey.bind({"cmd", "alt"}, "L", function()
     window:setFrame(frame)
 end)
 
-hs.hotkey.bind({"cmd", "alt"}, "M", function()
+bindWindow("M", function()
     local window = hs.window.focusedWindow()
 
     window:maximize()
+end)
+
+bindWindow("up", function()
+    local window = hs.window.focusedWindow()
+    window:moveOneScreenNorth()
+end)
+
+bindWindow("down", function()
+    local window = hs.window.focusedWindow()
+    window:moveOneScreenSouth()
+end)
+
+bindWindow("left", function()
+    local window = hs.window.focusedWindow()
+    window:moveOneScreenWest()
+end)
+
+bindWindow("right", function()
+    local window = hs.window.focusedWindow()
+    window:moveOneScreenEast()
 end)
