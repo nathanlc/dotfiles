@@ -38,6 +38,9 @@ vim.api.nvim_set_keymap('n', '<leader>pa', ':A<CR>', {noremap = true, silent = t
 vim.api.nvim_set_keymap('n', '<leader>pc', ':Make<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pt', ':Dispatch<CR>', {noremap = true, silent = true})
 
+-- Print info
+vim.api.nvim_set_keymap('n', '<leader>Pp', ':pwd<CR>', {noremap = true, silent = true})
+
 -- Windows
 vim.api.nvim_set_keymap('n', '<leader>w', '<C-w>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>ws', ':split<CR>', {noremap = true, silent = true})
