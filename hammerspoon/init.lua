@@ -75,3 +75,31 @@ bindWindow("right", function()
     local window = hs.window.focusedWindow()
     window:moveOneScreenEast()
 end)
+
+
+-- Window scrolling
+local function bindScrool(key, lambda)
+    hs.hotkey.bind({"ctrl", "alt"}, key, lambda)
+end
+
+bindScrool("u", function()
+    local frame = hs.window.focusedWindow():frame()
+    local frameCenter = {
+        x = frame.x + (frame.w / 2),
+        y = frame.y + (frame.h / 2)
+    }
+    hs.mouse.absolutePosition(frameCenter)
+    hs.eventtap.scrollWheel({0, 10}, {}, "line")
+end)
+
+bindScrool("d", function()
+    hs.eventtap.scrollWheel({0, -10}, {}, "line")
+end)
+
+bindScrool("p", function()
+    hs.eventtap.scrollWheel({0, 1}, {}, "line")
+end)
+
+bindScrool("n", function()
+    hs.eventtap.scrollWheel({0, -1}, {}, "line")
+end)
