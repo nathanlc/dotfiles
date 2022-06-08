@@ -65,6 +65,7 @@ vim.api.nvim_set_keymap('t', '<A-l>', ':TmuxNavigateRight<CR', {noremap = true, 
 -- Search
 vim.api.nvim_set_keymap('n', '<leader>sg', ':silent grep ', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>sG', ':Telescope live_grep<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>sb', ':Telescope current_buffer_fuzzy_find<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>sS', ':Telescope grep_string<CR>', {noremap = true, silent = true})
 
 -- Jump
