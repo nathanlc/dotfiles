@@ -82,7 +82,7 @@ vim.api.nvim_set_keymap('n', '<leader>ts', ':nohlsearch<CR>', {noremap = true, s
 vim.api.nvim_set_keymap('n', '<leader>tl', ':setlocal wrap!<CR>', {noremap = true, silent = true})
 
 -- Terminal
-vim.api.nvim_set_keymap('n', '<leader>\'', ':split term://bash<CR>i', {noremap = true, silent})
+vim.api.nvim_set_keymap('n', '<leader>\'', ':split term://bash<CR>i', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>"', ':Telescope buffers<CR>term<ESC>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', 'jk', '<C-\\><C-N>', {noremap = true})
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-N>', {noremap = true})
