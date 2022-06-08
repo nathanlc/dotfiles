@@ -3,7 +3,13 @@ require('paq') {
     'nvim-treesitter/nvim-treesitter';
     'nvim-treesitter/nvim-treesitter-textobjects';
     'neovim/nvim-lspconfig';
-    'hrsh7th/nvim-compe'; -- Auto completion compatible with LSP
+    -- nvim-cmp start Auto completion compatible with LSP
+    'hrsh7th/cmp-nvim-lsp';
+    'hrsh7th/cmp-buffer';
+    'hrsh7th/cmp-path';
+    'hrsh7th/cmp-cmdline';
+    'hrsh7th/nvim-cmp';
+    -- nvim-cmp end
     -- Telescope start
     'nvim-lua/popup.nvim';
     'nvim-lua/plenary.nvim';
@@ -24,7 +30,7 @@ require('paq') {
     'preservim/nerdcommenter';
     'tpope/vim-projectionist';
     'tpope/vim-surround';
-    'tpope/vim-abolish';
+    'tpope/vim-abolish'; -- Smartcase string substitutions
     -- 'tpope/vim-fugitive';
     -- Neogit start
     'nvim-lua/plenary.nvim';

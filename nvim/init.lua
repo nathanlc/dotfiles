@@ -10,7 +10,7 @@ require('package-manager')
 
 require('plugins.lspconfig')
 require('plugins.treesitter')
-require('plugins.compe')
+require('plugins.completion')
 require('plugins.theme')
 require('plugins.telescope')
 require('plugins.nerdcommenter')
