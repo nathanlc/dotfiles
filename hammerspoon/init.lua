@@ -20,10 +20,24 @@ end)
 
 
 -- Window manipulations
+local macbook2015Screen = "Built-in Retina Display"
+local workUltrawideScreen = "PHL 346E2C"
+
+local workLayout = {
+    {"Vivaldi", nil, workUltrawideScreen, {x=0, y=0, w=0.4, h=1}, nil, nil},
+    {"iTerm2", nil, workUltrawideScreen, {x=0.4, y=0, w=0.6, h=1}, nil, nil},
+    {"Slack", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
+    {"Google Chrome", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
+}
+
 hs.window.animationDuration = 0.01
 local function bindWindow(key, lambda)
     hs.hotkey.bind({"cmd", "alt"}, key, lambda)
 end
+
+bindWindow("2", function()
+    hs.layout.apply(workLayout)
+end)
 
 bindWindow("H", function()
     local window = hs.window.focusedWindow()
