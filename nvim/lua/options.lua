@@ -61,4 +61,5 @@ utils.create_augroup({
     { 'FileType', 'qf', 'setlocal', 'cursorline' },
     { 'FileType', 'qf', 'setlocal', 'number' },
     { 'FileType', 'qf', 'setlocal', 'norelativenumber' },
+    { 'FileType', 'qf', 'nnoremap', '<C-Space>', '<CR>:copen<CR>' },
 }, 'quickfix')
