@@ -8,7 +8,7 @@ require('options')
 -- PaqClean: Remove all packages (in Paq's directory) that aren't listed on your configuration.
 require('package-manager')
 
-require('plugins.lspconfig')
+require('plugins.lsp-setup')
 require('plugins.treesitter')
 require('plugins.completion')
 require('plugins.theme')

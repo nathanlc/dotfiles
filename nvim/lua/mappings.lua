@@ -34,6 +34,7 @@ vim.api.nvim_set_keymap('n', '<leader>fb', ':Telescope file_browser<CR>', {norem
 
 -- Projects
 vim.api.nvim_set_keymap('n', '<leader>pl', ':Telescope project display_type=full<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>pb', [[<Cmd>lua require('telescope.builtin').buffers({only_cwd = true})<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pa', ':A<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pc', ':Make<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pt', ':Dispatch<CR>', {noremap = true, silent = true})
@@ -81,10 +82,11 @@ vim.api.nvim_set_keymap('n', '<leader>Td', ':tabclose<CR>', {noremap = true, sil
 -- Toggle
 vim.api.nvim_set_keymap('n', '<leader>ts', ':nohlsearch<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>tl', ':setlocal wrap!<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>twh', ':set winfixheight!<CR>', {noremap = true, silent = true})
 
 -- Terminal
 vim.api.nvim_set_keymap('n', '<leader>\'', ':split term://bash<CR>i', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>"', ':Telescope buffers<CR>term<ESC>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>"', ':Telescope buffers<CR>term://<ESC>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', 'jk', '<C-\\><C-N>', {noremap = true})
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-N>', {noremap = true})
 
@@ -117,7 +119,7 @@ vim.api.nvim_set_keymap('n', '<leader>lp', ':silent lolder<CR>', {noremap = true
 vim.api.nvim_set_keymap('n', '<leader>gs', ':Neogit kind=split<CR>', {noremap = true, silent = true})
 
 -- Org mode
-vim.api.nvim_set_keymap('n', '<leader>oO', ':tabedit $HOME/org/<CR>:lcd $HOME/org<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>O', ':tabedit $HOME/org/gtd.org<CR>:lcd $HOME/org<CR>', {noremap = true, silent = true})
 
 -- LSP
--- See lua/plugins/lspconfig
+-- See lua/plugins/lsp-setup and lua/ftplugins/java

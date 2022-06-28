@@ -47,6 +47,9 @@ vim.g.netrw_bufsettings = {
 }
 vim.g.netrw_liststyle = 3
 
+vim.opt.conceallevel = 2
+vim.opt.concealcursor = 'nc'
+
 if vim.fn.executable('rg') then
   vim.opt.grepprg = 'rg --vimgrep --smart-case'
   vim.opt.grepformat = '%f:%l:%c:%m'

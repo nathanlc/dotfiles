@@ -1,10 +1,11 @@
 local telescope = require('telescope')
 
 telescope.setup({
-    -- defaults = {
-    --     layout_strategy = 'horizontal',
-    --     width = 0.9,
-    -- }
+    defaults = {
+        file_ignore_patterns = {
+            "%.class",
+        },
+    },
     extensions = {
         project = {
             base_dirs = {

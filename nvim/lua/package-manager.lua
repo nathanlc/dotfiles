@@ -3,6 +3,7 @@ require('paq') {
     'nvim-treesitter/nvim-treesitter';
     'nvim-treesitter/nvim-treesitter-textobjects';
     'neovim/nvim-lspconfig';
+    'mfussenegger/nvim-jdtls'; -- Lsp for Java. Download java language server jdtls from https://download.eclipse.org/jdtls/snapshots/?d and extract in ~/jdtls
     -- nvim-cmp start Auto completion compatible with LSP
     'hrsh7th/cmp-nvim-lsp';
     'hrsh7th/cmp-buffer';
