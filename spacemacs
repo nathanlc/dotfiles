@@ -32,13 +32,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(vimscript
-     lua
-     python
-     restclient
-     react
-     ruby
-     yaml
+   '(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -47,22 +41,21 @@ This function should only modify configuration layer settings."
      auto-completion
      dap
      ;; (elm :variables elm-backend 'lsp) ;; npm i -g elm-analyse @elm-tooling/elm-language-server
-     (elm :variables elm-backend 'company-elm) ;; npm install -g elm-oracle 
+     ;; (elm :variables elm-backend 'company-elm) ;; npm install -g elm-oracle 
      ;; better-defaults
      emacs-lisp
      (evil-snipe :variables
                  evil-snipe-enable-alternate-f-and-t-behaviors t)
      git
      helm
-     html
-     (javascript :variables
-                 js2-basic-offset 2
-                 js-indent-level 2)
+     ;; (javascript :variables
+     ;;             js2-basic-offset 2
+     ;;             js-indent-level 2)
      lsp
      ;; markdown
      multiple-cursors
-     (mu4e :variables
-           mu4e-installation-path "/usr/local/Cellar/mu/1.6.3/share/emacs/site-lisp/mu/mu4e")
+     ;; (mu4e :variables
+     ;;       mu4e-installation-path "/usr/local/Cellar/mu/1.6.3/share/emacs/site-lisp/mu/mu4e")
      org
      (osx :variables
           osx-command-as       'hyper
@@ -73,20 +66,15 @@ This function should only modify configuration layer settings."
           osx-right-option-as  'none
           osx-right-control-as 'left
           osx-swap-option-and-command nil)
-     (php :variables php-backend 'lsp) ;; npm i -g intelephense
-     restclient
+     ;; (php :variables php-backend 'lsp) ;; npm i -g intelephense
      ;; (ruby :variables ruby-backend 'lsp) ;; gem install solargraph
-     (ruby :variables ruby-backend 'robe) ;; gem install solargraph
-     ruby-on-rails
+     ;; (ruby :variables ruby-backend 'robe) ;; gem install solargraph
      (shell :variables
             shell-default-shell 'vterm
             shell-default-height 30
             shell-default-position 'bottom
             spacemacs-vterm-history-file-location "~/.bash_history")
      spell-checking
-     (sql :variables
-          sql-capitalize-keywords t
-          sql-capitalize-keywords-blacklist '("name" "value" "type" "admin" "timestamp"))
      syntax-checking
      version-control
      )
@@ -126,9 +114,13 @@ It should only modify the values of Spacemacs settings."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
-   ;; If non-nil then enable support for the portable dumper. You'll need
-   ;; to compile Emacs 27 from source following the instructions in file
+   ;; If non-nil then enable support for the portable dumper. You'll need to
+   ;; compile Emacs 27 from source following the instructions in file
    ;; EXPERIMENTAL.org at to root of the git repository.
+   ;;
+   ;; WARNING: pdumper does not work with Native Compilation, so it's disabled
+   ;; regardless of the following setting when native compilation is in effect.
+   ;;
    ;; (default nil)
    dotspacemacs-enable-emacs-pdumper nil
 
@@ -200,6 +192,12 @@ It should only modify the values of Spacemacs settings."
    ;; (default 'vim)
    dotspacemacs-editing-style 'vim
 
+   ;; If non-nil, show vim-like empty line indicators at the end of files.
+   ;; Takes effect only if `spacemacs-evil' layer is enabled.
+   ;; NOTICE: `spacemacs-evil' is included in `spacemacs' distribution.
+   ;; See `dotspacemacs-distribution'.
+   dotspacemacs-evil-show-empty-line-indicators t
+
    ;; If non-nil show the version string in the Spacemacs buffer. It will
    ;; appear as (spacemacs version)@(emacs version)
    ;; (default t)
@@ -212,6 +210,13 @@ It should only modify the values of Spacemacs settings."
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
    dotspacemacs-startup-banner 'official
+
+   ;; Scale factor controls the scaling (size) of the startup banner. Default
+   ;; value is `auto' for scaling the logo automatically to fit all buffer
+   ;; contents, to a maximum of the full image height and a minimum of 3 line
+   ;; heights. If set to a number (int or float) it is used as a constant
+   ;; scaling factor for the default logo size.
+   dotspacemacs-startup-banner-scale 'auto
 
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
@@ -234,6 +239,11 @@ It should only modify the values of Spacemacs settings."
 
    ;; The minimum delay in seconds between number key presses. (default 0.4)
    dotspacemacs-startup-buffer-multi-digit-delay 0.4
+
+   ;; If non-nil, show file icons for entries and headings on Spacemacs home buffer.
+   ;; This has no effect in terminal or if "all-the-icons" package or the font
+   ;; is not installed. (default nil)
+   dotspacemacs-startup-buffer-show-icons nil
 
    ;; Default major mode for a new empty buffer. Possible values are mode
    ;; names such as `text-mode'; and `nil' to use Fundamental mode.
@@ -565,14 +575,16 @@ See the header of this file for more information."
 This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
-If you are unsure, try setting them in `dotspacemacs/user-config' first.")
+If you are unsure, try setting them in `dotspacemacs/user-config' first."
+)
 
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
 This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
-dump.")
+dump."
+)
 
 
 (defun dotspacemacs/user-config ()
