@@ -22,10 +22,20 @@ end)
 -- Window manipulations
 local macbook2015Screen = "Built-in Retina Display"
 local workUltrawideScreen = "PHL 346E2C"
+local workHomeScreen = "DELL UP2414Q"
 
 local workLayout = {
     {"Vivaldi", nil, workUltrawideScreen, {x=0, y=0, w=0.4, h=1}, nil, nil},
     {"iTerm2", nil, workUltrawideScreen, {x=0.4, y=0, w=0.6, h=1}, nil, nil},
+    {"Emacs", nil, workUltrawideScreen, {x=0.5, y=0, w=0.5, h=1}, nil, nil},
+    {"Slack", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
+    {"Google Chrome", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
+}
+
+local workHomeLayout = {
+    {"Vivaldi", nil, workHomeScreen, hs.layout.maximized, nil, nil},
+    {"iTerm2", nil, workHomeScreen, hs.layout.maximized, nil, nil},
+    {"Emacs", nil, workUltrawideScreen, hs.layout.maximized, nil, nil},
     {"Slack", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
     {"Google Chrome", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
 }
@@ -37,6 +47,10 @@ end
 
 bindWindow("2", function()
     hs.layout.apply(workLayout)
+end)
+
+bindWindow("3", function()
+    hs.layout.apply(workHomeLayout)
 end)
 
 bindWindow("H", function()
