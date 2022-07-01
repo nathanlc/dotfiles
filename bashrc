@@ -138,7 +138,7 @@ vterm_printf(){
     fi
 }
 
-export ORG="$HOME/org"
+export ORG="$HOME/Dropbox/org"
 export SCRIPTS="$HOME/sandbox/scripts"
 export EDITOR="nvim"
 export LESS="-SXR"
