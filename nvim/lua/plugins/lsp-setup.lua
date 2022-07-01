@@ -7,6 +7,7 @@ nvim_lsp.tsserver.setup(lsp_config) -- JavaScript - npm install -g typescript ty
 nvim_lsp.elmls.setup(lsp_config) -- Elm - npm install -g @elm-tooling/elm-language-server elm-format
 nvim_lsp.gopls.setup(lsp_config) -- Go - cd /tmp && GO111MODULE=on go get golang.org/x/tools/gopls@latest
 nvim_lsp.pyright.setup(lsp_config) -- Python - npm install -g pyright
+nvim_lsp.solargraph.setup(lsp_config) -- Ruby - gem install solargraph
 nvim_lsp.sqls.setup({ -- SQL - go get github.com/lighttiger2505/sqls
     capabilities = lsp_config.capabilities,
     on_attach = function(client, bufnr)
