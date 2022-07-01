@@ -47,9 +47,6 @@ vim.g.netrw_bufsettings = {
 }
 vim.g.netrw_liststyle = 3
 
-vim.opt.conceallevel = 2
-vim.opt.concealcursor = 'nc'
-
 if vim.fn.executable('rg') then
   vim.opt.grepprg = 'rg --vimgrep --smart-case'
   vim.opt.grepformat = '%f:%l:%c:%m'
@@ -66,3 +63,8 @@ utils.create_augroup({
     { 'FileType', 'qf', 'setlocal', 'norelativenumber' },
     { 'FileType', 'qf', 'nnoremap', '<C-Space>', '<CR>:copen<CR>' },
 }, 'quickfix')
+
+utils.create_augroup({
+    { 'FileType' , 'org', 'setlocal', 'conceallevel=2' },
+    { 'FileType' , 'org', 'setlocal', 'concealcursor=nc' }
+}, 'org')
