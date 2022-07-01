@@ -157,11 +157,18 @@ PATH="/usr/local/lib/ruby/gems/3.1.0/bin:$PATH"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/opt:$PATH"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 PATH="$SCRIPTS:$PATH"
 PATH="$SCRIPTS/diasend:$PATH"
 PATH="$SCRIPTS/glooko:$PATH"
+PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 MANPATH="/opt/local/share/man:$MANPATH"
+MANPATH="/opt/homebrew/share/man:$MANPATH"
+export HOMEBREW_PREFIX="/opt/homebrew"
+export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+export HOMEBREW_REPOSITORY="/opt/homebrew"
+export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
 export PATH
 export MANPATH
