@@ -92,7 +92,8 @@ vim.api.nvim_set_keymap('t', 'jk', '<C-\\><C-N>', {noremap = true})
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-N>', {noremap = true})
 
 -- Configuration
-vim.api.nvim_set_keymap('n', '<leader>C', ':tabedit $HOME/.dotfiles/nvim/init.lua<CR>:lcd $HOME/.dotfiles/nvim<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>Cn', ':tabedit $HOME/.config/nvim/init.lua<CR>:lcd $HOME/.config/nvim<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>Cd', ':tabedit $HOME/sandbox/mine/dotfiles<CR>:lcd $HOME/sandbox/mine/dotfiles<CR>', {noremap = true, silent = true})
 
 -- Quickfix list
 vim.api.nvim_set_keymap('n', '<leader>qo', ':copen<CR>', {noremap = true, silent = true})
