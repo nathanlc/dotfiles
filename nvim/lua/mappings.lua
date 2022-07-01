@@ -120,7 +120,7 @@ vim.api.nvim_set_keymap('n', '<leader>lp', ':silent lolder<CR>', {noremap = true
 vim.api.nvim_set_keymap('n', '<leader>gs', ':Neogit kind=split<CR>', {noremap = true, silent = true})
 
 -- Org mode
-vim.api.nvim_set_keymap('n', '<leader>O', ':tabedit $HOME/org/gtd.org<CR>:lcd $HOME/org<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>O', ':tabedit $ORG/gtd.org<CR>:lcd $ORG<CR>', {noremap = true, silent = true})
 
 -- LSP
 -- See lua/plugins/lsp-setup and lua/ftplugins/java
