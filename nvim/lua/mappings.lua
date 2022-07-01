@@ -87,7 +87,7 @@ vim.api.nvim_set_keymap('n', '<leader>twh', ':set winfixheight!<CR>', {noremap =
 
 -- Terminal
 vim.api.nvim_set_keymap('n', '<leader>\'', ':split term://bash<CR>i', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>"', ':Telescope buffers<CR>term://<ESC>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>"', [[<Cmd>lua require('telescope.builtin').buffers({default_text = "term://"})<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', 'jk', '<C-\\><C-N>', {noremap = true})
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-N>', {noremap = true})
 
