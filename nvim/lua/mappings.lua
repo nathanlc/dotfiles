@@ -74,8 +74,9 @@ vim.api.nvim_set_keymap('n', '<leader>j', ':Telescope lsp_document_symbols<CR>',
 
 -- Tabs
 vim.api.nvim_set_keymap('n', '<leader>Te', ':tabedit ', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>Tn', ':tabnext<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>Tb', ':tabprev<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>Tn', ':tabnew<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>T<', ':-tabmove<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>T>', ':+tabmove<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>To', ':tabonly<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>Td', ':tabclose<CR>', {noremap = true, silent = true})
 
