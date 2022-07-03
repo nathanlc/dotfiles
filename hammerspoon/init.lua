@@ -1,6 +1,6 @@
 -- Application manipulations
 hs.hotkey.bind({"ctrl"}, "²", function() -- ctrl + 1 is not working for some reason
-    hs.application.launchOrFocus("iTerm")
+    hs.application.launchOrFocus("Alacritty")
 end)
 hs.hotkey.bind({"ctrl"}, "2", function()
     hs.application.launchOrFocus("Vivaldi Snapshot")
@@ -26,7 +26,7 @@ local workHomeScreen = "DELL UP2414Q"
 
 local workLayout = {
     {"Vivaldi", nil, workUltrawideScreen, {x=0, y=0, w=0.4, h=1}, nil, nil},
-    {"iTerm2", nil, workUltrawideScreen, {x=0.4, y=0, w=0.6, h=1}, nil, nil},
+    {"Alacritty", nil, workUltrawideScreen, {x=0.4, y=0, w=0.6, h=1}, nil, nil},
     {"Emacs", nil, workUltrawideScreen, {x=0.5, y=0, w=0.5, h=1}, nil, nil},
     {"Slack", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
     {"Google Chrome", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
@@ -34,7 +34,7 @@ local workLayout = {
 
 local workHomeLayout = {
     {"Vivaldi", nil, workHomeScreen, hs.layout.maximized, nil, nil},
-    {"iTerm2", nil, workHomeScreen, hs.layout.maximized, nil, nil},
+    {"Alacritty", nil, workHomeScreen, hs.layout.maximized, nil, nil},
     {"Emacs", nil, workUltrawideScreen, hs.layout.maximized, nil, nil},
     {"Slack", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
     {"Google Chrome", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
