@@ -138,6 +138,7 @@ vterm_printf(){
     fi
 }
 
+export BASH_SILENCE_DEPRECATION_WARNING=1 # Remove message about zsh being default term in macos
 export ORG="$HOME/Dropbox/org"
 export SCRIPTS="$HOME/sandbox/scripts"
 export EDITOR="nvim"
