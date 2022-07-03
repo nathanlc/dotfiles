@@ -61,7 +61,7 @@ vim.api.nvim_set_keymap('n', '<A-l>', ':TmuxNavigateRight<CR>', {noremap = true,
 vim.api.nvim_set_keymap('t', '<A-h>', ':TmuxNavigateLeft<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<A-j>', ':TmuxNavigateDown<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<A-k>', ':TmuxNavigateUp<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('t', '<A-l>', ':TmuxNavigateRight<CR', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('t', '<A-l>', ':TmuxNavigateRight<CR>', {noremap = true, silent = true})
 
 -- Search
 vim.api.nvim_set_keymap('n', '<leader>sg', ':silent grep ', {noremap = true})
