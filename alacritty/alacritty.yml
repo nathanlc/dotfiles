@@ -757,6 +757,11 @@ key_bindings:
   - { key: 27,             mods: Alt,                       chars: "]"                     }
   - { key: 28,             mods: Alt,                       chars: "\\"                    }
   - { key: 29,             mods: Alt,                       chars: "@"                     }
+  # Solve Alt-jklm bindings not working in neovim
+  - { key: J,        mods: Alt,     chars: "\x1bj"                       }
+  - { key: K,        mods: Alt,     chars: "\x1bk"                       }
+  - { key: H,        mods: Alt,     chars: "\x1bh"                       }
+  - { key: L,        mods: Alt,     chars: "\x1bl"                       }
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }
