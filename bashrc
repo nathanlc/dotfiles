@@ -147,14 +147,10 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export GOPATH="${HOME}/go"
 export GOROOT="/usr/local/opt/go/libexec"
-export JAVA_HOME="/usr/local/opt/openjdk/bin/java"
-export JDTLS_HOME="$HOME/jdtls"
+# export JAVA_HOME="/usr/local/opt/openjdk/bin/java"
+# export JDTLS_HOME="$HOME/jdtls"
 # export WORKSPACE="$HOME/jdtls_workspace"
 PATH="${GOPATH}/bin:${GOROOT}/bin:$PATH"
-PATH="$HOME/.composer/vendor/bin:$PATH"
-# PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
-PATH="/usr/local/opt/ruby/bin:$PATH"
-PATH="/usr/local/lib/ruby/gems/3.1.0/bin:$PATH"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/opt:$PATH"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
@@ -164,6 +160,13 @@ PATH="$SCRIPTS:$PATH"
 PATH="$SCRIPTS/diasend:$PATH"
 PATH="$SCRIPTS/glooko:$PATH"
 PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+# Java START
+PATH="$HOME/.jenv/bin:$PATH"
+PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+# Java END
+# Ruby START
+PATH="$HOME/.rbenv/shims:$PATH"
+# Ruby END
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 MANPATH="/opt/local/share/man:$MANPATH"
 MANPATH="/opt/homebrew/share/man:$MANPATH"
@@ -173,3 +176,9 @@ export HOMEBREW_REPOSITORY="/opt/homebrew"
 export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
 export PATH
 export MANPATH
+# Java START
+eval "$(jenv init -)"
+# Java END
+# Ruby START
+eval "$(rbenv init -)"
+# Ruby END

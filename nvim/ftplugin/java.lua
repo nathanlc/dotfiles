@@ -1,8 +1,9 @@
 local lsp_config = require('plugins/lsp-config')
 local home = os.getenv('HOME')
-local jdtls_path = home .. '/jdtls'
+local java_home = os.getenv('JAVA_HOME')
+local jdtls_path = home .. '/sandbox/apps/java_related/jdtls'
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t') -- '/path/to/unique/per/project/workspace/folder'
-local jdtls_workspace_dir = home .. '/jdtls_workspace/' .. project_name
+local jdtls_workspace_dir = home .. '/sandbox/apps/java_related/jdtls_workspace/' .. project_name
 
 -- For this to work, the gradle version must be compatible with the jdk version or something...
 -- gradle/wrapper/gradle-wrapper.properties distributionUrl may need to be updated
@@ -10,9 +11,7 @@ local jdtls_workspace_dir = home .. '/jdtls_workspace/' .. project_name
 local config = {
     -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
     cmd = {
-        -- '/usr/local/opt/openjdk@11/bin/java',
-        -- '/usr/local/opt/openjdk@17/bin/java',
-        '/usr/local/opt/openjdk/bin/java', -- also check env JAVA_HOME in .bashrc
+        java_home .. '/bin/java',
         '-Declipse.application=org.eclipse.jdt.ls.core.id1',
         '-Dosgi.bundles.defaultStartLevel=4',
         '-Declipse.product=org.eclipse.jdt.ls.core.product',
