@@ -1,13 +1,13 @@
 -- Application manipulations
 hs.hotkey.bind({"ctrl"}, "²", function() -- ctrl + 1 is not working for some reason
-    hs.application.launchOrFocus("Alacritty")
+    hs.application.launchOrFocus("iTerm")
 end)
 hs.hotkey.bind({"ctrl"}, "2", function()
-    hs.application.launchOrFocus("Safari")
+    hs.application.launchOrFocus("Vivaldi Snapshot")
 end)
 
 hs.hotkey.bind({"ctrl"}, "3", function()
-    hs.application.launchOrFocus("Google Chrome")
+    hs.application.launchOrFocus("Safari")
 end)
 
 hs.hotkey.bind({"ctrl"}, "4", function()
@@ -25,19 +25,19 @@ local workUltrawideScreen = "PHL 346E2C"
 local workHomeScreen = "DELL UP2414Q"
 
 local workLayout = {
-    {"Safari", nil, workUltrawideScreen, {x=0, y=0, w=0.4, h=1}, nil, nil},
-    {"Alacritty", nil, workUltrawideScreen, {x=0.4, y=0, w=0.6, h=1}, nil, nil},
+    {"Vivaldi", nil, workUltrawideScreen, {x=0, y=0, w=0.4, h=1}, nil, nil},
+    {"iTerm2", nil, workUltrawideScreen, {x=0.4, y=0, w=0.6, h=1}, nil, nil},
     {"Emacs", nil, workUltrawideScreen, {x=0.5, y=0, w=0.5, h=1}, nil, nil},
     {"Slack", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
-    {"Google Chrome", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
+    {"Safari", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
 }
 
 local workHomeLayout = {
-    {"Safari", nil, workHomeScreen, hs.layout.maximized, nil, nil},
-    {"Alacritty", nil, workHomeScreen, hs.layout.maximized, nil, nil},
+    {"Vivaldi", nil, workHomeScreen, hs.layout.maximized, nil, nil},
+    {"iTerm2", nil, workHomeScreen, hs.layout.maximized, nil, nil},
     {"Emacs", nil, workUltrawideScreen, hs.layout.maximized, nil, nil},
     {"Slack", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
-    {"Google Chrome", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
+    {"Safari", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
 }
 
 hs.window.animationDuration = 0.01
