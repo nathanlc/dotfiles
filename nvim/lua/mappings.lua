@@ -23,14 +23,16 @@ vim.api.nvim_set_keymap('i', 'jk', '<ESC>', {noremap = true})
 -- vim.api.nvim_set_keymap('n', '<leader>bl', ':buffers<CR>:buffer', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>bl', ':Telescope buffers<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>bd', ':bprevious<CR>:bdelete!#<CR>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>bD', ':bprevious<CR>:bdelete!#<CR><C-w>c', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>br', ':edit %<CR>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>bn', ':enew <CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>be', 'ggdG', {noremap = true, silent = true})
 
 -- Files
 vim.api.nvim_set_keymap('n', '<C-s>', ':write<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>fl', ':Telescope find_files<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>fo', ':Telescope oldfiles<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>fL', [[<Cmd>lua require('commands').find_files()<CR>]], {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>fb', ':Telescope file_browser<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>fo', ':Telescope oldfiles<CR>', {noremap = true, silent = true})
 
 -- Projects
 vim.api.nvim_set_keymap('n', '<leader>pl', ':Telescope project display_type=full<CR>', {noremap = true, silent = true})
@@ -44,8 +46,9 @@ vim.api.nvim_set_keymap('n', '<leader>Pp', ':pwd<CR>', {noremap = true, silent =
 
 -- Windows
 vim.api.nvim_set_keymap('n', '<leader>w', '<C-w>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>ws', ':split<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>wd', '<C-w>c', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>wS', ':leftabove split<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>wV', ':leftabove vsplit<CR>', {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap('n', '<A-h>', '<C-w>h', {noremap = true})
 -- vim.api.nvim_set_keymap('n', '<A-j>', '<C-w>j', {noremap = true})
 -- vim.api.nvim_set_keymap('n', '<A-k>', '<C-w>k', {noremap = true})
@@ -66,8 +69,8 @@ vim.api.nvim_set_keymap('t', '<A-l>', ':TmuxNavigateRight<CR>', {noremap = true,
 -- Search
 vim.api.nvim_set_keymap('n', '<leader>sg', ':silent grep ', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>sG', ':Telescope live_grep<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>sb', ':Telescope current_buffer_fuzzy_find<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>sS', ':Telescope grep_string<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>ss', ':Telescope current_buffer_fuzzy_find<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>sS', [[<Cmd>lua require('telescope.builtin').current_buffer_fuzzy_find({default_text = vim.fn.expand('<cexpr>')})<CR>]], {noremap = true, silent = true})
 
 -- Jump
 vim.api.nvim_set_keymap('n', '<leader>j', ':Telescope lsp_document_symbols<CR>', {noremap = true, silent = true})
@@ -86,8 +89,8 @@ vim.api.nvim_set_keymap('n', '<leader>tl', ':setlocal wrap!<CR>', {noremap = tru
 vim.api.nvim_set_keymap('n', '<leader>twh', ':set winfixheight!<CR>', {noremap = true, silent = true})
 
 -- Terminal
-vim.api.nvim_set_keymap('n', '<leader>\'', ':split term://bash<CR>i', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>"', [[<Cmd>lua require('telescope.builtin').buffers({default_text = "term://"})<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>"n', ':split term://bash<CR>:resize 18<CR>:setlocal winfixheight<CR>i', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>"l', [[<Cmd>lua require('telescope.builtin').buffers({default_text = "term://"})<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', 'jk', '<C-\\><C-N>', {noremap = true})
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-N>', {noremap = true})
 

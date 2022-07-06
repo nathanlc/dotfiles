@@ -2,6 +2,7 @@ require('paq') {
     'savq/paq-nvim';
     'nvim-treesitter/nvim-treesitter';
     'nvim-treesitter/nvim-treesitter-textobjects';
+    'nvim-lua/plenary.nvim'; -- Mostly lua helper functions
     'neovim/nvim-lspconfig';
     'mfussenegger/nvim-jdtls'; -- Lsp for Java. Download java language server jdtls from https://download.eclipse.org/jdtls/snapshots/?d and extract in chosen path
     -- nvim-cmp start Auto completion compatible with LSP
@@ -15,7 +16,6 @@ require('paq') {
     'nvim-lua/popup.nvim';
     'nvim-lua/plenary.nvim';
     'nvim-telescope/telescope.nvim';
-    'nvim-telescope/telescope-file-browser.nvim';
     'nvim-telescope/telescope-project.nvim';
     -- Telescope end
     'christoomey/vim-tmux-navigator';
@@ -26,6 +26,7 @@ require('paq') {
     'navarasu/onedark.nvim';
     -- Themes end
     'nanotee/sqls.nvim';
+    'tpope/vim-dadbod';
     'tpope/vim-rails';
     'jiangmiao/auto-pairs';
     'preservim/nerdcommenter';
@@ -34,7 +35,6 @@ require('paq') {
     'tpope/vim-abolish'; -- Smartcase string substitutions
     -- 'tpope/vim-fugitive';
     -- Neogit start
-    'nvim-lua/plenary.nvim';
     'TimUntersberger/neogit';
     'sindrets/diffview.nvim';
     -- Neogit end
