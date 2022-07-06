@@ -15,6 +15,7 @@ require('paq') {
     -- Telescope start
     'nvim-lua/popup.nvim';
     'nvim-lua/plenary.nvim';
+    'tpope/vim-sleuth';
     'nvim-telescope/telescope.nvim';
     'nvim-telescope/telescope-project.nvim';
     -- Telescope end
