@@ -138,3 +138,10 @@ bindScrool("j", function()
     centerMouse()
     hs.eventtap.scrollWheel({0, -1}, {}, "line")
 end)
+
+
+-- Start search (open new tab) in Vivaldi from anywhere
+hs.hotkey.bind({"cmd", "shift"}, 'space', function()
+    hs.application.launchOrFocus("Vivaldi Snapshot")
+    hs.eventtap.keyStroke({"cmd"}, 'T')
+end)
