@@ -27,6 +27,7 @@ vim.api.nvim_set_keymap('n', '<leader>bD', ':bprevious<CR>:bdelete!#<CR><C-w>c',
 vim.api.nvim_set_keymap('n', '<leader>br', ':edit %<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>bn', ':enew <CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>be', 'ggdG', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>bs', [[<Cmd>lua require('buffer').scratch()<CR>]], {noremap = true, silent = true})
 
 -- Files
 vim.api.nvim_set_keymap('n', '<C-s>', ':write<CR>', {noremap = true, silent = true})
