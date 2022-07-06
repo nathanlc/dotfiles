@@ -99,6 +99,13 @@ vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-N>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>Cn', ':tabedit $HOME/.config/nvim/init.lua<CR>:lcd $HOME/.config/nvim<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>Cd', ':tabedit $HOME/sandbox/mine/dotfiles<CR>:lcd $HOME/sandbox/mine/dotfiles<CR>', {noremap = true, silent = true})
 
+-- Diagnostic
+vim.api.nvim_set_keymap('n', '<leader>ed', '<Cmd>lua vim.diagnostic.open_float()<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>ep', '<Cmd>lua vim.diagnostic.goto_prev()<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>en', '<Cmd>lua vim.diagnostic.goto_next()<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>el', '<Cmd>lua vim.diagnostic.setloclist()<CR>', {noremap = true, silent = true})
+
+
 -- Quickfix list
 vim.api.nvim_set_keymap('n', '<leader>qo', ':copen<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>qc', ':cclose<CR>', {noremap = true, silent = true})
