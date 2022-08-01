@@ -6,6 +6,7 @@ cmp.setup({
     snippet = {
       -- REQUIRED - you must specify a snippet engine
       expand = function(args)
+        require('luasnip').lsp_expand(args.body)
         -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
         -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
         -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
@@ -38,10 +39,15 @@ cmp.setup({
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-        { name = 'path' }
-    }, {
-        { name = 'cmdline' }
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    -- {
+    --   name = 'path',
+    --   option = {
+    --     trailing_slash = true
+    --   }
+    -- }
+  }, {
+      { name = 'cmdline' }
     })
 })

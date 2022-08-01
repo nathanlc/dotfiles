@@ -1,4 +1,4 @@
-local utils = require('utils')
+local autocmd = require('utils.autocmd')
 
 vim.opt.path = vim.opt.path - { '/usr/include' } + { '**' }
 
@@ -27,6 +27,7 @@ vim.opt.foldlevel = 99
 
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+vim.opt.hlsearch = false
 
 -- vim.opt.tabstop = 4
 -- vim.opt.softtabstop = 4
@@ -41,30 +42,32 @@ vim.g.netrw_bufsettings = {
   'nomodifiable',
   'nomodified',
   'relativenumber',
-  'nobuflisted',
   'nowrap',
   'readonly',
 }
 vim.g.netrw_liststyle = 3
+vim.g.netrw_banner = 0
+
+vim.g.taboo_tab_format = ' %P%m '
 
 if vim.fn.executable('rg') then
   vim.opt.grepprg = 'rg --vimgrep --smart-case'
   vim.opt.grepformat = '%f:%l:%c:%m'
 end
 
-utils.create_augroup({
+autocmd.create_augroup({
     { 'QuickFixCmdPost', '[^l]*', 'cwindow' },
     { 'QuickFixCmdPost', 'l*', 'lwindow' }
 }, 'grep')
 
-utils.create_augroup({
+autocmd.create_augroup({
     { 'FileType', 'qf', 'setlocal', 'cursorline' },
     { 'FileType', 'qf', 'setlocal', 'number' },
     { 'FileType', 'qf', 'setlocal', 'norelativenumber' },
     { 'FileType', 'qf', 'nnoremap', '<C-Space>', '<CR>:copen<CR>' },
 }, 'quickfix')
 
-utils.create_augroup({
+autocmd.create_augroup({
     { 'FileType' , 'org', 'setlocal', 'conceallevel=2' },
     { 'FileType' , 'org', 'setlocal', 'concealcursor=nc' }
 }, 'org')

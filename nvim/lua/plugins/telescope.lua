@@ -5,6 +5,9 @@ telescope.setup({
         file_ignore_patterns = {
             "%.class",
         },
+        cache_picker = {
+            num_pickers = 10,
+        },
     },
     extensions = {
         project = {
@@ -15,4 +18,4 @@ telescope.setup({
     }
 })
 
-telescope.load_extension('project')
+telescope.load_extension('fzy_native')
