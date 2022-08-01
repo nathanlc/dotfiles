@@ -160,6 +160,7 @@ PATH="$SCRIPTS:$PATH"
 PATH="$SCRIPTS/diasend:$PATH"
 PATH="$SCRIPTS/glooko:$PATH"
 PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 # Java START
 PATH="$HOME/.jenv/bin:$PATH"
 PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
