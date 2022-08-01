@@ -2,14 +2,18 @@
 hs.hotkey.bind({"ctrl"}, "²", function() -- ctrl + 1 is not working for some reason
     hs.application.launchOrFocus("iTerm")
 end)
-hs.hotkey.bind({"ctrl"}, "2", function()
+hs.hotkey.bind({"ctrl"}, "<", function() -- Sometimes ² gets remapped to <...
+    hs.application.launchOrFocus("iTerm")
+end)
+hs.hotkey.bind({"ctrl"}, "2", function() -- ctrl + 2 doesn't work anymore...
     hs.application.launchOrFocus("Vivaldi Snapshot")
 end)
-
+hs.hotkey.bind({"ctrl", "shift"}, "2", function() -- ctrl + 2 doesn't work anymore...
+    hs.application.launchOrFocus("Vivaldi Snapshot")
+end)
 hs.hotkey.bind({"ctrl"}, "3", function()
     hs.application.launchOrFocus("Safari")
 end)
-
 hs.hotkey.bind({"ctrl"}, "4", function()
     hs.application.launchOrFocus("Slack")
 end)
