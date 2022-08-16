@@ -32,16 +32,17 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(ruby
+     yaml
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      auto-completion
-     dap
+     ;; dap
      ;; (elm :variables elm-backend 'lsp) ;; npm i -g elm-analyse @elm-tooling/elm-language-server
-     ;; (elm :variables elm-backend 'company-elm) ;; npm install -g elm-oracle 
+     ;; (elm :variables elm-backend 'company-elm) ;; npm install -g elm-oracle
      ;; better-defaults
      emacs-lisp
      (evil-snipe :variables
@@ -77,7 +78,7 @@ This function should only modify configuration layer settings."
      spell-checking
      syntax-checking
      version-control
-     )
+     treemacs)
 
 
    ;; List of additional packages that will be installed without being wrapped
@@ -192,12 +193,6 @@ It should only modify the values of Spacemacs settings."
    ;; (default 'vim)
    dotspacemacs-editing-style 'vim
 
-   ;; If non-nil, show vim-like empty line indicators at the end of files.
-   ;; Takes effect only if `spacemacs-evil' layer is enabled.
-   ;; NOTICE: `spacemacs-evil' is included in `spacemacs' distribution.
-   ;; See `dotspacemacs-distribution'.
-   dotspacemacs-evil-show-empty-line-indicators t
-
    ;; If non-nil show the version string in the Spacemacs buffer. It will
    ;; appear as (spacemacs version)@(emacs version)
    ;; (default t)
@@ -287,7 +282,7 @@ It should only modify the values of Spacemacs settings."
    ;; Default font or prioritized list of fonts. The `:size' can be specified as
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
-   dotspacemacs-default-font '("Source Code Pro"
+   dotspacemacs-default-font '("DejaVuSansMono Nerd Font Mono"
                                :size 12.8
                                :weight normal
                                :width normal)
@@ -517,8 +512,10 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil - same as frame-title-format)
    dotspacemacs-icon-title-format nil
 
-   ;; Show trailing whitespace (default t)
-   dotspacemacs-show-trailing-whitespace t
+   ;; Color highlight trailing whitespace in all prog-mode and text-mode derived
+   ;; modes such as c++-mode, python-mode, emacs-lisp, html-mode, rst-mode etc.
+   ;; (default t)
+   dotspacemacs-show-trailing-whitespace t 
 
    ;; Delete whitespace while saving buffer. Possible values are `all'
    ;; to aggressively delete empty line and long sequences of whitespace,
@@ -774,7 +771,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
-   '(vimrc-mode dactyl-mode company-lua lua-mode yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope cython-mode company-anaconda blacken anaconda-mode pythonic restclient-helm ob-restclient ob-http company-restclient restclient know-your-http-well tide typescript-mode tern rjsx-mode import-js grizzl add-node-modules-path seeing-is-believing rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rbenv rake minitest helm-gtags ggtags enh-ruby-mode counsel-gtags counsel swiper ivy chruby bundler inf-ruby yaml-mode yasnippet-snippets xterm-color web-mode web-beautify vterm treemacs-magit terminal-here tagedit sqlup-mode sql-indent smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder pug-mode prettier-js phpunit phpcbf php-extras php-auto-yasnippets osx-trash osx-dictionary osx-clipboard orgit org-rich-yank org-projectile org-category-capture org-present org-pomodoro org-mime org-download org-cliplink org-brain nodejs-repl multi-term mu4e-alert alert log4e gntp magit-svn magit-section magit-gitflow magit-popup lsp-ui lsp-origami origami livid-mode skewer-mode launchctl json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc impatient-mode simple-httpd htmlize helm-org-rifle helm-mu helm-lsp helm-gitignore helm-git-grep helm-css-scss helm-company helm-c-yasnippet haml-mode gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ fringe-helper git-gutter+ geben fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-elm evil-snipe evil-org evil-magit magit git-commit with-editor transient eshell-z eshell-prompt-extras esh-help emmet-mode elm-test-runner elm-mode reformatter drupal-mode dap-mode posframe lsp-treemacs bui lsp-mode markdown-mode dash-functional company-web web-completion-data company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode company browse-at-remote auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
+   '(lsp-docker vimrc-mode dactyl-mode company-lua lua-mode yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope cython-mode company-anaconda blacken anaconda-mode pythonic restclient-helm ob-restclient ob-http company-restclient restclient know-your-http-well tide typescript-mode tern rjsx-mode import-js grizzl add-node-modules-path seeing-is-believing rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rbenv rake minitest helm-gtags ggtags enh-ruby-mode counsel-gtags counsel swiper ivy chruby bundler inf-ruby yaml-mode yasnippet-snippets xterm-color web-mode web-beautify vterm treemacs-magit terminal-here tagedit sqlup-mode sql-indent smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder pug-mode prettier-js phpunit phpcbf php-extras php-auto-yasnippets osx-trash osx-dictionary osx-clipboard orgit org-rich-yank org-projectile org-category-capture org-present org-pomodoro org-mime org-download org-cliplink org-brain nodejs-repl multi-term mu4e-alert alert log4e gntp magit-svn magit-section magit-gitflow magit-popup lsp-ui lsp-origami origami livid-mode skewer-mode launchctl json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc impatient-mode simple-httpd htmlize helm-org-rifle helm-mu helm-lsp helm-gitignore helm-git-grep helm-css-scss helm-company helm-c-yasnippet haml-mode gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ fringe-helper git-gutter+ geben fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-elm evil-snipe evil-org evil-magit magit git-commit with-editor transient eshell-z eshell-prompt-extras esh-help emmet-mode elm-test-runner elm-mode reformatter drupal-mode dap-mode posframe lsp-treemacs bui lsp-mode markdown-mode dash-functional company-web web-completion-data company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode company browse-at-remote auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
  '(safe-local-variable-values
    '((eval projectile-register-project-type 'glooko-web
            '("Gemfile")
@@ -790,5 +787,5 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
 )
