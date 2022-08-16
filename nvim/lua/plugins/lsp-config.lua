@@ -23,6 +23,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<leader>rb', vim.lsp.buf.rename, bufopts)
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set("n", "<leader>=", vim.lsp.buf.formatting, bufopts)
+    vim.keymap.set("n", "<leader>I", [[<Cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()[1].resolved_capabilities))<CR>]], bufopts)
 end
 
 local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())

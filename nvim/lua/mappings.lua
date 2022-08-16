@@ -11,9 +11,6 @@ vim.api.nvim_set_keymap('n', 'z3', ':setlocal foldlevel=3<CR>', {noremap = true}
 vim.api.nvim_set_keymap('n', 'j', 'gj', {noremap = true})
 vim.api.nvim_set_keymap('n', 'k', 'gk', {noremap = true})
 vim.api.nvim_set_keymap('i', 'jk', '<ESC>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>jw', ':HopWord<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>ja', ':HopWordMW<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>jl', ':HopLineStart<CR>', {noremap = true})
 
 -- Command
 -- vim.api.nvim_set_keymap('c', '<C-b>', '<Left>', {noremap = true})
@@ -95,6 +92,9 @@ vim.api.nvim_set_keymap('n', '<leader>Td', ':tabclose<CR>', {noremap = true, sil
 vim.api.nvim_set_keymap('n', '<leader>ts', ':set hlsearch!<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>tl', ':setlocal wrap!<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>twh', ':set winfixheight!<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>tc', ':TSContextToggle<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>tn', ':set number!<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>trn', ':set relativenumber!<CR>', {noremap = true, silent = true})
 
 -- Terminal
 vim.api.nvim_set_keymap('n', '<leader>"n', ':split term://bash<CR>' .. [[<Cmd>lua require('utils.window').make_small()<CR>]] .. ':setlocal winfixheight<CR>i', {noremap = true, silent = true})
@@ -111,7 +111,7 @@ vim.api.nvim_set_keymap('n', '<leader>ed', '<Cmd>lua vim.diagnostic.open_float()
 vim.api.nvim_set_keymap('n', '<leader>ep', '<Cmd>lua vim.diagnostic.goto_prev()<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>en', '<Cmd>lua vim.diagnostic.goto_next()<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>el', '<Cmd>lua vim.diagnostic.setloclist()<CR>', {noremap = true, silent = true})
-
+vim.api.nvim_set_keymap('n', '<leader>eq', '<Cmd>lua vim.diagnostic.setqflist()<CR>', {noremap = true, silent = true})
 
 -- Quickfix list
 vim.api.nvim_set_keymap('n', '<leader>qo', ':copen<CR>', {noremap = true, silent = true})
@@ -129,14 +129,15 @@ vim.api.nvim_set_keymap('n', '<leader>lk', ':lprevious<CR>', {noremap = true, si
 vim.api.nvim_set_keymap('n', '<leader>ln', ':silent lnewer<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>lp', ':silent lolder<CR>', {noremap = true, silent = true})
 
--- Git vim-fugitive
 -- vim.api.nvim_set_keymap('n', '<leader>gs', ':Git<CR>', {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap('n', '<leader>gd', ':Git diff<CR>', {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap('n', '<leader>gl', ":Git log --graph --pretty=format:'%h - (%ad)%d %s <%an>' --abbrev-commit --date=local<CR>", {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap('n', '<leader>gfb', ':Git blame<CR>', {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap('n', '<leader>gfl', ":Git log --graph --pretty=format:'%h - (%ad)%d %s <%an>' --abbrev-commit --date=local -- %<CR>", {noremap = true, silent = true})
--- Git neogit
+-- Git 
 vim.api.nvim_set_keymap('n', '<leader>gs', ':Neogit<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>gb', ':Git blame<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>gfl', ":Git log --graph --pretty=format:'%h - (%ad)%d %s <%an>' --abbrev-commit --date=local -- %<CR>", {noremap = true, silent = true})
 
 -- Org mode
 vim.api.nvim_set_keymap('n', '<leader>O', ':tabedit $ORG/gtd.org<CR>:lcd $ORG<CR>', {noremap = true, silent = true})

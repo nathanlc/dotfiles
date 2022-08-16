@@ -18,6 +18,9 @@ vim.opt.report = 0
 --     precedes: '↶',
 -- }
 
+
+vim.opt.clipboard = 'unnamed'
+
 vim.opt.relativenumber = true
 
 vim.opt.hidden = true
@@ -37,6 +40,8 @@ vim.opt.hlsearch = false
 
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+
+vim.opt.scrolloff=1
 
 vim.g.netrw_bufsettings = {
   'nomodifiable',
