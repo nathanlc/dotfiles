@@ -1,0 +1,20 @@
+name = "Nathan Lecourt"
+downloads-dir = "/Users/nathan/Downloads"
+signature = """
+Regards,
+"""
+
+[gmail]
+default = true
+email = "nathan.lecourt@glooko.com"
+
+imap-host = "imap.gmail.com"
+imap-port = 993
+imap-login = "nathan.lecourt@glooko.com"
+imap-passwd-cmd = "security find-generic-password -gs gmail-glooko-himalaya -w"
+# carvglcdyqtovwiq
+
+smtp-host = "smtp.gmail.com"
+smtp-port = 465
+smtp-login = "nathan.lecourt@glooko.com"
+smtp-passwd-cmd = "security find-generic-password -gs gmail-glooko-himalaya -w"

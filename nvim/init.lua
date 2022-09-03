@@ -18,5 +18,6 @@ require('plugins.neogit')
 require('plugins.orgmode')
 require('plugins.leap')
 require('plugins.snippet')
+require('plugins.himalaya')
 
 require('mappings')
