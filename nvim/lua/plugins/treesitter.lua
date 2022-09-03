@@ -14,6 +14,7 @@ require('nvim-treesitter.configs').setup({
   textobjects = {
     select = {
       enable = true,
+      lookahead = true,
       keymaps = {
         -- You can use the capture groups defined in textobjects.scm
         ['af'] = '@function.outer',
@@ -26,7 +27,7 @@ require('nvim-treesitter.configs').setup({
     },
     move = {
       enable = true,
-      set_jumgs = true,
+      set_jumps = true,
       goto_previous_start = {
         ['(('] = '@function.outer',
       },
