@@ -37,11 +37,13 @@ vim.api.nvim_set_keymap('n', '<leader>fo', ':Telescope oldfiles<CR>', {noremap =
 vim.api.nvim_set_keymap('n', '<leader>fb', ':Lexplore<CR>', {noremap = true, silent = true})
 
 -- Projects
-vim.api.nvim_set_keymap('n', '<leader>pl', [[<Cmd>lua require('plugins.project.project').open_window()<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>pl', [[<Cmd>lua require('plugins.project.project').open_telescope()<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pb', [[<Cmd>lua require('telescope.builtin').buffers({only_cwd = true})<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pa', ':A<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pc', ':Make<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>pt', ':Dispatch<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>pt', [[<Cmd>lua require('plugins.project.project').run_test()<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>pr', [[<Cmd>lua require('plugins.project.project').run_console()<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>pR', [[<Cmd>lua require('plugins.project.project').reload_config()<CR>]], {noremap = true, silent = true})
 
 -- Print info
 vim.api.nvim_set_keymap('n', '<leader>Pp', ':pwd<CR>', {noremap = true, silent = true})
