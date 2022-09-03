@@ -19,5 +19,6 @@ require('plugins.orgmode')
 require('plugins.leap')
 require('plugins.snippet')
 require('plugins.himalaya')
+require('plugins.lualine')
 
 require('mappings')
