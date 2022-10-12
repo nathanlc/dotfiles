@@ -7,6 +7,9 @@ vim.api.nvim_set_keymap('n', 'z1', ':setlocal foldlevel=1<CR>', {noremap = true}
 vim.api.nvim_set_keymap('n', 'z2', ':setlocal foldlevel=2<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', 'z3', ':setlocal foldlevel=3<CR>', {noremap = true})
 
+-- Commands
+vim.api.nvim_set_keymap('n', '<leader>:', ':Telescope commands<CR>', {noremap = true, silent = true})
+
 -- Navigation
 vim.api.nvim_set_keymap('n', 'j', 'gj', {noremap = true})
 vim.api.nvim_set_keymap('n', 'k', 'gk', {noremap = true})
@@ -24,8 +27,8 @@ vim.api.nvim_set_keymap('i', 'jk', '<ESC>', {noremap = true})
 -- Buffers
 -- vim.api.nvim_set_keymap('n', '<leader>bl', ':buffers<CR>:buffer', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>bl', ':Telescope buffers<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>bd', ':bprevious<CR>:bdelete!#<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>bD', ':bprevious<CR>:bdelete!#<CR><C-w>c', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>bd', ':bprevious<CR>:bdelete!#<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>bD', ':bprevious<CR>:bdelete!#<CR><C-w>c', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>br', ':edit %<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>bn', ':enew <CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>be', 'ggdG', {noremap = true, silent = true})
@@ -33,6 +36,15 @@ vim.api.nvim_set_keymap('n', '<leader>bs', [[<Cmd>lua require('utils.buffer').sc
 
 -- Help
 vim.api.nvim_set_keymap('n', '<leader>hl', [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], {noremap = true, silent = true})
+
+-- Home
+vim.api.nvim_set_keymap('n', '<leader>H', [[<Cmd>lua require('plugins.home').home()<CR>]], {noremap = true, silent = true})
+
+-- Expression (under cursor)
+vim.api.nvim_set_keymap('n', '<leader>xg', [[<Cmd>lua require('plugins.expression').grep()<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>xs', [[<Cmd>lua require('plugins.expression').swoop()<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>xf', [[<Cmd>lua require('plugins.expression').find_files()<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>xh', [[<Cmd>lua require('plugins.expression').help_tags()<CR>]], {noremap = true, silent = true})
 
 -- Files
 vim.api.nvim_set_keymap('i', '<C-s>', '<ESC>:write<CR>', {noremap = true, silent = true})
@@ -45,14 +57,17 @@ vim.api.nvim_set_keymap('n', '<leader>fb', ':Lexplore<CR>', {noremap = true, sil
 -- Projects
 vim.api.nvim_set_keymap('n', '<leader>pl', [[<Cmd>lua require('plugins.project.project').open_telescope()<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pb', [[<Cmd>lua require('telescope.builtin').buffers({only_cwd = true})<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>p"', [[<Cmd>lua require('plugins.project.project').project_terms_picker()<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pa', ':A<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>pc', ':Make<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>pv', ':Make<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>pc', [[<Cmd>lua require('plugins.project.project').run_console()<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>pr', [[<Cmd>lua require('plugins.project.project').run_repl()<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pt', [[<Cmd>lua require('plugins.project.project').run_test()<CR>]], {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>pr', [[<Cmd>lua require('plugins.project.project').run_console()<CR>]], {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>pR', [[<Cmd>lua require('plugins.project.project').reload_config()<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>pR', [[<Cmd>lua require('plugins.project.project').reload_config()<CR>]], {noremap = true})
 
 -- Print info
-vim.api.nvim_set_keymap('n', '<leader>Pp', ':pwd<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>Pp', '<Cmd>pwd<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>Pf', '<Cmd>echo expand("%")<CR>', {noremap = true, silent = true})
 
 -- Yank
 vim.api.nvim_set_keymap('n', '<leader>yf', ':let @+=@%<CR>', {noremap = true, silent = true})
@@ -84,17 +99,18 @@ vim.api.nvim_set_keymap('t', '<A-l>', ':TmuxNavigateRight<CR>', {noremap = true,
 vim.api.nvim_set_keymap('n', '<leader>sg', ':Telescope live_grep<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>sG', ':silent grep ', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>ss', ':Telescope current_buffer_fuzzy_find<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>sS', [[<Cmd>lua require('telescope.builtin').current_buffer_fuzzy_find({default_text = vim.fn.expand('<cexpr>')})<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>sr', [[<Cmd>lua require('telescope.builtin').resume({initial_mode = "normal"})<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>sl', [[<Cmd>lua require('telescope.builtin').pickers({initial_mode = "normal"})<CR>]], {noremap = true, silent = true})
 
 -- Jump
 vim.api.nvim_set_keymap('n', '<leader>js', ':Telescope treesitter<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>jf', [[<Cmd>lua require('telescope.builtin').treesitter({default_text = ':function: '})<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>jm', [[<Cmd>lua require('telescope.builtin').treesitter({default_text = ':method: '})<CR>]], {noremap = true, silent = true})
 
 -- Tabs
 vim.api.nvim_set_keymap('n', '<leader>Te', ':tabedit ', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>Tn', ':tabnew<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>Tr', ':LualineRenameTab ', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>Tn', [[:tabnew<CR><Cmd>lua require('plugins.home').home()<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>T<', ':-tabmove<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>T>', ':+tabmove<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>To', ':tabonly<CR>', {noremap = true, silent = true})
@@ -107,6 +123,7 @@ vim.api.nvim_set_keymap('n', '<leader>twh', ':set winfixheight!<CR>', {noremap =
 vim.api.nvim_set_keymap('n', '<leader>tc', ':TSContextToggle<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>tn', ':set number!<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>trn', ':set relativenumber!<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>ti', '<Cmd>IndentBlanklineToggle<CR>', {noremap = true, silent = true})
 
 -- Terminal
 vim.api.nvim_set_keymap('n', '<leader>"n', [[<Cmd>lua require('utils.term').open_small_term()<CR>i]], {noremap = true, silent = true})
@@ -117,10 +134,6 @@ vim.api.nvim_set_keymap('t', '<A-h>', [[<Cmd>wincmd h<CR>]], {noremap = true, si
 vim.api.nvim_set_keymap('t', '<A-j>', [[<Cmd>wincmd j<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<A-k>', [[<Cmd>wincmd k<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<A-l>', [[<Cmd>wincmd l<CR>]], {noremap = true, silent = true})
-
--- Configuration
-vim.api.nvim_set_keymap('n', '<leader>Cn', ':tabedit $HOME/.config/nvim/init.lua<CR>:lcd $HOME/.config/nvim<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>Cd', ':tabedit $HOME/sandbox/mine/dotfiles<CR>:lcd $HOME/sandbox/mine/dotfiles<CR>', {noremap = true, silent = true})
 
 -- Diagnostic
 vim.api.nvim_set_keymap('n', '<leader>ed', '<Cmd>lua vim.diagnostic.open_float()<CR>', {noremap = true, silent = true})

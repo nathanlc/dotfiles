@@ -2,11 +2,14 @@ local scandir = require('plenary.scandir').scan_dir
 local Path = require('plenary.path')
 -- local buffer = require('utils.buffer')
 local term = require('utils.term')
+local Table = require('utils.table')
+local Buffer = require('utils.buffer')
 
 -- local win
 -- local buffer_max_line = 3
 local home = os.getenv('HOME')
 local root = home .. '/sandbox'
+local recent_projects_file = vim.fn.stdpath('cache') .. '/recent_projects.txt'
 ConfiguredProjects = {}
 
 local function get_project_name(project_dir)
@@ -16,9 +19,10 @@ end
 local function find_project_dirs()
   local git_dirs = scandir(root, {
     hidden = true,
-    only_dirs = true,
+    -- only_dirs = true,
+    add_dirs = true,
     depth = 3,
-    search_pattern = '.git'
+    search_pattern = '%.git$'
   })
 
   local project_dirs = {}
@@ -40,6 +44,50 @@ end
 --   vim.api.nvim_win_close(win, true)
 -- end
 
+local function get_recents_file()
+  local recent_projects_path = Path:new(recent_projects_file)
+  if not recent_projects_path:is_file() then
+    return nil
+  end
+  return recent_projects_path
+end
+
+local function update_recent_projects(project_path)
+  local recent_projects_path = get_recents_file()
+  if recent_projects_path == nil then
+    print('Could not update recent projects.')
+    return
+  end
+
+  local recent_projects = recent_projects_path:readlines()
+  local recent_projects_filtered = Table.filter(function(v)
+    return v ~= "" and v ~= project_path
+  end, recent_projects)
+
+  table.insert(recent_projects_filtered, project_path)
+
+  recent_projects_path:write(
+    table.concat(recent_projects_filtered, "\n"),
+    'w',
+    438
+  )
+end
+
+local function get_recents()
+  local recent_projects_path = get_recents_file()
+  if recent_projects_path == nil then
+    print('Could not get recent projects.')
+    return nil
+  end
+
+  local recent_projects = recent_projects_path:readlines()
+  local clean_list = Table.filter(function(v)
+    return v ~= ''
+  end, recent_projects)
+
+  return Table.reverse(clean_list)
+end
+
 local function configure_project(project_path)
   local conf_path = project_path .. '/.project-nvim.json'
   local project_name = get_project_name(project_path)
@@ -52,21 +100,22 @@ local function configure_project(project_path)
   local conf = vim.fn.json_decode(conf_string)
 
   ConfiguredProjects[project_name] = {
-    test = conf['test'],
     console = conf['console'],
+    test = conf['test'],
+    repl = conf['repl'],
   }
-end
-
-local function reload_config()
-  configure_project(vim.fn.getcwd())
 end
 
 local function open_project(project_path)
   -- Removed because using telescope instead
   -- close_window()
   vim.api.nvim_command('lcd ' .. project_path)
+  update_recent_projects(project_path)
   configure_project(project_path)
   vim.api.nvim_command('edit .')
+  if require('lualine') then
+    vim.api.nvim_command('LualineRenameTab ' .. get_project_name(project_path))
+  end
 end
 
 -- local function open_project_current()
@@ -163,11 +212,43 @@ local function open_telescope(opts)
   }):find()
 end
 
-local function get_current_config()
+local function get_current_project_name()
   local current_dir = vim.fn.getcwd()
-  local project_name = get_project_name(current_dir)
+  return get_project_name(current_dir)
+end
 
+local function get_current_config()
+  local project_name = get_current_project_name()
   return ConfiguredProjects[project_name]
+end
+
+local function reload_config()
+  configure_project(vim.fn.getcwd())
+  print(get_current_project_name() .. ' config reloaded.')
+end
+
+local function run_console()
+  local project_config = get_current_config()
+  local config_key = 'console'
+
+  if project_config and project_config[config_key] then
+    term.run_in_term(project_config[config_key])
+    vim.api.nvim_command('startinsert')
+  else
+    print(config_key .. ': command not configured')
+  end
+end
+
+local function run_repl()
+  local project_config = get_current_config()
+  local config_key = 'repl'
+
+  if project_config and project_config[config_key] then
+    term.run_in_term(project_config[config_key])
+    vim.api.nvim_command('startinsert')
+  else
+    print(config_key .. ': command not configured')
+  end
 end
 
 local function run_test()
@@ -182,27 +263,53 @@ local function run_test()
   elseif vim.g.loaded_dispatch then
     vim.api.nvim_command('Dispatch')
   else
-    vim.api.nvim_command('echo config_key .. " command not configured"')
+    print(config_key .. ': command not configured')
   end
 
   vim.api.nvim_set_current_win(window)
 end
 
-local function run_console()
+local function run_verify()
   local project_config = get_current_config()
-  local config_key = 'console'
+  local config_key = 'verify'
 
   if project_config and project_config[config_key] then
     term.run_in_term(project_config[config_key])
-    vim.api.nvim_command('startinsert')
   else
-    vim.api.nvim_command('echo config_key .. " command not configured"')
+    print(config_key .. ': command not configured')
   end
+end
+
+local function project_terms_count()
+  local buffers = Buffer.list()
+  local project_name = get_current_project_name()
+  local escaped_project_name = string.gsub(project_name, '-', '.')
+  local pattern = 'term://.*' .. escaped_project_name
+  local count = 0
+  for _, bName in pairs(buffers) do
+    if string.match(bName, pattern) ~= nil then
+      count = count + 1
+    end
+  end
+
+  return count
+end
+
+local function project_terms_picker()
+  local project_name = get_current_project_name()
+  local default_text = 'term://' .. project_name
+  require('telescope.builtin').buffers({default_text = default_text, initial_mode = "normal"})
 end
 
 return {
   open_telescope = open_telescope,
-  run_test = run_test,
+  open_project = open_project,
   run_console = run_console,
+  run_repl = run_repl,
+  run_test = run_test,
+  run_verify = run_verify,
   reload_config = reload_config,
+  get_recents = get_recents,
+  project_terms_count = project_terms_count,
+  project_terms_picker = project_terms_picker,
 }

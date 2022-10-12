@@ -1,14 +1,20 @@
 require('neogit').setup({
+  disable_hint = true,
   kind = 'replace',
   integrations = {
     diffview = true,
-  }
+  },
+  sections = {
+    recent = {
+      folded = false
+    },
+  },
 });
 
 -- Pre-fill commit message with branch name
 local autocmd_errors = {}
 vim.api.nvim_create_autocmd('FileType', {
-  group = vim.api.nvim_create_augroup('CustomNeogit', { clear = true });
+  group = vim.api.nvim_create_augroup('nathanlc:Neogit', { clear = true }),
   pattern = "NeogitCommitMessage",
   callback = function()
     local function print_ticket_if_found(line)
@@ -43,7 +49,6 @@ vim.api.nvim_create_autocmd('FileType', {
       on_exit = function(_, _, _)
         vim.api.nvim_win_set_cursor(0, {1, 0})
         vim.api.nvim_command('normal $')
-        vim.api.nvim_command('startinsert')
 
         if next(autocmd_errors) ~= nil then
           print(vim.inspect(autocmd_errors))

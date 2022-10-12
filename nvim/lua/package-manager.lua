@@ -54,7 +54,6 @@ return packer.startup(function(use)
   -- Neogit end
   use 'tpope/vim-fugitive'
   use 'nvim-orgmode/orgmode'
-  use 'gcmt/taboo.vim'
   use 'rafamadriz/friendly-snippets'
   use 'mfussenegger/nvim-dap'
   use '/Users/nathan/sandbox/mine/himalaya/vim'
@@ -62,6 +61,8 @@ return packer.startup(function(use)
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
+  use 'johmsalas/text-case.nvim'
+  use 'lukas-reineke/indent-blankline.nvim'
 
   packer.sync()
 end)

@@ -28,6 +28,8 @@ vim.opt.hidden = true
 vim.opt.foldmethod = 'expr'
 vim.opt.foldlevel = 99
 
+vim.opt.scrolloff = 1
+
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.hlsearch = false
@@ -41,8 +43,6 @@ vim.opt.hlsearch = false
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
-vim.opt.scrolloff=1
-
 vim.g.netrw_bufsettings = {
   'nomodifiable',
   'nomodified',
@@ -53,12 +53,12 @@ vim.g.netrw_bufsettings = {
 vim.g.netrw_liststyle = 3
 vim.g.netrw_banner = 0
 
-vim.g.taboo_tab_format = ' %P%m '
-
 if vim.fn.executable('rg') then
   vim.opt.grepprg = 'rg --vimgrep --smart-case'
   vim.opt.grepformat = '%f:%l:%c:%m'
 end
+
+vim.opt.laststatus = 0
 
 autocmd.create_augroup({
     { 'QuickFixCmdPost', '[^l]*', 'cwindow' },

@@ -1,5 +1,11 @@
 local M = {}
 
+function M.set_options(buf, opts)
+    for k, v in pairs(opts) do
+        vim.api.nvim_win_set_option(buf, k, v)
+    end
+end
+
 function M.open_above()
     local win
     vim.api.nvim_command('leftabove new')

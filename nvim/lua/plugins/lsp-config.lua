@@ -24,8 +24,9 @@ local on_attach = function(client, bufnr)
     vim.keymap.set("n", "<leader>=", vim.lsp.buf.formatting, bufopts)
     vim.keymap.set("n", "<leader>I", [[<Cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()[1].resolved_capabilities))<CR>]], bufopts)
     vim.keymap.set("n", "<leader>psa", [[<Cmd>lua require('telescope.builtin').lsp_workspace_symbols()<CR>]], bufopts)
+    vim.keymap.set("n", "<leader>psc", [[<Cmd>lua require('telescope.builtin').lsp_workspace_symbols({default_text = ':class: '})<CR>]], bufopts)
     vim.keymap.set("n", "<leader>psf", [[<Cmd>lua require('telescope.builtin').lsp_workspace_symbols({default_text = ':function: '})<CR>]], bufopts)
-    vim.keymap.set("n", "<leader>psc", [[<Cmd>lua require('telescope.builtin').lsp_workspace_symbols({default_text = ':class :'})<CR>]], bufopts)
+    vim.keymap.set("n", "<leader>psm", [[<Cmd>lua require('telescope.builtin').lsp_workspace_symbols({default_text = ':method: '})<CR>]], bufopts)
 end
 
 local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
