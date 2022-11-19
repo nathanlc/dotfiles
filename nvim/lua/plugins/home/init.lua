@@ -54,7 +54,7 @@ local function section_lines(section)
   })
 end
 
-local function draw(bufnr, sections)
+local function draw(window, bufnr, sections)
   if not vim.api.nvim_buf_is_loaded(bufnr) then
     print('Home buffer no longer exists.')
     return
@@ -99,6 +99,7 @@ local function draw(bufnr, sections)
     lines_count = lines_count + #section.lines + 2 -- 2 lines for title and padding
   end
 
+  vim.api.nvim_set_current_win(window)
   vim.api.nvim_set_current_buf(bufnr)
 
   local map_opts = { nowait = true, noremap = true, silent = true, }
@@ -107,6 +108,7 @@ local function draw(bufnr, sections)
 end
 
 function M.home()
+  local window = vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_create_buf(false, true)
 
   local sync_sections = {
@@ -114,15 +116,16 @@ function M.home()
     Section.old_files(),
   }
   local all_sections = sync_sections
-
   local function add_section(section)
     table.insert(all_sections, section)
     vim.schedule(function()
-      draw(bufnr, all_sections)
+      draw(window, bufnr, all_sections)
     end)
   end
 
-  draw(bufnr, sync_sections)
+  draw(window, bufnr, sync_sections)
+  local first_section = all_sections[1]
+  vim.api.nvim_command("normal '" .. first_section['mark'])
   Section.prs_to_review(add_section)
   Section.prs_ongoing(add_section)
 end
