@@ -153,6 +153,9 @@ vterm_printf(){
     fi
 }
 
+# asdf START
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
+# asdf END
 export BASH_SILENCE_DEPRECATION_WARNING=1 # Remove message about zsh being default term in macos
 export ORG="$HOME/Dropbox/org"
 export SCRIPTS="$HOME/sandbox/scripts"
