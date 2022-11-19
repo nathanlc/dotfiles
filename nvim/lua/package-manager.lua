@@ -21,6 +21,7 @@ return packer.startup(function(use)
   use 'onsails/lspkind.nvim'
   -- nvim-cmp end
   use {'L3MON4D3/LuaSnip', requires = 'saadparwaiz1/cmp_luasnip'}
+  use 'rafamadriz/friendly-snippets'
   -- Telescope start
   use 'nvim-lua/popup.nvim'
   use 'ggandor/leap.nvim'
@@ -36,7 +37,6 @@ return packer.startup(function(use)
   use 'tpope/vim-rsi'
   use 'tpope/vim-dispatch'
   -- Themes start
-  -- 'shaunsingh/nord.nvim'
   use 'navarasu/onedark.nvim'
   -- Themes end
   use 'nanotee/sqls.nvim'
@@ -50,11 +50,9 @@ return packer.startup(function(use)
   -- 'tpope/vim-fugitive'
   -- Neogit start
   use 'TimUntersberger/neogit'
-  use 'sindrets/diffview.nvim'
   -- Neogit end
   use 'tpope/vim-fugitive'
   use 'nvim-orgmode/orgmode'
-  use 'rafamadriz/friendly-snippets'
   use 'mfussenegger/nvim-dap'
   use '/Users/nathan/sandbox/mine/himalaya/vim'
   use {

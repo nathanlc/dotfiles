@@ -2,8 +2,8 @@ local Job = require('plenary.job')
 
 local M = {}
 
-function M.prs_to_review(run_async, callback)
-  local job = Job:new({
+local function prs_to_review_job(callback)
+  return Job:new({
     'gh',
     'search',
     'prs',
@@ -16,16 +16,26 @@ function M.prs_to_review(run_async, callback)
       callback(vim.json.decode(result))
     end
   })
-
-  if run_async == true then
-    job:start()
-  else
-    job:sync()
-  end
 end
 
-function M.prs_ongoing(run_async, callback)
-  local job = Job:new({
+function M.prs_to_review(callback)
+  local job = prs_to_review_job(callback)
+
+  return job:start()
+end
+
+function M.prs_to_review_sync()
+  local prs = {}
+  local job = prs_to_review_job(function(prs_decoded)
+    prs = prs_decoded
+  end)
+  job:sync()
+
+  return prs
+end
+
+local function prs_ongoing_job(callback)
+  return Job:new({
     'gh',
     'search',
     'prs',
@@ -38,12 +48,22 @@ function M.prs_ongoing(run_async, callback)
       callback(vim.json.decode(result))
     end
   })
+end
 
-  if run_async == true then
-    job:start()
-  else
-    job:sync()
-  end
+function M.prs_ongoing(callback)
+  local job = prs_ongoing_job(callback)
+
+  return job:start()
+end
+
+function M.prs_ongoing_sync()
+  local prs = {}
+  local job = prs_ongoing_job(function(prs_decoded)
+    prs = prs_decoded
+  end)
+  job:sync()
+
+  return prs
 end
 
 return M

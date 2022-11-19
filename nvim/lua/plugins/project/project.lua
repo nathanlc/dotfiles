@@ -251,19 +251,80 @@ local function run_repl()
   end
 end
 
-local function run_test()
+local function run_test_suite()
   local window = vim.api.nvim_get_current_win()
 
   local project_config = get_current_config()
-  local config_key = 'test'
-  if project_config and project_config[config_key] then
-    local test_cmd = project_config[config_key]
-    test_cmd = test_cmd:gsub('{file}', vim.fn.expand('%'))
+  local test_key = 'test'
+  local command_key = 'command'
+  local dir_key = 'dir'
+
+  if project_config
+    and project_config[test_key]
+    and project_config[test_key][command_key]
+    and project_config[test_key][dir_key] then
+    local test_cmd = project_config[test_key][command_key]
+      .. ' '
+      .. project_config[test_key][dir_key]
     term.run_in_term(test_cmd)
   elseif vim.g.loaded_dispatch then
     vim.api.nvim_command('Dispatch')
   else
-    print(config_key .. ': command not configured')
+    print('Project not configured correctly for testing.')
+    vim.pretty_print(project_config)
+  end
+
+  vim.api.nvim_set_current_win(window)
+end
+
+local function run_test_file(buffer)
+  local window = vim.api.nvim_get_current_win()
+
+  local project_config = get_current_config()
+  local test_key = 'test'
+  local command_key = 'command'
+  local buffer_path = Path:new(vim.api.nvim_buf_get_name(buffer))
+  local file_path = buffer_path:normalize(vim.fn.getcwd())
+
+  if project_config
+    and project_config[test_key]
+    and project_config[test_key][command_key] then
+    local test_cmd = project_config[test_key][command_key]
+      .. ' '
+      .. file_path
+    term.run_in_term(test_cmd)
+  elseif vim.g.loaded_dispatch then
+    vim.api.nvim_command('Dispatch')
+  else
+    print('Project not configured correctly for testing.')
+    vim.pretty_print(project_config)
+  end
+
+  vim.api.nvim_set_current_win(window)
+end
+
+local function run_test_current(buffer, line)
+  local window = vim.api.nvim_get_current_win()
+
+  local project_config = get_current_config()
+  local test_key = 'test'
+  local command_key = 'command'
+  local buffer_path = Path:new(vim.api.nvim_buf_get_name(buffer))
+  local file_path = buffer_path:normalize(vim.fn.getcwd())
+    .. ':' .. line
+
+  if project_config
+    and project_config[test_key]
+    and project_config[test_key][command_key] then
+    local test_cmd = project_config[test_key][command_key]
+      .. ' '
+      .. file_path
+    term.run_in_term(test_cmd)
+  elseif vim.g.loaded_dispatch then
+    vim.api.nvim_command('Dispatch')
+  else
+    print('Project not configured correctly for testing.')
+    vim.pretty_print(project_config)
   end
 
   vim.api.nvim_set_current_win(window)
@@ -306,7 +367,9 @@ return {
   open_project = open_project,
   run_console = run_console,
   run_repl = run_repl,
-  run_test = run_test,
+  run_test_suite = run_test_suite,
+  run_test_file = run_test_file,
+  run_test_current = run_test_current,
   run_verify = run_verify,
   reload_config = reload_config,
   get_recents = get_recents,

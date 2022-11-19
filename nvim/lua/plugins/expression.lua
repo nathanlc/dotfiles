@@ -62,4 +62,12 @@ M.help_tags = function()
   telescope.help_tags(opts)
 end
 
+M.lsp_workspace_symbols = function()
+  local opts = {
+    initial_mode = 'normal',
+    default_text = M.current_symbol(),
+  }
+  telescope.lsp_workspace_symbols(opts)
+end
+
 return M

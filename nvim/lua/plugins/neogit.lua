@@ -1,12 +1,9 @@
 require('neogit').setup({
   disable_hint = true,
   kind = 'replace',
-  integrations = {
-    diffview = true,
-  },
   sections = {
     recent = {
-      folded = false
+      folded = false,
     },
   },
 });

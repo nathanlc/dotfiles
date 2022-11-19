@@ -1,9 +1,23 @@
 local Project = require('plugins.project.project')
 local Path = require('plenary.path')
 local Table = require('utils.table')
+local github = require('plugins.github')
 
 local M = {}
 local home_dir = os.getenv('HOME')
+
+local function normalize(path, from)
+  if not string.find(path, from) then
+    return path
+  end
+
+  local n_path = Path:new(path)
+  return '~/' .. n_path:normalize(from)
+end
+
+local function format_pr(pr)
+  return pr.title .. ': ' .. pr.url
+end
 
 function M.recent_projects()
   local projects = Table.head(5, Project.get_recents())
@@ -16,15 +30,6 @@ function M.recent_projects()
       Project.open_project(line)
     end
   }
-end
-
-local function normalize(path, from)
-  if not string.find(path, from) then
-    return path
-  end
-
-  local n_path = Path:new(path)
-  return '~/' .. n_path:normalize(from)
 end
 
 function M.old_files()
@@ -42,6 +47,36 @@ function M.old_files()
       vim.api.nvim_command('edit ' .. line)
     end
   }
+end
+
+function M.prs_to_review(add_section_callback)
+  github.prs_to_review(function(prs)
+    local formatted_prs = Table.map(format_pr, prs)
+    local section = {
+      title = 'PRs to review',
+      mark = 'r',
+      lines = formatted_prs,
+      on_select = function(_)
+        vim.api.nvim_command("normal g_gx")
+      end
+    }
+    add_section_callback(section)
+  end)
+end
+
+function M.prs_ongoing(add_section_callback)
+  github.prs_ongoing(function(prs)
+    local formatted_prs = Table.map(format_pr, prs)
+    local section = {
+      title = 'PRs ongoing',
+      mark = 'm',
+      lines = formatted_prs,
+      on_select = function(_)
+        vim.api.nvim_command("normal g_gx")
+      end
+    }
+    add_section_callback(section)
+  end)
 end
 
 return M

@@ -1,8 +1,4 @@
--- vim.g.nord_contrast = true
--- vim.g.nord_borders = true
--- require('nord').set()
-
 require('onedark').setup({
-    style = 'dark'
+    style = 'darker'
 })
 require('onedark').load()
