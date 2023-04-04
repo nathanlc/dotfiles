@@ -22,16 +22,19 @@ return packer.startup(function(use)
   -- nvim-cmp end
   use {'L3MON4D3/LuaSnip', requires = 'saadparwaiz1/cmp_luasnip'}
   use 'rafamadriz/friendly-snippets'
-  -- Telescope start
   use 'nvim-lua/popup.nvim'
   use 'ggandor/leap.nvim'
   use 'jghauser/mkdir.nvim'
   use 'tpope/vim-sleuth'
   use 'tpope/vim-vinegar'
   use 'andymass/vim-matchup'
-  use 'nvim-telescope/telescope.nvim'
-  use 'nvim-telescope/telescope-fzy-native.nvim'
+  -- Telescope start
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   use 'BurntSushi/ripgrep'
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = { {'nvim-lua/plenary.nvim'} }
+  }
   -- Telescope end
   use 'christoomey/vim-tmux-navigator'
   use 'tpope/vim-rsi'
@@ -43,9 +46,9 @@ return packer.startup(function(use)
   use 'tpope/vim-dadbod'
   use 'tpope/vim-rails'
   use 'jiangmiao/auto-pairs'
-  use 'preservim/nerdcommenter'
+  use 'numToStr/Comment.nvim'
   use 'tpope/vim-projectionist'
-  use 'tpope/vim-surround'
+  use 'kylechui/nvim-surround'
   use 'tpope/vim-abolish' -- Smartcase string substitutions
   -- 'tpope/vim-fugitive'
   -- Neogit start
@@ -61,6 +64,13 @@ return packer.startup(function(use)
   }
   use 'johmsalas/text-case.nvim'
   use 'lukas-reineke/indent-blankline.nvim'
+  use {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup()
+    end
+  }
+  use "zbirenbaum/copilot.lua"
 
   packer.sync()
 end)

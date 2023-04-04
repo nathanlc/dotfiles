@@ -4,6 +4,7 @@ local Path = require('plenary.path')
 local term = require('utils.term')
 local Table = require('utils.table')
 local Buffer = require('utils.buffer')
+local Window = require('utils.window')
 
 -- local win
 -- local buffer_max_line = 3
@@ -21,7 +22,7 @@ local function find_project_dirs()
     hidden = true,
     -- only_dirs = true,
     add_dirs = true,
-    depth = 3,
+    depth = 5,
     search_pattern = '%.git$'
   })
 
@@ -103,6 +104,8 @@ local function configure_project(project_path)
     console = conf['console'],
     test = conf['test'],
     repl = conf['repl'],
+    logs = conf['logs'],
+    verify = conf['verify'],
   }
 end
 
@@ -330,6 +333,29 @@ local function run_test_current(buffer, line)
   vim.api.nvim_set_current_win(window)
 end
 
+local function run_logs()
+  local project_config = get_current_config()
+  local config_key = 'logs'
+  local logs_buffer_key = 'logs_buffer'
+  local logs_buffer = nil
+  if project_config and project_config[logs_buffer_key] then
+    logs_buffer = project_config[logs_buffer_key]
+  end
+
+  if logs_buffer and vim.api.nvim_buf_is_loaded(project_config[logs_buffer_key]) then
+    Window.open_below()
+    vim.api.nvim_set_current_buf(project_config[logs_buffer_key])
+    return
+  end
+
+  if project_config and project_config[config_key] then
+    logs_buffer = term.run_in_term(project_config[config_key])
+    project_config[logs_buffer_key] = logs_buffer
+  else
+    print(config_key .. ': command not configured')
+  end
+end
+
 local function run_verify()
   local project_config = get_current_config()
   local config_key = 'verify'
@@ -370,6 +396,7 @@ return {
   run_test_suite = run_test_suite,
   run_test_file = run_test_file,
   run_test_current = run_test_current,
+  run_logs = run_logs,
   run_verify = run_verify,
   reload_config = reload_config,
   get_recents = get_recents,

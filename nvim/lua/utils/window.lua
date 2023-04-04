@@ -14,6 +14,14 @@ function M.open_above()
     return win
 end
 
+function M.open_below()
+    local win
+    vim.api.nvim_command('rightbelow new')
+    win = vim.api.nvim_get_current_win()
+
+    return win
+end
+
 function M.screen_size()
     return {
         width = vim.api.nvim_get_option('columns'),
@@ -24,5 +32,7 @@ end
 function M.make_small()
     vim.api.nvim_command('resize 18')
 end
+
+M.open_above()
 
 return M

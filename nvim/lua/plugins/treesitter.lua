@@ -1,5 +1,3 @@
-local ts_utils = require('nvim-treesitter.ts_utils')
-
 require('nvim-treesitter.configs').setup({
   ensure_installed = 'all',
   ignore_install = { "phpdoc" },

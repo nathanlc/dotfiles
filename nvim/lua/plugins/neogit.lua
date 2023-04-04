@@ -5,6 +5,9 @@ require('neogit').setup({
     recent = {
       folded = false,
     },
+    stashes = {
+      folded = true,
+    },
   },
 });
 

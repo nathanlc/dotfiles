@@ -7,6 +7,9 @@ vim.api.nvim_set_keymap('n', 'z1', ':setlocal foldlevel=1<CR>', {noremap = true}
 vim.api.nvim_set_keymap('n', 'z2', ':setlocal foldlevel=2<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', 'z3', ':setlocal foldlevel=3<CR>', {noremap = true})
 
+-- Comments
+-- See ./lua/plugins/comment.lua
+
 -- Commands
 vim.api.nvim_set_keymap('n', '<leader>:', ':Telescope commands<CR>', {noremap = true, silent = true})
 
@@ -53,7 +56,7 @@ vim.api.nvim_set_keymap('n', '<C-s>', ':write<CR>', {noremap = true, silent = tr
 vim.api.nvim_set_keymap('n', '<leader>fl', ':Telescope find_files<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>fL', [[<Cmd>lua require('commands').find_files()<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>fo', ':Telescope oldfiles<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>fb', ':vsplit<CR>:Explore<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>fb', [[<Cmd>Exp<CR>]], {noremap = true, silent = true})
 
 -- Projects
 vim.api.nvim_set_keymap('n', '<leader>pl', [[<Cmd>lua require('plugins.project.project').open_telescope()<CR>]], {noremap = true, silent = true})
@@ -63,6 +66,7 @@ vim.api.nvim_set_keymap('n', '<leader>pa', ':A<CR>', {noremap = true, silent = t
 vim.api.nvim_set_keymap('n', '<leader>pv', ':Make<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pc', [[<Cmd>lua require('plugins.project.project').run_console()<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pr', [[<Cmd>lua require('plugins.project.project').run_repl()<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>pL', [[<Cmd>lua require('plugins.project.project').run_logs()<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pR', [[<Cmd>lua require('plugins.project.project').reload_config()<CR>]], {noremap = true})
 
 -- Test
@@ -146,12 +150,21 @@ vim.api.nvim_set_keymap('n', '<leader>Ti', '<Cmd>IndentBlanklineToggle<CR>', {no
 -- Terminal
 vim.api.nvim_set_keymap('n', '<leader>"n', [[<Cmd>lua require('utils.term').open_small_term()<CR>i]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>"l', [[<Cmd>lua require('telescope.builtin').buffers({default_text = "term://", initial_mode = "normal"})<CR>]], {noremap = true, silent = true})
+vim.keymap.set({'n'}, '<leader>"r', [[<Cmd>lua require('plugins.term').history()<CR>]], {silent = true})
 vim.api.nvim_set_keymap('t', 'jk', '<C-\\><C-N>', {noremap = true})
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-N>', {noremap = true})
 vim.api.nvim_set_keymap('t', '<A-h>', [[<Cmd>wincmd h<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<A-j>', [[<Cmd>wincmd j<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<A-k>', [[<Cmd>wincmd k<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<A-l>', [[<Cmd>wincmd l<CR>]], {noremap = true, silent = true})
+
+vim.api.nvim_create_autocmd('TermOpen', {
+    group = vim.api.nvim_create_augroup('nathanlc:TermOpen', {clear=true}),
+    pattern = {"*"},
+    callback = function()
+      vim.keymap.set({'n'}, '<C-p>', 'i<C-p>', {buffer=true})
+    end
+})
 
 -- Diagnostic
 vim.api.nvim_set_keymap('n', '<leader>ed', '<Cmd>lua vim.diagnostic.open_float()<CR>', {noremap = true, silent = true})
@@ -189,15 +202,25 @@ vim.api.nvim_set_keymap('n', '<leader>gfl', ":Git log --graph --pretty=format:'%
 -- Org mode
 vim.api.nvim_set_keymap('n', '<leader>O', ':tabedit $ORG/gtd.org<CR>:lcd $ORG<CR>', {noremap = true, silent = true})
 
+-- Copilot
+vim.keymap.set({'n'}, '<leader>cp', '<Cmd>Copilot panel<CR>', {silent=true})
+
+-- Mason
+vim.keymap.set({'n'}, '<leader>M', '<Cmd>Mason<CR>', {silent=true})
 
 -- Snippets
 local luasnip = require('luasnip')
-vim.keymap.set({'i', 's'}, '<C-k>', function()
-    if luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
+vim.keymap.set({'i', 's'}, '<C-i>', function()
+    if luasnip.expandable() then
+        luasnip.expand({})
     end
 end, { silent = true })
 vim.keymap.set({'i', 's'}, '<C-j>', function()
+    if luasnip.jumpable(1) then
+        luasnip.jump(1)
+    end
+end, { silent = true })
+vim.keymap.set({'i', 's'}, '<C-k>', function()
     if luasnip.jumpable(-1) then
         luasnip.jump(-1)
     end
@@ -209,7 +232,7 @@ end, { silent = true })
 -- end)
 
 -- Mail
-vim.api.nvim_set_keymap('n', '<leader>M', ':Himalaya<CR>', {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap('n', '<leader>M', ':Himalaya<CR>', {noremap = true, silent = true})
 
 -- LSP
 -- See lua/plugins/lsp-setup and lua/ftplugins/java

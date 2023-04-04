@@ -163,11 +163,11 @@ export EDITOR="nvim"
 export LESS="-SXR"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
-export GOPATH="${HOME}/go"
-export GOROOT="/usr/local/opt/go/libexec"
 # export JAVA_HOME="/usr/local/opt/openjdk/bin/java"
 # export JDTLS_HOME="$HOME/jdtls"
 # export WORKSPACE="$HOME/jdtls_workspace"
+export GOPATH="$HOME/sandbox/mine/go"
+export GOROOT="/usr/local/go"
 PATH="${GOPATH}/bin:${GOROOT}/bin:$PATH"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/opt:$PATH"
@@ -209,3 +209,5 @@ export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export NODE_PATH=$(which node)
 # Node END
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

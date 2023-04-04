@@ -1,4 +1,5 @@
-vim.o.completeopt = "menu,menuone,noselect"
+-- vim.o.completeopt = "menu,menuone,noselect"
+vim.o.completeopt = "menuone,noselect"
 
 local cmp = require('cmp')
 local lspkind = require('lspkind')

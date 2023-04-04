@@ -35,12 +35,24 @@ function M.map(callback, t)
 end
 
 function M.find(value, t)
+  local index = nil
   for i, v in ipairs(t) do
     if value == v then
-      return i
+      index = i
+      break
     end
-    return nil
   end
+  return index
+end
+
+function M.unique(t)
+  local unique = {}
+  for _, v in ipairs(t) do
+    if not M.find(v, unique) then
+      table.insert(unique, v)
+    end
+  end
+  return unique
 end
 
 function M.reverse(t)

@@ -13,7 +13,7 @@ nvim_lsp.sqls.setup({ -- SQL - go get github.com/lighttiger2505/sqls
     on_attach = function(client, bufnr)
         client.resolved_capabilities.execute_command = true
         lsp_config.on_attach(client, bufnr)
-        require'sqls'.setup{}
+        require 'sqls'.setup {}
     end,
     settings = {
         sqls = {
@@ -27,7 +27,7 @@ nvim_lsp.sqls.setup({ -- SQL - go get github.com/lighttiger2505/sqls
         }
     }
 })
-nvim_lsp.sumneko_lua.setup({ -- brew install lua-language-server
+nvim_lsp.lua_ls.setup({ -- brew install lua-language-server
     capabilities = lsp_config.capabilities,
     on_attach = lsp_config.on_attach,
     settings = {
@@ -38,7 +38,7 @@ nvim_lsp.sumneko_lua.setup({ -- brew install lua-language-server
             },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
-                globals = {'vim', 'hs'},
+                globals = { 'vim' },
             },
             workspace = {
                 -- Make the server aware of Neovim runtime files

@@ -34,11 +34,20 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.hlsearch = false
 
+-- Those should be handled via sleuth
 -- vim.opt.tabstop = 4
 -- vim.opt.softtabstop = 4
 -- vim.opt.shiftwidth = 4
 -- vim.opt.expandtab = true
 -- vim.opt.smarttab = true
+
+vim.o.breakindent = true
+
+
+-- Decrease update time
+vim.o.updatetime = 250
+vim.o.timeout = true
+vim.o.timeoutlen = 300
 
 vim.opt.splitright = true
 vim.opt.splitbelow = true

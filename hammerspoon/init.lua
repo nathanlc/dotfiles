@@ -1,19 +1,22 @@
 -- Application manipulations
-hs.hotkey.bind({"ctrl"}, "²", function() -- ctrl + 1 is not working for some reason
-    hs.application.launchOrFocus("iTerm")
-end)
-hs.hotkey.bind({"ctrl"}, "<", function() -- Sometimes ² gets remapped to <...
-    hs.application.launchOrFocus("iTerm")
-end)
-hs.hotkey.bind({"ctrl"}, "2", function() -- ctrl + 2 doesn't work anymore...
-    hs.application.launchOrFocus("Vivaldi Snapshot")
-end)
+-- hs.hotkey.bind({"ctrl"}, "²", function() -- ctrl + 1 is not working for some reason
+--     hs.application.launchOrFocus("iTerm")
+-- end)
+-- hs.hotkey.bind({"ctrl"}, "<", function() -- Sometimes ² gets remapped to <...
+--     hs.application.launchOrFocus("iTerm")
+-- end)
+-- hs.hotkey.bind({"ctrl"}, "2", function() -- ctrl + 2 doesn't work anymore...
+--     hs.application.launchOrFocus("iTerm")
+-- end)
 hs.hotkey.bind({"ctrl", "shift"}, "2", function() -- ctrl + 2 doesn't work anymore...
-    hs.application.launchOrFocus("Vivaldi Snapshot")
+    hs.application.launchOrFocus("iTerm")
 end)
-hs.hotkey.bind({"ctrl"}, "3", function()
-    hs.application.launchOrFocus("Safari")
+hs.hotkey.bind({"ctrl", "shift"}, "3", function()
+    hs.application.launchOrFocus("Arc")
 end)
+-- hs.hotkey.bind({"ctrl"}, "3", function()
+--     hs.application.launchOrFocus("Arc")
+-- end)
 hs.hotkey.bind({"ctrl"}, "4", function()
     hs.application.launchOrFocus("Slack")
 end)
@@ -33,7 +36,7 @@ local workLayout = {
     {"iTerm2", nil, workUltrawideScreen, {x=0.4, y=0, w=0.6, h=1}, nil, nil},
     {"Emacs", nil, workUltrawideScreen, {x=0.5, y=0, w=0.5, h=1}, nil, nil},
     {"Slack", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
-    {"Safari", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
+    {"Arc", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
 }
 
 local workHomeLayout = {
@@ -41,7 +44,7 @@ local workHomeLayout = {
     {"iTerm2", nil, workHomeScreen, hs.layout.maximized, nil, nil},
     {"Emacs", nil, workUltrawideScreen, hs.layout.maximized, nil, nil},
     {"Slack", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
-    {"Safari", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
+    {"Arc", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
 }
 
 hs.window.animationDuration = 0.01
@@ -88,22 +91,22 @@ bindWindow("M", function()
     window:maximize()
 end)
 
-bindWindow("up", function()
+bindWindow("i", function()
     local window = hs.window.focusedWindow()
     window:moveOneScreenNorth()
 end)
 
-bindWindow("down", function()
+bindWindow("u", function()
     local window = hs.window.focusedWindow()
     window:moveOneScreenSouth()
 end)
 
-bindWindow("left", function()
+bindWindow("y", function()
     local window = hs.window.focusedWindow()
     window:moveOneScreenWest()
 end)
 
-bindWindow("right", function()
+bindWindow("o", function()
     local window = hs.window.focusedWindow()
     window:moveOneScreenEast()
 end)
