@@ -33,6 +33,4 @@ function M.make_small()
     vim.api.nvim_command('resize 18')
 end
 
-M.open_above()
-
 return M

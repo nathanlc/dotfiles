@@ -37,6 +37,10 @@ vim.api.nvim_set_keymap('n', '<leader>bn', ':enew <CR>', {noremap = true, silent
 vim.api.nvim_set_keymap('n', '<leader>be', 'ggdG', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>bs', [[<Cmd>lua require('utils.buffer').scratch()<CR>]], {noremap = true, silent = true})
 
+
+-- Browser
+vim.keymap.set('n', '<leader>Bl', [[<Cmd>lua require('plugins.browser_history').telescope({database = '/tmp/arc_history_db'})<CR>]], {silent = true})
+
 -- Help
 vim.api.nvim_set_keymap('n', '<leader>hl', [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], {noremap = true, silent = true})
 
@@ -203,7 +207,11 @@ vim.api.nvim_set_keymap('n', '<leader>gfl', ":Git log --graph --pretty=format:'%
 vim.api.nvim_set_keymap('n', '<leader>O', ':tabedit $ORG/gtd.org<CR>:lcd $ORG<CR>', {noremap = true, silent = true})
 
 -- Copilot
-vim.keymap.set({'n'}, '<leader>cp', '<Cmd>Copilot panel<CR>', {silent=true})
+vim.keymap.set({'n'}, '<leader>Cp', '<Cmd>Copilot panel<CR>', {silent=true})
+
+
+-- Clipboards
+vim.keymap.set({'n'}, '<leader>cl', [[<Cmd>lua require('plugins.clipboard').telescope()<CR>]], {silent=true})
 
 -- Mason
 vim.keymap.set({'n'}, '<leader>M', '<Cmd>Mason<CR>', {silent=true})
