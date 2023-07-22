@@ -14,7 +14,7 @@ end
 local filepath = '%f %m'
 local filetype = { 'filetype', separator = '', icon_only = true, padding = { left = 1, right = 0 } }
 
-local theme = require('lualine.themes.onedark')
+local theme = require('lualine.themes.everforest')
 theme.normal.c.fg = '#abb2bf'
 
 require('lualine').setup({
@@ -31,7 +31,7 @@ require('lualine').setup({
   },
   sections = {
     lualine_a = { 'mode' },
-    lualine_b = {},
+    lualine_b = { 'overseer' },
     lualine_c = { filetype, filepath, 'diagnostics' },
     lualine_x = {},
     lualine_y = { 'progress' },

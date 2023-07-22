@@ -10,6 +10,7 @@ return packer.startup(function(use)
   use 'kyazdani42/nvim-web-devicons'
   use 'neovim/nvim-lspconfig'
   use 'mfussenegger/nvim-jdtls' -- Lsp for Java. Download java language server jdtls from https://download.eclipse.org/jdtls/snapshots/?d and extract in chosen path
+  use 'ray-x/lsp_signature.nvim'
   -- nvim-cmp start Auto completion compatible with LSP
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-buffer'
@@ -28,6 +29,7 @@ return packer.startup(function(use)
   use 'tpope/vim-sleuth'
   use 'tpope/vim-vinegar'
   use 'andymass/vim-matchup'
+  use 'stevearc/overseer.nvim' -- Task runner
   -- Telescope start
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   use 'BurntSushi/ripgrep'
@@ -40,7 +42,8 @@ return packer.startup(function(use)
   use 'tpope/vim-rsi'
   use 'tpope/vim-dispatch'
   -- Themes start
-  use 'navarasu/onedark.nvim'
+  -- use 'navarasu/onedark.nvim'
+  use 'neanias/everforest-nvim'
   -- Themes end
   use 'nanotee/sqls.nvim'
   use 'tpope/vim-dadbod'
@@ -50,13 +53,16 @@ return packer.startup(function(use)
   use 'tpope/vim-projectionist'
   use 'kylechui/nvim-surround'
   use 'tpope/vim-abolish' -- Smartcase string substitutions
-  -- 'tpope/vim-fugitive'
   -- Neogit start
-  use 'TimUntersberger/neogit'
+  use 'NeogitOrg/neogit'
   -- Neogit end
   use 'tpope/vim-fugitive'
+  use 'tpope/vim-rhubarb'
   use 'nvim-orgmode/orgmode'
+  -- Debugger start
   use 'mfussenegger/nvim-dap'
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+  -- Debugger end
   use '/Users/nathan/sandbox/mine/himalaya/vim'
   use {
     'nvim-lualine/lualine.nvim',
@@ -71,6 +77,21 @@ return packer.startup(function(use)
     end
   }
   use "zbirenbaum/copilot.lua"
+  -- Opener start
+  use { 'ofirgall/open.nvim', requires = 'nvim-lua/plenary.nvim' }
+  use 'ofirgall/open-jira.nvim'
+  -- Opener end
+  -- Rust start
+  use 'simrat39/rust-tools.nvim'
+  -- Rust end
+  use {
+  "nvim-neotest/neotest",
+  requires = {
+    "nvim-lua/plenary.nvim",
+    "nvim-treesitter/nvim-treesitter",
+    -- "antoinemadec/FixCursorHold.nvim"
+  }
+}
 
   packer.sync()
 end)

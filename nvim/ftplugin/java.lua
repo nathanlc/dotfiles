@@ -8,6 +8,12 @@ local jdtls_workspace_dir = home .. '/sandbox/apps/java_related/jdtls_workspace/
 -- For this to work, the gradle version must be compatible with the jdk version or something...
 -- gradle/wrapper/gradle-wrapper.properties distributionUrl may need to be updated
 
+local bundles = {
+    vim.fn.glob(home .. "/sandbox/apps/java_related/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar", 1)
+}
+
+vim.list_extend(bundles, vim.split(vim.fn.glob(home .. "/sandbox/apps/java_related/vscode-java-test/server/*.jar", 1), "\n"))
+
 local config = {
     -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
     cmd = {
@@ -35,7 +41,8 @@ local config = {
     -- for a list of options
     settings = {
         java = {
-        }
+            signatureHelp = { true },
+        },
     },
 
     capabilities = lsp_config.capabilities,
@@ -53,8 +60,12 @@ local config = {
     --
     -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
     init_options = {
-        bundles = {}
+        bundles = bundles,
     },
 }
 
 require('jdtls').start_or_attach(config)
+require('jdtls').setup_dap({ hotcodereplace = 'auto' })
+
+vim.bo.shiftwidth = 2
+vim.bo.tabstop = 2

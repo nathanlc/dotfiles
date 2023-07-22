@@ -31,14 +31,14 @@ cmp.setup({
   }),
   formatting = {
     format = lspkind.cmp_format({
-      mode = 'symbol',
-      menu = {
-        buffer = "[buf]",
-        nvim_lsp = "[LSP]",
-        nvim_lua = "[lua]",
-        path = "[path]",
-        luasnip = "[snip]",
-      }
+      -- mode = 'symbol',
+      -- menu = {
+      --   buffer = "[buf]",
+      --   nvim_lsp = "[LSP]",
+      --   nvim_lua = "[lua]",
+      --   path = "[path]",
+      --   luasnip = "[snip]",
+      -- }
     })
   }
 })

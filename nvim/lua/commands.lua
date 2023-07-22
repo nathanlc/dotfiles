@@ -44,7 +44,7 @@ end
 
 function M.find_files()
     local query = prompt('Find files:')
-    local command = 'find . ' .. concat_ignores() .. ' -type f -iname "' .. query .. '*"'
+    local command = 'fd . ' .. concat_ignores() .. ' -type f -iname "' .. query .. '.*"'
 
     local error_format = '%f'
 

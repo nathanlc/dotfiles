@@ -154,7 +154,8 @@ vterm_printf(){
 }
 
 # asdf START
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
+. "$HOME/.asdf/asdf.sh"
+. "$HOME/.asdf/completions/asdf.bash"
 # asdf END
 export BASH_SILENCE_DEPRECATION_WARNING=1 # Remove message about zsh being default term in macos
 export ORG="$HOME/Dropbox/org"
@@ -183,10 +184,6 @@ PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 PATH="$HOME/.jenv/bin:$PATH"
 PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 # Java END
-# Ruby START
-PATH="$HOME/.rbenv/shims:$PATH"
-PATH="$HOME/.rbenv/bin:$PATH"
-# Ruby END
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 MANPATH="/opt/local/share/man:$MANPATH"
 MANPATH="/opt/homebrew/share/man:$MANPATH"
@@ -194,20 +191,22 @@ export HOMEBREW_PREFIX="/opt/homebrew"
 export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
 export HOMEBREW_REPOSITORY="/opt/homebrew"
 export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
-export RBENV_ROOT="${HOME}/.rbenv"
 export PATH
 export MANPATH
 # Java START
 eval "$(jenv init -)"
 # Java END
-# Ruby START
-eval "$(rbenv init -)"
-# Ruby END
 # Node START
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export NODE_PATH=$(which node)
 # Node END
-
+# FZF START
+export FZF_DEFAULT_OPTS=" \
+    --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+    --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+    --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# FZF END
+. "$HOME/.cargo/env"

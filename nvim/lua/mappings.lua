@@ -74,13 +74,17 @@ vim.api.nvim_set_keymap('n', '<leader>pL', [[<Cmd>lua require('plugins.project.p
 vim.api.nvim_set_keymap('n', '<leader>pR', [[<Cmd>lua require('plugins.project.project').reload_config()<CR>]], {noremap = true})
 
 -- Test
-vim.keymap.set({'n'}, '<leader>ts', require('plugins.project.project').run_test_suite, {silent = true})
-vim.keymap.set({'n'}, '<leader>tf', function() require('plugins.project.project').run_test_file(vim.api.nvim_get_current_buf()) end, {silent = true})
-vim.keymap.set({'n'}, '<leader>tc', function()
-    require('plugins.project.project').run_test_current(
-        vim.api.nvim_get_current_buf(),
-        vim.api.nvim_win_get_cursor(0)[1]
-    ) end, {silent = true})
+vim.keymap.set({'n'}, '<leader>tt', [[<Cmd>OverseerToggle<CR>]], {silent = true})
+vim.keymap.set({'n'}, '<leader>tl', [[<Cmd>OverseerRun<CR>]], {silent = true})
+vim.keymap.set({'n'}, '<leader>tf', [[<Cmd>lua require("overseer").run_template({ tags = { "test_file" } })<CR>]], {silent = true})
+vim.keymap.set({'n'}, '<leader>tp', [[<Cmd>lua require("overseer").run_template({ tags = { "test_project" } })<CR>]], {silent = true})
+vim.keymap.set({'n'}, '<leader>tc', [[<Cmd>lua require("overseer").run_template({ tags = { "check" } })<CR>]], {silent = true})
+-- vim.keymap.set({'n'}, '<leader>ts', require('plugins.project.project').run_test_suite, {silent = true})
+-- vim.keymap.set({'n'}, '<leader>tc', function()
+--     require('plugins.project.project').run_test_current(
+--         vim.api.nvim_get_current_buf(),
+--         vim.api.nvim_win_get_cursor(0)[1]
+--     ) end, {silent = true})
 
 -- Print info
 vim.api.nvim_set_keymap('n', '<leader>Pp', '<Cmd>pwd<CR>', {noremap = true, silent = true})
@@ -154,6 +158,7 @@ vim.api.nvim_set_keymap('n', '<leader>Ti', '<Cmd>IndentBlanklineToggle<CR>', {no
 -- Terminal
 vim.api.nvim_set_keymap('n', '<leader>"n', [[<Cmd>lua require('utils.term').open_small_term()<CR>i]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>"l', [[<Cmd>lua require('telescope.builtin').buffers({default_text = "term://", initial_mode = "normal"})<CR>]], {noremap = true, silent = true})
+vim.keymap.set({'n'}, '<leader>"t', [[<Cmd>tabnew | term<CR>]], {silent = true})
 vim.keymap.set({'n'}, '<leader>"r', [[<Cmd>lua require('plugins.term').history()<CR>]], {silent = true})
 vim.api.nvim_set_keymap('t', 'jk', '<C-\\><C-N>', {noremap = true})
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-N>', {noremap = true})
@@ -200,8 +205,20 @@ vim.api.nvim_set_keymap('n', '<leader>lp', ':silent lolder<CR>', {noremap = true
 -- vim.api.nvim_set_keymap('n', '<leader>gfl', ":Git log --graph --pretty=format:'%h - (%ad)%d %s <%an>' --abbrev-commit --date=local -- %<CR>", {noremap = true, silent = true})
 -- Git 
 vim.api.nvim_set_keymap('n', '<leader>gs', ':Neogit<CR>', {noremap = true, silent = true})
+vim.keymap.set({'n'}, '<leader>gS', [[<Cmd>:Git<CR>]], {silent=true})
 vim.api.nvim_set_keymap('n', '<leader>gb', ':Git blame<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>gfl', ":Git log --graph --pretty=format:'%h - (%ad)%d %s <%an>' --abbrev-commit --date=local -- %<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>gl', ":Git log --graph --pretty=format:'%h - (%ad)%d %s <%an>' --abbrev-commit --date=local -- %<CR>", {noremap = true, silent = true})
+vim.keymap.set({'n'}, '<leader>gg', [[<Cmd>GBrowse<CR>]], {silent = true})
+vim.keymap.set({'n'}, '<leader>gd', [[<Cmd>Gdiffsplit<CR>]], {silent = true})
+
+
+-- Debug (DAP)
+vim.keymap.set({'n'}, '<leader>dc', function() require('dap').continue() end, {silent=true})
+vim.keymap.set({'n'}, '<leader>db', function() require('dap').toggle_breakpoint() end, {silent=true})
+vim.keymap.set({'n'}, '<leader>dn', function() require('dap').step_over() end, {silent=true})
+vim.keymap.set({'n'}, '<leader>di', function() require('dap').step_into() end, {silent=true})
+vim.keymap.set({'n'}, '<leader>do', function() require('dap').step_out() end, {silent=true})
+vim.keymap.set({'n'}, '<leader>dt', function() require('dap').terminate() end, {silent=true})
 
 -- Org mode
 vim.api.nvim_set_keymap('n', '<leader>O', ':tabedit $ORG/gtd.org<CR>:lcd $ORG<CR>', {noremap = true, silent = true})
@@ -215,6 +232,11 @@ vim.keymap.set({'n'}, '<leader>cl', [[<Cmd>lua require('plugins.clipboard').tele
 
 -- Mason
 vim.keymap.set({'n'}, '<leader>M', '<Cmd>Mason<CR>', {silent=true})
+
+
+-- Go to (Opener)
+vim.keymap.set({'n'}, 'gx', require('open').open_cword, {silent=true})
+
 
 -- Snippets
 local luasnip = require('luasnip')

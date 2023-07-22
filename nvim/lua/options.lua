@@ -69,6 +69,15 @@ end
 
 vim.opt.laststatus = 0
 
+-- scrollback in term buffer
+vim.api.nvim_create_autocmd('TermOpen', {
+    group = vim.api.nvim_create_augroup('nathanlc:TermOpen-options', {clear=true}),
+    pattern = {"*"},
+    callback = function()
+      vim.opt_local.scrollback = 100000
+    end
+})
+
 autocmd.create_augroup({
     { 'QuickFixCmdPost', '[^l]*', 'cwindow' },
     { 'QuickFixCmdPost', 'l*', 'lwindow' }

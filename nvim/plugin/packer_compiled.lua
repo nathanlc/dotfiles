@@ -124,6 +124,11 @@ _G.packer_plugins = {
     path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/copilot.lua",
     url = "https://github.com/zbirenbaum/copilot.lua"
   },
+  ["everforest-nvim"] = {
+    loaded = true,
+    path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/everforest-nvim",
+    url = "https://github.com/neanias/everforest-nvim"
+  },
   ["friendly-snippets"] = {
     loaded = true,
     path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/friendly-snippets",
@@ -138,6 +143,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/leap.nvim",
     url = "https://github.com/ggandor/leap.nvim"
+  },
+  ["lsp_signature.nvim"] = {
+    loaded = true,
+    path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim",
+    url = "https://github.com/ray-x/lsp_signature.nvim"
   },
   ["lspkind.nvim"] = {
     loaded = true,
@@ -163,7 +173,12 @@ _G.packer_plugins = {
   neogit = {
     loaded = true,
     path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/neogit",
-    url = "https://github.com/TimUntersberger/neogit"
+    url = "https://github.com/NeogitOrg/neogit"
+  },
+  neotest = {
+    loaded = true,
+    path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/neotest",
+    url = "https://github.com/nvim-neotest/neotest"
   },
   ["nvim-cmp"] = {
     loaded = true,
@@ -174,6 +189,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/nvim-dap",
     url = "https://github.com/mfussenegger/nvim-dap"
+  },
+  ["nvim-dap-ui"] = {
+    loaded = true,
+    path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
+    url = "https://github.com/rcarriga/nvim-dap-ui"
   },
   ["nvim-jdtls"] = {
     loaded = true,
@@ -215,15 +235,25 @@ _G.packer_plugins = {
     path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
-  ["onedark.nvim"] = {
+  ["open-jira.nvim"] = {
     loaded = true,
-    path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/onedark.nvim",
-    url = "https://github.com/navarasu/onedark.nvim"
+    path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/open-jira.nvim",
+    url = "https://github.com/ofirgall/open-jira.nvim"
+  },
+  ["open.nvim"] = {
+    loaded = true,
+    path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/open.nvim",
+    url = "https://github.com/ofirgall/open.nvim"
   },
   orgmode = {
     loaded = true,
     path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/orgmode",
     url = "https://github.com/nvim-orgmode/orgmode"
+  },
+  ["overseer.nvim"] = {
+    loaded = true,
+    path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/overseer.nvim",
+    url = "https://github.com/stevearc/overseer.nvim"
   },
   ["packer.nvim"] = {
     loaded = true,
@@ -244,6 +274,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/ripgrep",
     url = "https://github.com/BurntSushi/ripgrep"
+  },
+  ["rust-tools.nvim"] = {
+    loaded = true,
+    path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/rust-tools.nvim",
+    url = "https://github.com/simrat39/rust-tools.nvim"
   },
   ["sqls.nvim"] = {
     loaded = true,
@@ -304,6 +339,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/vim-rails",
     url = "https://github.com/tpope/vim-rails"
+  },
+  ["vim-rhubarb"] = {
+    loaded = true,
+    path = "/Users/nathan/.local/share/nvim/site/pack/packer/start/vim-rhubarb",
+    url = "https://github.com/tpope/vim-rhubarb"
   },
   ["vim-rsi"] = {
     loaded = true,

@@ -5,9 +5,10 @@ local Term = require('utils.term')
 
 
 local M = {}
+local home = os.getenv('HOME')
 
 local function term_history()
-  local history_filename = '~/.bash_history'
+  local history_filename = home .. '/.bash_history'
   local history_path = Path:new(history_filename)
   if not history_path:is_file() then
     return { 'echo "No history file found."' }

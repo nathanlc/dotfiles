@@ -1,4 +1,7 @@
-require('onedark').setup({
-    style = 'darker'
+-- require('onedark').setup({})
+-- require('onedark').load()
+
+require("everforest").setup({
+  background = "hard"
 })
-require('onedark').load()
+vim.cmd([[colorscheme everforest]])

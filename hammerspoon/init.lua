@@ -1,22 +1,28 @@
 -- Application manipulations
--- hs.hotkey.bind({"ctrl"}, "²", function() -- ctrl + 1 is not working for some reason
---     hs.application.launchOrFocus("iTerm")
--- end)
--- hs.hotkey.bind({"ctrl"}, "<", function() -- Sometimes ² gets remapped to <...
---     hs.application.launchOrFocus("iTerm")
--- end)
--- hs.hotkey.bind({"ctrl"}, "2", function() -- ctrl + 2 doesn't work anymore...
---     hs.application.launchOrFocus("iTerm")
--- end)
-hs.hotkey.bind({"ctrl", "shift"}, "2", function() -- ctrl + 2 doesn't work anymore...
+hs.hotkey.bind({"ctrl"}, "²", function() -- ctrl + 1 is not working for some reason
     hs.application.launchOrFocus("iTerm")
+end)
+hs.hotkey.bind({"ctrl"}, "<", function() -- Sometimes ² gets remapped to <...
+    hs.application.launchOrFocus("iTerm")
+end)
+hs.hotkey.bind({"ctrl", "shift"}, "1", function() -- ctrl + 2 doesn't work anymore...
+    hs.application.launchOrFocus("iTerm")
+end)
+hs.hotkey.bind({"ctrl"}, "1", function() -- ctrl + 2 doesn't work anymore...
+    hs.application.launchOrFocus("iTerm")
+end)
+hs.hotkey.bind({"ctrl", "shift"}, "2", function() -- ctrl + 2 doesn't work anymore...
+    hs.application.launchOrFocus("Neovide")
+end)
+hs.hotkey.bind({"ctrl"}, "2", function() -- ctrl + 2 doesn't work anymore...
+    hs.application.launchOrFocus("Neovide")
 end)
 hs.hotkey.bind({"ctrl", "shift"}, "3", function()
     hs.application.launchOrFocus("Arc")
 end)
--- hs.hotkey.bind({"ctrl"}, "3", function()
---     hs.application.launchOrFocus("Arc")
--- end)
+hs.hotkey.bind({"ctrl"}, "3", function()
+  hs.application.launchOrFocus("Arc")
+end)
 hs.hotkey.bind({"ctrl"}, "4", function()
     hs.application.launchOrFocus("Slack")
 end)
@@ -26,39 +32,10 @@ hs.hotkey.bind({"ctrl"}, "5", function()
 end)
 
 
--- Window manipulations
-local macbook2015Screen = "Built-in Retina Display"
-local workUltrawideScreen = "PHL 346E2C"
-local workHomeScreen = "DELL UP2414Q"
-
-local workLayout = {
-    {"Vivaldi", nil, workUltrawideScreen, {x=0, y=0, w=0.4, h=1}, nil, nil},
-    {"iTerm2", nil, workUltrawideScreen, {x=0.4, y=0, w=0.6, h=1}, nil, nil},
-    {"Emacs", nil, workUltrawideScreen, {x=0.5, y=0, w=0.5, h=1}, nil, nil},
-    {"Slack", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
-    {"Arc", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
-}
-
-local workHomeLayout = {
-    {"Vivaldi", nil, workHomeScreen, hs.layout.maximized, nil, nil},
-    {"iTerm2", nil, workHomeScreen, hs.layout.maximized, nil, nil},
-    {"Emacs", nil, workUltrawideScreen, hs.layout.maximized, nil, nil},
-    {"Slack", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
-    {"Arc", nil, macbook2015Screen, hs.layout.maximized, nil, nil},
-}
-
 hs.window.animationDuration = 0.01
 local function bindWindow(key, lambda)
     hs.hotkey.bind({"cmd", "alt"}, key, lambda)
 end
-
-bindWindow("2", function()
-    hs.layout.apply(workLayout)
-end)
-
-bindWindow("3", function()
-    hs.layout.apply(workHomeLayout)
-end)
 
 bindWindow("H", function()
     local window = hs.window.focusedWindow()
@@ -147,8 +124,8 @@ bindScrool("j", function()
 end)
 
 
--- Start search (open new tab) in Vivaldi from anywhere
-hs.hotkey.bind({"cmd", "shift"}, 'space', function()
-    hs.application.launchOrFocus("Vivaldi Snapshot")
-    hs.eventtap.keyStroke({"cmd"}, 'T')
+-- Start Cmd-T in Arc from anywhere
+hs.hotkey.bind({"alt"}, 'space', function()
+    hs.application.launchOrFocus("Arc")
+    hs.eventtap.keyStroke({"cmd"}, 't')
 end)
