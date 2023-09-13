@@ -12,6 +12,7 @@ telescope.setup({
     defaults = {
         file_ignore_patterns = {
             "%.class",
+            "^.git/",
         },
         cache_picker = {
             num_pickers = 15,

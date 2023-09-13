@@ -7,6 +7,7 @@ return packer.startup(function(use)
   use { 'nvim-treesitter/nvim-treesitter-textobjects', requires = 'nvim-treesitter/nvim-treesitter' }
   use { 'nvim-treesitter/nvim-treesitter-context', requires = 'nvim-treesitter/nvim-treesitter' }
   use { 'RRethy/nvim-treesitter-endwise', requires = 'nvim-treesitter/nvim-treesitter' }
+  use { 'windwp/nvim-ts-autotag', requires = 'nvim-treesitter/nvim-treesitter' }
   use 'kyazdani42/nvim-web-devicons'
   use 'neovim/nvim-lspconfig'
   use 'mfussenegger/nvim-jdtls' -- Lsp for Java. Download java language server jdtls from https://download.eclipse.org/jdtls/snapshots/?d and extract in chosen path
@@ -26,8 +27,14 @@ return packer.startup(function(use)
   use 'nvim-lua/popup.nvim'
   use 'ggandor/leap.nvim'
   use 'jghauser/mkdir.nvim'
-  use 'tpope/vim-sleuth'
-  use 'tpope/vim-vinegar'
+  use {
+    'nmac427/guess-indent.nvim',
+    config = function() require('guess-indent').setup() end,
+  }
+  -- File explorer start
+  -- use 'tpope/vim-vinegar'
+  use 'stevearc/oil.nvim'
+  -- File explorer end
   use 'andymass/vim-matchup'
   use 'stevearc/overseer.nvim' -- Task runner
   -- Telescope start
@@ -44,11 +51,32 @@ return packer.startup(function(use)
   -- Themes start
   -- use 'navarasu/onedark.nvim'
   use 'neanias/everforest-nvim'
+  -- use {
+  --   'xiyaowong/transparent.nvim',
+  --   config = function()
+  --     local transparent = require("transparent")
+  --     transparent.setup({
+  --       extra_groups = {}
+  --     })
+  --     vim.cmd("TransparentEnable")
+  --   end
+  -- }
   -- Themes end
   use 'nanotee/sqls.nvim'
   use 'tpope/vim-dadbod'
   use 'tpope/vim-rails'
-  use 'jiangmiao/auto-pairs'
+  use {
+    'windwp/nvim-autopairs',
+    config = function() require('nvim-autopairs').setup() end,
+  }
+  use {
+    "stevearc/dressing.nvim",
+    config = function() require("dressing").setup() end
+  }
+  -- use {
+  --   "folke/noice.nvim",
+  --   requires = { "MunifTanjim/nui.nvim" },
+  -- }
   use 'numToStr/Comment.nvim'
   use 'tpope/vim-projectionist'
   use 'kylechui/nvim-surround'
@@ -72,9 +100,7 @@ return packer.startup(function(use)
   use 'lukas-reineke/indent-blankline.nvim'
   use {
     "williamboman/mason.nvim",
-    config = function()
-      require("mason").setup()
-    end
+    config = function() require("mason").setup() end
   }
   use "zbirenbaum/copilot.lua"
   -- Opener start
@@ -85,13 +111,22 @@ return packer.startup(function(use)
   use 'simrat39/rust-tools.nvim'
   -- Rust end
   use {
-  "nvim-neotest/neotest",
-  requires = {
-    "nvim-lua/plenary.nvim",
-    "nvim-treesitter/nvim-treesitter",
-    -- "antoinemadec/FixCursorHold.nvim"
+    "Wansmer/treesj",
+    config = function()
+      local tsj = require('treesj')
+      tsj.setup({
+        use_default_keymaps = false,
+      })
+    end
   }
-}
+  use {
+    "nvim-neotest/neotest",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      -- "antoinemadec/FixCursorHold.nvim"
+    }
+  }
 
   packer.sync()
 end)

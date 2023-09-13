@@ -6,16 +6,16 @@ hs.hotkey.bind({"ctrl"}, "<", function() -- Sometimes ² gets remapped to <...
     hs.application.launchOrFocus("iTerm")
 end)
 hs.hotkey.bind({"ctrl", "shift"}, "1", function() -- ctrl + 2 doesn't work anymore...
-    hs.application.launchOrFocus("iTerm")
+    hs.application.launchOrFocus("Warp")
 end)
 hs.hotkey.bind({"ctrl"}, "1", function() -- ctrl + 2 doesn't work anymore...
-    hs.application.launchOrFocus("iTerm")
+    hs.application.launchOrFocus("Warp")
 end)
 hs.hotkey.bind({"ctrl", "shift"}, "2", function() -- ctrl + 2 doesn't work anymore...
-    hs.application.launchOrFocus("Neovide")
+    hs.application.launchOrFocus("iTerm")
 end)
 hs.hotkey.bind({"ctrl"}, "2", function() -- ctrl + 2 doesn't work anymore...
-    hs.application.launchOrFocus("Neovide")
+    hs.application.launchOrFocus("iTerm")
 end)
 hs.hotkey.bind({"ctrl", "shift"}, "3", function()
     hs.application.launchOrFocus("Arc")

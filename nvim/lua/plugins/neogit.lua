@@ -1,6 +1,6 @@
 require('neogit').setup({
   disable_hint = true,
-  kind = 'replace',
+  kind = 'vsplit',
   sections = {
     recent = {
       folded = false,

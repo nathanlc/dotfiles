@@ -3,7 +3,7 @@ local Window = require('utils.window')
 local M = {}
 
 function M.open_small_term()
-  vim.api.nvim_command('split term://bash')
+  vim.api.nvim_command('split term://zsh')
   Window.make_small()
 end
 

@@ -45,9 +45,9 @@ vim.o.breakindent = true
 
 
 -- Decrease update time
-vim.o.updatetime = 250
+vim.o.updatetime = 450
 vim.o.timeout = true
-vim.o.timeoutlen = 300
+vim.o.timeoutlen = 500
 
 vim.opt.splitright = true
 vim.opt.splitbelow = true

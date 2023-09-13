@@ -57,10 +57,11 @@ vim.api.nvim_set_keymap('n', '<leader>xj', [[<Cmd>lua require('plugins.expressio
 -- Files
 vim.api.nvim_set_keymap('i', '<C-s>', '<ESC>:write<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<C-s>', ':write<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>fl', ':Telescope find_files<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>fl', ':Telescope find_files hidden=true<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>fL', [[<Cmd>lua require('commands').find_files()<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>fo', ':Telescope oldfiles<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>fb', [[<Cmd>Exp<CR>]], {noremap = true, silent = true})
+vim.keymap.set({"n"}, "<leader>fr", [[<Cmd>call feedkeys(":saveas %<Tab>", "tn")<CR>]], {})
+vim.keymap.set({"n"}, "<leader>fs", [[<Cmd>write<CR>]], {})
 
 -- Projects
 vim.api.nvim_set_keymap('n', '<leader>pl', [[<Cmd>lua require('plugins.project.project').open_telescope()<CR>]], {noremap = true, silent = true})
@@ -74,11 +75,14 @@ vim.api.nvim_set_keymap('n', '<leader>pL', [[<Cmd>lua require('plugins.project.p
 vim.api.nvim_set_keymap('n', '<leader>pR', [[<Cmd>lua require('plugins.project.project').reload_config()<CR>]], {noremap = true})
 
 -- Test
-vim.keymap.set({'n'}, '<leader>tt', [[<Cmd>OverseerToggle<CR>]], {silent = true})
+vim.keymap.set({'n'}, '<leader>tt', [[<Cmd>OverseerToggle!<CR>]], {silent = true})
+vim.keymap.set({'n'}, '<leader>to', [[<Cmd>OverseerOpen<CR>]], {silent = true})
 vim.keymap.set({'n'}, '<leader>tl', [[<Cmd>OverseerRun<CR>]], {silent = true})
 vim.keymap.set({'n'}, '<leader>tf', [[<Cmd>lua require("overseer").run_template({ tags = { "test_file" } })<CR>]], {silent = true})
 vim.keymap.set({'n'}, '<leader>tp', [[<Cmd>lua require("overseer").run_template({ tags = { "test_project" } })<CR>]], {silent = true})
 vim.keymap.set({'n'}, '<leader>tc', [[<Cmd>lua require("overseer").run_template({ tags = { "check" } })<CR>]], {silent = true})
+vim.keymap.set({'n'}, '<leader>tr', [[<Cmd>lua require("plugins.task-runner").restart_latest_task()<CR>]], {silent = true})
+vim.keymap.set({'n'}, '<leader>ts', [[<Cmd>OverseerQuickAction open hsplit<CR>]], {silent = true})
 -- vim.keymap.set({'n'}, '<leader>ts', require('plugins.project.project').run_test_suite, {silent = true})
 -- vim.keymap.set({'n'}, '<leader>tc', function()
 --     require('plugins.project.project').run_test_current(
@@ -99,6 +103,7 @@ vim.api.nvim_set_keymap('n', '<leader>wd', '<C-w>c', {noremap = true, silent = t
 vim.api.nvim_set_keymap('n', '<leader>wS', ':leftabove split<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>wV', ':leftabove vsplit<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>wm', [[<Cmd>lua require('utils.window').make_small()<CR>]], {noremap = true, silent = true})
+vim.keymap.set({'n'}, '<leader>wp', '<C-w><C-p>', {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap('n', '<A-h>', '<C-w>h', {noremap = true})
 -- vim.api.nvim_set_keymap('n', '<A-j>', '<C-w>j', {noremap = true})
 -- vim.api.nvim_set_keymap('n', '<A-k>', '<C-w>k', {noremap = true})
@@ -122,6 +127,12 @@ vim.api.nvim_set_keymap('n', '<leader>sG', ':silent grep ', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>ss', ':Telescope current_buffer_fuzzy_find<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>sr', [[<Cmd>lua require('telescope.builtin').resume({initial_mode = "normal"})<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>sl', [[<Cmd>lua require('telescope.builtin').pickers({initial_mode = "normal"})<CR>]], {noremap = true, silent = true})
+
+
+-- Session
+local session_file_path = vim.fn.stdpath('cache') .. '/Session.vim'
+vim.keymap.set({'n'}, '<leader>ks', '<Cmd>mksession! ' .. session_file_path .. '<CR>', {})
+vim.keymap.set({'n'}, '<leader>kr', '<Cmd>source ' .. session_file_path .. '<CR>', {silent = true})
 
 -- Jump
 vim.api.nvim_set_keymap('n', '<leader>js', ':Telescope treesitter<CR>', {noremap = true, silent = true})
@@ -157,6 +168,7 @@ vim.api.nvim_set_keymap('n', '<leader>Ti', '<Cmd>IndentBlanklineToggle<CR>', {no
 
 -- Terminal
 vim.api.nvim_set_keymap('n', '<leader>"n', [[<Cmd>lua require('utils.term').open_small_term()<CR>i]], {noremap = true, silent = true})
+vim.keymap.set({'n'}, '<leader>"o', [[<Cmd>term<CR>i]], {silent = true})
 vim.api.nvim_set_keymap('n', '<leader>"l', [[<Cmd>lua require('telescope.builtin').buffers({default_text = "term://", initial_mode = "normal"})<CR>]], {noremap = true, silent = true})
 vim.keymap.set({'n'}, '<leader>"t', [[<Cmd>tabnew | term<CR>]], {silent = true})
 vim.keymap.set({'n'}, '<leader>"r', [[<Cmd>lua require('plugins.term').history()<CR>]], {silent = true})
@@ -230,8 +242,17 @@ vim.keymap.set({'n'}, '<leader>Cp', '<Cmd>Copilot panel<CR>', {silent=true})
 -- Clipboards
 vim.keymap.set({'n'}, '<leader>cl', [[<Cmd>lua require('plugins.clipboard').telescope()<CR>]], {silent=true})
 
+
+-- File explorer
+vim.keymap.set({"n"}, "-", require("oil").open, {silent=true})
+
 -- Mason
 vim.keymap.set({'n'}, '<leader>M', '<Cmd>Mason<CR>', {silent=true})
+
+
+-- Manipulation of text
+vim.keymap.set({'n'}, '<leader>ms', '<Cmd>TSJSplit<CR>', {silent=true})
+vim.keymap.set({'n'}, '<leader>mj', '<Cmd>TSJJoin<CR>', {silent=true})
 
 
 -- Go to (Opener)

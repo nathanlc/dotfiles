@@ -2,7 +2,7 @@ local Path = require('plenary.path')
 
 return {
   name = "Test file (KL)",
-  args = { "test_file" },
+  tags = { "test_file" },
   builder = function()
     local file_path_abs = Path:new(vim.fn.expand("%:p"))
     local file_path_rel = file_path_abs:normalize(vim.fn.getcwd())

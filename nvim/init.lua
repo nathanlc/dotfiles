@@ -21,8 +21,12 @@ require('plugins.copilot')
 require('plugins.opener')
 require('plugins.rust-tools')
 require('plugins.task-runner')
+require('plugins.file-explorer')
+
+-- require('plugins.noice')
 
 require('mappings')
+
 require('plugins.neovide')
 
 require('plugins.home').startup()

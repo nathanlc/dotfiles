@@ -30,7 +30,7 @@ require('lualine').setup({
     lualine_z = {},
   },
   sections = {
-    lualine_a = { 'mode' },
+    lualine_a = { { 'mode' , fmt = function(str) return str:sub(1,1) end } },
     lualine_b = { 'overseer' },
     lualine_c = { filetype, filepath, 'diagnostics' },
     lualine_x = {},
@@ -39,7 +39,7 @@ require('lualine').setup({
   },
   inactive_sections = {
     lualine_a = {},
-    lualine_b = {},
+    lualine_b = { 'overseer' },
     lualine_c = { filetype, filepath },
     lualine_x = { 'location' },
     lualine_y = {},
