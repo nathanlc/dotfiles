@@ -1,33 +1,20 @@
 -- Application manipulations
-hs.hotkey.bind({"ctrl"}, "²", function() -- ctrl + 1 is not working for some reason
-    hs.application.launchOrFocus("iTerm")
-end)
-hs.hotkey.bind({"ctrl"}, "<", function() -- Sometimes ² gets remapped to <...
-    hs.application.launchOrFocus("iTerm")
-end)
-hs.hotkey.bind({"ctrl", "shift"}, "1", function() -- ctrl + 2 doesn't work anymore...
+
+local hyper = {"cmd", "alt", "ctrl", "shift"}
+
+hs.hotkey.bind(hyper, "a", function()
     hs.application.launchOrFocus("Warp")
 end)
-hs.hotkey.bind({"ctrl"}, "1", function() -- ctrl + 2 doesn't work anymore...
-    hs.application.launchOrFocus("Warp")
+hs.hotkey.bind(hyper, "z", function() -- Sometimes ² gets remapped to <...
+    hs.application.launchOrFocus("Alacritty")
 end)
-hs.hotkey.bind({"ctrl", "shift"}, "2", function() -- ctrl + 2 doesn't work anymore...
-    hs.application.launchOrFocus("iTerm")
-end)
-hs.hotkey.bind({"ctrl"}, "2", function() -- ctrl + 2 doesn't work anymore...
-    hs.application.launchOrFocus("iTerm")
-end)
-hs.hotkey.bind({"ctrl", "shift"}, "3", function()
+hs.hotkey.bind(hyper, "e", function() -- ctrl + 2 doesn't work anymore...
     hs.application.launchOrFocus("Arc")
 end)
-hs.hotkey.bind({"ctrl"}, "3", function()
-  hs.application.launchOrFocus("Arc")
-end)
-hs.hotkey.bind({"ctrl"}, "4", function()
+hs.hotkey.bind(hyper, "r", function() -- ctrl + 2 doesn't work anymore...
     hs.application.launchOrFocus("Slack")
 end)
-
-hs.hotkey.bind({"ctrl"}, "5", function()
+hs.hotkey.bind(hyper, "t", function()
     hs.application.launchOrFocus("zoom.us")
 end)
 

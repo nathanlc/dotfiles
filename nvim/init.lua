@@ -20,6 +20,7 @@ require('plugins.surround')
 require('plugins.copilot')
 require('plugins.opener')
 require('plugins.rust-tools')
+require('plugins.flutter-tools')
 require('plugins.task-runner')
 require('plugins.file-explorer')
 

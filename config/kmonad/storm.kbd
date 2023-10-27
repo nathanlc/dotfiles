@@ -1,0 +1,166 @@
+(defcfg
+  input (iokit-name "Keyboard -- QuickFire XT")
+  output (kext)
+  fallthrough true
+)
+
+(defsrc
+  esc    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
+  grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
+  tab    a      z      e      r      t      y      u      i      o      p      [      ]      ret
+  caps   q      s      d      f      g      h      j      k      l      ;      '      bksl
+  lsft   grv    w      x      c      v      b      n      m      ,      .      /             rsft
+  lctl   lmet   lalt                        spc                  ralt   rmet   fn     rctl
+)
+
+(deflayer default
+  caps   brdn   brup   lp     mctl   dict   f6     prev   pp     next   mute   vold   volu
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      @num   @alt_w _      _      _      _      _      _      _      _      _      _      _  ;; @alt_w is actually on w
+  @hesc  _      _      _      _      _      _      _      _      _      _      @hyp_% _
+  _      _      _      @met_x @sft_c @ctl_v _      _      @ctl_, @sft_; @met_: @alt_! _
+  lctl   lmet   @sym                        spc                  @sym   @fn    rmet   rctl
+)
+
+(deflayer function
+  _      f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _   
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _  
+  _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      _      _      _      _      _      _      _      _      _      _      _             _   
+  _      _      _                           _                    _      _      _      _
+)
+
+(deflayer symbols
+  _      _      _      _      _      _      _      _      _      _      _      _      _   
+  _      _      _      @sha   _      _      @pip   @bti   @bsl   _      @at    _      _      _   
+  _      @lshe  _      _      _      _      _      _      _      _      _      _      _      _
+  _      _      @lbr   @lsq   @lpa   _      bspc   @rpa   @rsq   @rbr   @rshe  _      _
+  _      _      _      _      _      _      _      _      _      _      _      _             _
+  _      _      _                           spc                  _      _      _      _
+)
+
+(deflayer numbers
+  _      _      _      _      _      _      _      _      _      _      _      _      _   
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _   
+  _      _      _      _      _      _      _      &      *      \(     \)     _      _      _
+  _      _      _      _      _      _      _      $      %      ^      _      _      _
+  _      _      _      _      _      _      _      _      !      @      #      _             _
+  _      _      _                           spc                  _      _      _      _
+)
+
+(defalias
+  alt_w (tap-hold-next-release 200 z lalt) ;; Looks like it's on the z in azerty but actually is on the w
+  met_x (tap-hold-next-release 200 x lmet)
+  sft_c (tap-hold-next-release 200 c lsft)
+  ctl_v (tap-hold-next-release 200 v lctl)
+  ctl_, (tap-hold-next-release 200 m rctl)
+  sft_; (tap-hold-next-release 200 , rsft)
+  met_: (tap-hold-next-release 200 . rmet)
+  alt_! (tap-hold-next-release 200 / lalt)
+
+  hyp (around lmet (around lctl (around lalt lsft)))
+  hesc (tap-hold-next-release 200 esc @hyp)
+  % "
+  hyp_% (tap-hold-next-release 200 @% @hyp)
+
+  lpa 5
+  rpa -
+  sha RA-2
+  lshe grv
+  rshe S-grv
+  lbr RA-4
+  rbr RA-=
+  lsq RA-5
+  rsq RA--
+  pip RA-6
+  bti RA-7
+  bsl RA-8
+  at  RA-0
+
+  num (tap-hold-next-release 200 a (layer-toggle numbers))
+  sym (layer-toggle symbols)
+  fn (around (layer-toggle function) fn)
+  car (around lsft 6) ;; caret
+  col (around lsft ;) ;; colon
+)
+
+#| ------ layer template ------
+key pressed  symbol printed
+grv          <
+RA--         ]
+RA-=         }
+RA-1         »
+RA-2         ~
+RA-3         #
+RA-4         {
+RA-5         [
+RA-6         |
+RA-7         `
+RA-8         \
+RA-9         ^
+RA-0         @
+RA-S-1       ´
+RA-S-2       „
+RA-S-3       ”
+RA-S-4       ’
+RA-S-5       [
+RA-S-6       å
+RA-S-7       »
+RA-S-8       Û
+RA-S-9       Ç
+RA-S-0       À
+§            so
+-            )
+:            M
+;            m
++            +
+¨            %%
+?            §
+"            %
+|            μ
+£            L)
+ù            <u
+!            1
+@            2
+#            3
+$            4
+%            5
+^            6
+&            7
+*            8
+(            9
+)            0
+[            ^
+]            $
+{            ¨
+}            £
+<            .
+>            /
+m            ,
+,            ;
+.            :
+/            !
+\            *
+_            °
+1            &
+2            é
+3            "
+4            '
+5            (
+6            -
+7            è
+8            _
+9            ç
+0            à
+
+(deflayer name
+  _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _   
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      _      _      _      _      _      _      _      _      _      _      _             _   
+  _      _      _                           _                    _      _      _      _
+)
+ ------------------------------ |#
+

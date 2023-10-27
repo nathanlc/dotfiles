@@ -99,6 +99,10 @@ vim.api.nvim_set_keymap('n', '<leader>yf', ':let @+=@%<CR>', {noremap = true, si
 
 -- Windows
 vim.api.nvim_set_keymap('n', '<leader>w', '<C-w>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>wh', '<C-w>H', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>wj', '<C-w>J', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>wk', '<C-w>K', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>wl', '<C-w>L', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>wd', '<C-w>c', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>wS', ':leftabove split<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>wV', ':leftabove vsplit<CR>', {noremap = true, silent = true})
@@ -135,7 +139,7 @@ vim.keymap.set({'n'}, '<leader>ks', '<Cmd>mksession! ' .. session_file_path .. '
 vim.keymap.set({'n'}, '<leader>kr', '<Cmd>source ' .. session_file_path .. '<CR>', {silent = true})
 
 -- Jump
-vim.api.nvim_set_keymap('n', '<leader>js', ':Telescope treesitter<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>js', [[<Cmd>lua require('telescope.builtin').treesitter({})<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>jf', [[<Cmd>lua require('telescope.builtin').treesitter({default_text = ':function: '})<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>jm', [[<Cmd>lua require('telescope.builtin').treesitter({default_text = ':method: '})<CR>]], {noremap = true, silent = true})
 
@@ -164,7 +168,7 @@ vim.api.nvim_set_keymap('n', '<leader>Twh', ':set winfixheight!<CR>', {noremap =
 vim.api.nvim_set_keymap('n', '<leader>Tc', ':TSContextToggle<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>Tn', ':set number!<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>Trn', ':set relativenumber!<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>Ti', '<Cmd>IndentBlanklineToggle<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>Ti', [[<Cmd>IBLToggle<CR>]], {noremap = true, silent = true})
 
 -- Terminal
 vim.api.nvim_set_keymap('n', '<leader>"n', [[<Cmd>lua require('utils.term').open_small_term()<CR>i]], {noremap = true, silent = true})
@@ -219,7 +223,9 @@ vim.api.nvim_set_keymap('n', '<leader>lp', ':silent lolder<CR>', {noremap = true
 vim.api.nvim_set_keymap('n', '<leader>gs', ':Neogit<CR>', {noremap = true, silent = true})
 vim.keymap.set({'n'}, '<leader>gS', [[<Cmd>:Git<CR>]], {silent=true})
 vim.api.nvim_set_keymap('n', '<leader>gb', ':Git blame<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>gl', ":Git log --graph --pretty=format:'%h - (%ad)%d %s <%an>' --abbrev-commit --date=local -- %<CR>", {noremap = true, silent = true})
+vim.keymap.set({'n'}, '<leader>gl', '<Cmd>Telescope git_bcommits<CR>', {silent=true})
+vim.keymap.set({'v'}, '<leader>gl', '<Cmd>Telescope git_bcommits_range<CR>', {silent=true})
+vim.keymap.set({'n'}, '<leader>gL', '<Cmd>Telescope git_commits<CR>', {silent=true})
 vim.keymap.set({'n'}, '<leader>gg', [[<Cmd>GBrowse<CR>]], {silent = true})
 vim.keymap.set({'n'}, '<leader>gd', [[<Cmd>Gdiffsplit<CR>]], {silent = true})
 

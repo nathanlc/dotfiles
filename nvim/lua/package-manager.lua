@@ -103,6 +103,15 @@ return packer.startup(function(use)
     config = function() require("mason").setup() end
   }
   use "zbirenbaum/copilot.lua"
+  -- Flutter start
+  use {
+    'akinsho/flutter-tools.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'stevearc/dressing.nvim', -- optional for vim.ui.select
+    },
+  }
+  -- Flutter end
   -- Opener start
   use { 'ofirgall/open.nvim', requires = 'nvim-lua/plenary.nvim' }
   use 'ofirgall/open-jira.nvim'
