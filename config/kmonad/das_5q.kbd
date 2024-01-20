@@ -16,9 +16,9 @@
 (deflayer default
   caps   brdn   brup   lp     mctl   dict   f6     prev   pp     next   mute   vold   volu
   _      _      _      _      _      _      _      _      _      _      _      _      _      _
-  _      @num   @alt_w _      _      _      _      _      _      _      _      _      _      _  ;; @alt_w is actually on w, @num on q
+  _      @num   _      _      _      _      _      _      _      _      _      _      _      _  ;; @alt_w is actually on w, @num on q
   @hesc  _      _      _      _      _      _      _      _      _      _      @hyp_% _
-  _      _      _      @met_x @sft_c @ctl_v _      _      @ctl_, @sft_; @met_: @alt_! _
+  _      _      _      @alt_x @met_c @ctl_v _      _      @ctl_, @met_; @alt_: _      _
   lctl   lmet   @sym                        spc                  @sym   @fn    rmet   rctl
 )
 
@@ -50,14 +50,12 @@
 )
 
 (defalias
-  alt_w (tap-hold-next-release 180 z lalt) ;; Looks like it's on the z in azerty but actually is on the w
-  met_x (tap-hold-next-release 180 x lmet)
-  sft_c (tap-hold-next-release 180 c lsft)
+  alt_x (tap-hold-next-release 200 x lalt)
+  met_c (tap-hold-next-release 200 c lmet)
   ctl_v (tap-hold-next-release 180 v lctl)
   ctl_, (tap-hold-next-release 180 m rctl)
-  sft_; (tap-hold-next-release 180 , rsft)
-  met_: (tap-hold-next-release 180 . rmet)
-  alt_! (tap-hold-next-release 180 / lalt)
+  met_; (tap-hold-next-release 180 , rmet)
+  alt_: (tap-hold-next-release 180 . lalt)
 
   hyp (around lmet (around lctl (around lalt lsft)))
   hesc (tap-hold-next-release 180 esc @hyp)

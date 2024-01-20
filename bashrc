@@ -163,7 +163,7 @@ vterm_printf(){
 export BASH_SILENCE_DEPRECATION_WARNING=1 # Remove message about zsh being default term in macos
 export ORG="$HOME/Dropbox/org"
 export SCRIPTS="$HOME/sandbox/scripts"
-export EDITOR="nvim"
+export EDITOR="nvr"
 export LESS="-SXR"
 export XDG_CONFIG_HOME="$HOME/.config"
 export STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/starship.toml
@@ -210,3 +210,6 @@ export NODE_PATH=$(which node)
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # FZF END
 . "$HOME/.cargo/env"
+#
+# Configure zoxide
+eval "$(zoxide init bash)"

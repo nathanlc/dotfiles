@@ -27,6 +27,9 @@ vim.api.nvim_set_keymap('i', 'jk', '<ESC>', {noremap = true})
 -- vim.api.nvim_set_keymap('c', '<C-e>', '<End>', {noremap = true})
 -- vim.api.nvim_set_keymap('c', '<C-d>', '<Delete>', {noremap = true})
 
+-- Zen mode
+vim.keymap.set({'n'}, '<leader>z', [[<Cmd>:ZenMode<CR>]], {silent=true})
+
 -- Buffers
 -- vim.api.nvim_set_keymap('n', '<leader>bl', ':buffers<CR>:buffer', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>bl', ':Telescope buffers<CR>', {noremap = true, silent = true})
@@ -37,12 +40,11 @@ vim.api.nvim_set_keymap('n', '<leader>bn', ':enew <CR>', {noremap = true, silent
 vim.api.nvim_set_keymap('n', '<leader>be', 'ggdG', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>bs', [[<Cmd>lua require('utils.buffer').scratch()<CR>]], {noremap = true, silent = true})
 
-
 -- Browser
 vim.keymap.set('n', '<leader>Bl', [[<Cmd>lua require('plugins.browser_history').telescope({database = '/tmp/arc_history_db'})<CR>]], {silent = true})
 
 -- Help
-vim.api.nvim_set_keymap('n', '<leader>hl', [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>Hl', [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], {noremap = true, silent = true})
 
 -- Home
 vim.api.nvim_set_keymap('n', '<leader>H', [[<Cmd>lua require('plugins.home').home()<CR>]], {noremap = true, silent = true})
@@ -66,6 +68,7 @@ vim.keymap.set({"n"}, "<leader>fs", [[<Cmd>write<CR>]], {})
 -- Projects
 vim.api.nvim_set_keymap('n', '<leader>pl', [[<Cmd>lua require('plugins.project.project').open_telescope()<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pb', [[<Cmd>lua require('telescope.builtin').buffers({only_cwd = true})<CR>]], {noremap = true, silent = true})
+vim.keymap.set({'n'}, '<leader>po', [[<Cmd>lua require('telescope.builtin').oldfiles({only_cwd = true})<CR>]], {silent=true})
 vim.api.nvim_set_keymap('n', '<leader>p"', [[<Cmd>lua require('plugins.project.project').project_terms_picker()<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pa', ':A<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pv', ':Make<CR>', {noremap = true, silent = true})
@@ -251,6 +254,7 @@ vim.keymap.set({'n'}, '<leader>cl', [[<Cmd>lua require('plugins.clipboard').tele
 
 -- File explorer
 vim.keymap.set({"n"}, "-", require("oil").open, {silent=true})
+-- See nvim/lua/plugins/file-explorer.lua for oil keymaps
 
 -- Mason
 vim.keymap.set({'n'}, '<leader>M', '<Cmd>Mason<CR>', {silent=true})

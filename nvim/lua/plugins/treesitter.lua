@@ -1,8 +1,19 @@
+local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
+
 require('nvim-treesitter.configs').setup({
   ensure_installed = 'all',
   ignore_install = { "phpdoc" },
   highlight = {
     enable = true,
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gnn", -- set to `false` to disable one of the mappings
+      node_incremental = "grn",
+      scope_incremental = "grc",
+      node_decremental = "grm",
+    },
   },
   indent = {
     enable = true,
@@ -21,18 +32,28 @@ require('nvim-treesitter.configs').setup({
         ['if'] = '@function.inner',
         ['ac'] = '@class.outer',
         ['ic'] = '@class.inner',
-        ['aP'] = '@parameter.outer',
-        ['iP'] = '@parameter.inner',
+        ['aa'] = '@parameter.outer',
+        ['ia'] = '@parameter.inner',
+        ['ib'] = '@block.inner',
+        ['ab'] = '@block.outer',
       },
     },
     move = {
       enable = true,
       set_jumps = true,
       goto_previous_start = {
+        ['(c'] = '@class.outer',
         ['(('] = '@function.outer',
+        ['(l'] = '@loop.outer',
+        ['(i'] = '@conditional.outer',
+        ['(a'] = '@parameter.outer',
       },
       goto_next_start = {
+        [')c'] = '@class.outer',
         ['))'] = '@function.outer',
+        [')l'] = '@loop.outer',
+        [')i'] = '@conditional.outer',
+        [')a'] = '@parameter.outer',
       },
     }
   },
@@ -44,22 +65,4 @@ require('nvim-treesitter.configs').setup({
   },
 })
 
-vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-
-require('treesitter-context').setup{
-    enable = true,
-    max_lines = 0,
-    trim_scope = 'outer',
-    patterns = {
-        default = {
-            -- 'class',
-            'function',
-            'method',
-            -- 'for', -- These won't appear in the context
-            -- 'while',
-            -- 'if',
-            -- 'switch',
-            -- 'case',
-        },
-    },
-}
+vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)

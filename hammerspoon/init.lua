@@ -3,7 +3,7 @@
 local hyper = {"cmd", "alt", "ctrl", "shift"}
 
 hs.hotkey.bind(hyper, "a", function()
-    hs.application.launchOrFocus("Warp")
+    hs.application.launchOrFocus("iTerm")
 end)
 hs.hotkey.bind(hyper, "z", function() -- Sometimes ² gets remapped to <...
     hs.application.launchOrFocus("Alacritty")
@@ -17,7 +17,11 @@ end)
 hs.hotkey.bind(hyper, "t", function()
     hs.application.launchOrFocus("zoom.us")
 end)
-
+-- Start chatgpt in Arc
+hs.hotkey.bind(hyper, "c", function()
+    hs.application.launchOrFocus("Arc")
+    hs.eventtap.keyStroke({"cmd", "alt"}, 'g')
+end)
 
 hs.window.animationDuration = 0.01
 local function bindWindow(key, lambda)
@@ -110,6 +114,12 @@ bindScrool("j", function()
     hs.eventtap.scrollWheel({0, -1}, {}, "line")
 end)
 
+
+-- Start Cmd-T in Arc from anywhere
+hs.hotkey.bind({"alt"}, 'space', function()
+    hs.application.launchOrFocus("Arc")
+    hs.eventtap.keyStroke({"cmd"}, 't')
+end)
 
 -- Start Cmd-T in Arc from anywhere
 hs.hotkey.bind({"alt"}, 'space', function()

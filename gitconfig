@@ -1,0 +1,18 @@
+# This is Git's per-user configuration file.
+[user]
+    email = nathan.lecourt@gmail.com
+    username = nathanlc
+    name = Nathan Lecourt
+[github]
+    user = nathanlc
+[core]
+	editor = nvr --remote-wait-silent
+[diff]
+    tool = nvr
+[difftool "nvr"]
+    cmd = nvr -s -d $LOCAL $REMOTE
+[merge]
+    tool = nvr
+[mergetool "nvr"]
+    cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
+

@@ -9,7 +9,17 @@ return packer.startup(function(use)
   use { 'RRethy/nvim-treesitter-endwise', requires = 'nvim-treesitter/nvim-treesitter' }
   use { 'windwp/nvim-ts-autotag', requires = 'nvim-treesitter/nvim-treesitter' }
   use 'kyazdani42/nvim-web-devicons'
+  use {
+    'folke/zen-mode.nvim',
+    config = function()
+      require('zen-mode').setup()
+    end
+  }
   use 'neovim/nvim-lspconfig'
+  use {
+    'nvimtools/none-ls.nvim',
+    requires = { {'nvim-lua/plenary.nvim'} }
+  }
   use 'mfussenegger/nvim-jdtls' -- Lsp for Java. Download java language server jdtls from https://download.eclipse.org/jdtls/snapshots/?d and extract in chosen path
   use 'ray-x/lsp_signature.nvim'
   -- nvim-cmp start Auto completion compatible with LSP
@@ -22,8 +32,14 @@ return packer.startup(function(use)
   use 'saadparwaiz1/cmp_luasnip'
   use 'onsails/lspkind.nvim'
   -- nvim-cmp end
-  use {'L3MON4D3/LuaSnip', requires = 'saadparwaiz1/cmp_luasnip'}
-  use 'rafamadriz/friendly-snippets'
+  use {
+    'L3MON4D3/LuaSnip',
+    requires = {
+      'saadparwaiz1/cmp_luasnip',
+      'rafamadriz/friendly-snippets'
+    },
+    run = "make install_jsregexp"
+  }
   use 'nvim-lua/popup.nvim'
   use 'ggandor/leap.nvim'
   use 'jghauser/mkdir.nvim'
@@ -89,7 +105,10 @@ return packer.startup(function(use)
   use 'nvim-orgmode/orgmode'
   -- Debugger start
   use 'mfussenegger/nvim-dap'
-  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+  use {
+    "rcarriga/nvim-dap-ui",
+    requires = {"mfussenegger/nvim-dap"},
+  }
   -- Debugger end
   use '/Users/nathan/sandbox/mine/himalaya/vim'
   use {
@@ -135,6 +154,14 @@ return packer.startup(function(use)
       "nvim-treesitter/nvim-treesitter",
       -- "antoinemadec/FixCursorHold.nvim"
     }
+  }
+  use {
+    'LhKipp/nvim-nu',
+    config = function()
+      require('nu').setup({
+        use_lsp_features = true
+      })
+    end
   }
 
   packer.sync()

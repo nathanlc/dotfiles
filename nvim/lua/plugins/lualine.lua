@@ -1,9 +1,9 @@
-local project = require('plugins.project.project')
+-- local project = require('plugins.project.project')
 
-local function project_terms_count()
-  local count = project.project_terms_count()
-  return ' ' .. count
-end
+-- local function project_terms_count()
+--   local count = project.project_terms_count()
+--   return ' ' .. count
+-- end
 -- local ts = require('nvim-treesitter')
 -- local function treesitter_context()
 --   return ts.statusline({
@@ -20,18 +20,23 @@ theme.normal.c.fg = '#abb2bf'
 require('lualine').setup({
   options = {
     theme = theme,
+    -- section_separators = { left = '', right = '' },
+    -- component_separators = { left = '', right = '' },
+    section_separators = { left = '', right = '' },
+    component_separators = { left = '', right = '' },
   },
   tabline = {
-    lualine_a = { { 'tabs', mode = 2 , max_length = vim.o.columns } },
+    lualine_a = { { 'tabs', mode = 2, max_length = vim.o.columns, use_mode_colors = true } },
     lualine_b = { 'branch' },
-    lualine_c = { project_terms_count },
+    -- lualine_c = { project_terms_count, 'overseer' },
+    lualine_c = { 'overseer' },
     lualine_x = {},
     lualine_y = {},
     lualine_z = {},
   },
   sections = {
     lualine_a = { { 'mode' , fmt = function(str) return str:sub(1,1) end } },
-    lualine_b = { 'overseer' },
+    lualine_b = {},
     lualine_c = { filetype, filepath, 'diagnostics' },
     lualine_x = {},
     lualine_y = { 'progress' },
@@ -39,7 +44,7 @@ require('lualine').setup({
   },
   inactive_sections = {
     lualine_a = {},
-    lualine_b = { 'overseer' },
+    lualine_b = {},
     lualine_c = { filetype, filepath },
     lualine_x = { 'location' },
     lualine_y = {},

@@ -30,4 +30,7 @@ require('mappings')
 
 require('plugins.neovide')
 
+-- TODO: move to a plugin or something
+vim.env.GIT_EDITOR = 'nvr -cc split --remote-wait'
+
 require('plugins.home').startup()

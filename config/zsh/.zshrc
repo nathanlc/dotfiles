@@ -37,14 +37,14 @@ setopt HIST_VERIFY
 setopt CORRECT
 
 # Aliases START
-alias -g ...='cd ../..'
-alias -g ....='cd ../../..'
-alias -g cp='cp -iv'
-alias -g mv='mv -iv'
-alias -g ll='ls -AlhF --color=always --group-directories-first'
-alias -g ls='ls -AF --color=always --group-directories-first'
-alias -g lt='ls -AlhFrt --color=always'
-alias -g hist='history -i'
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias ll='ls -AlhF --color=always --group-directories-first'
+alias ls='ls -AF --color=always --group-directories-first'
+alias lt='ls -AlhFrt --color=always'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias hist='history -i'
 alias dc='docker compose'
 alias dx='docker compose exec'
 alias gb='git branch --list'
@@ -57,13 +57,15 @@ alias gwl='git worktree'
 alias gwa='git worktree add'
 alias gwr='git worktree remove'
 alias o='open'
-alias psg='ps aux | grep --color -i'
+alias psg='ps aux | grep --colour -i'
 alias tmuxat='tmux a -t'
-alias vim='nvim'
-alias vimu='nvim --clean'
 alias s='for i in {1..15}; do echo; done' # Create some space in the terminal
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 alias mc='mutagen-compose'
+alias mx='mutagen-compose exec'
+alias vc='nvim --clean'
+alias vs='nvim --listen /tmp/nvimsocket'
+alias v='nvr'
 # alias zz='pmset sleepnow'
 # alias dnd="bash $SCRIPTS/do_not_disturb_toggle.sh"
 # alias f="bash $SCRIPTS/search-firefox-history.sh"
@@ -86,7 +88,7 @@ export WORDCHARS="${WORDCHARS/\/}"
 # asdf END
 export ORG="$HOME/Dropbox/org"
 export SCRIPTS="$HOME/sandbox/scripts"
-export EDITOR="nvim"
+export EDITOR="nvr"
 export LESS="-SXR"
 export XDG_CONFIG_HOME="$HOME/.config"
 # Starship START
@@ -136,3 +138,6 @@ export NODE_PATH=$(which node)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # FZF END
 . "$HOME/.cargo/env"
+
+# Configure zoxide
+eval "$(zoxide init zsh)"
