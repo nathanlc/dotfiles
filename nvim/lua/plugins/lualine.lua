@@ -26,13 +26,13 @@ require('lualine').setup({
     component_separators = { left = '', right = '' },
   },
   tabline = {
-    lualine_a = { { 'tabs', mode = 2, max_length = vim.o.columns, use_mode_colors = true } },
-    lualine_b = { 'branch' },
+    lualine_a = { { 'tabs', mode = 2, max_length = vim.o.columns } },
+    lualine_b = {},
     -- lualine_c = { project_terms_count, 'overseer' },
     lualine_c = { 'overseer' },
     lualine_x = {},
     lualine_y = {},
-    lualine_z = {},
+    lualine_z = { 'branch' },
   },
   sections = {
     lualine_a = { { 'mode' , fmt = function(str) return str:sub(1,1) end } },

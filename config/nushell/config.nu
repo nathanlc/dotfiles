@@ -143,7 +143,7 @@ let light_theme = {
 
 # The default config record. This is where much of your global configuration is setup.
 $env.config = {
-    show_banner: true # true or false to enable or disable the welcome banner at startup
+    show_banner: false # true or false to enable or disable the welcome banner at startup
 
     ls: {
         use_ls_colors: true # use the LS_COLORS environment variable to colorize output
@@ -766,17 +766,28 @@ def lt [] { ls -a | sort-by modified }
 alias vs = nvim --listen /tmp/nvimsocket
 alias vc = nvim --clean
 alias v = nvr
+alias mc = mutagen-compose
+alias mx = mutagen-compose exec
+alias gwl = git worktree list
+alias gwa = git worktree add
+alias gwr = git worktree remove
 
+# Atuin
+source ~/.local/share/atuin/init.nu
+
+# Zoxide
 source ~/.zoxide.nu
 
+# custom commands
 const nu_config_path = $nu.default-config-dir
-
 const aws_module_path = $nu_config_path + "/aws_m.nu"
 const ssh_module_path = $nu_config_path + "/ssh_m.nu"
 const ssh_aws_module_path = $nu_config_path + "/ssh_aws.nu"
+const github_module_path = $nu_config_path + "/github.nu"
 use $aws_module_path
 use $ssh_module_path
 use $ssh_aws_module_path
+use $github_module_path
 
 def ssh_config [] {
   ssh_m config_from_file
@@ -792,4 +803,8 @@ def --env aws_credentials [profile: string] {
 
 def sshx [host: string] {
   ssh_aws ssh_fix_config $host
+}
+
+def prs [] {
+  github worktrees_for_prs
 }

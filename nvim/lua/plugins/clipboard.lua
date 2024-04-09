@@ -51,6 +51,16 @@ local function get_clips()
   return clips
 end
 
+function M.edit()
+  local clips_file_path = get_clips_file_path()
+  if not clips_file_path then
+    print('Could not get clips file path')
+    return
+  end
+
+  vim.cmd('edit ' .. clips_file_path.filename)
+end
+
 function M.telescope(opts)
   local pickers = require('telescope.pickers')
   local finders = require('telescope.finders')

@@ -10,13 +10,14 @@ vim.opt.shortmess = 'atOI'
 
 vim.opt.report = 0
 
--- vim.opt.listchars = {
---     tab: '→ ',
+vim.opt.listchars = {
+    tab = '  ',
 --     eol: '↵',
---     trail: '·',
+    trail = '~',
 --     extends: '↷',
 --     precedes: '↶',
--- }
+}
+vim.opt.list = true
 
 
 vim.opt.clipboard = 'unnamed'
@@ -35,9 +36,9 @@ vim.opt.smartcase = true
 vim.opt.hlsearch = false
 
 -- Those should be handled via sleuth
--- vim.opt.tabstop = 4
--- vim.opt.softtabstop = 4
--- vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
 -- vim.opt.expandtab = true
 -- vim.opt.smarttab = true
 
@@ -68,6 +69,8 @@ if vim.fn.executable('rg') then
 end
 
 vim.opt.laststatus = 0
+
+vim.opt.shell = '/bin/zsh'
 
 -- scrollback in term buffer
 vim.api.nvim_create_autocmd('TermOpen', {

@@ -16,10 +16,6 @@ return packer.startup(function(use)
     end
   }
   use 'neovim/nvim-lspconfig'
-  use {
-    'nvimtools/none-ls.nvim',
-    requires = { {'nvim-lua/plenary.nvim'} }
-  }
   use 'mfussenegger/nvim-jdtls' -- Lsp for Java. Download java language server jdtls from https://download.eclipse.org/jdtls/snapshots/?d and extract in chosen path
   use 'ray-x/lsp_signature.nvim'
   -- nvim-cmp start Auto completion compatible with LSP
@@ -54,7 +50,10 @@ return packer.startup(function(use)
   use 'andymass/vim-matchup'
   use 'stevearc/overseer.nvim' -- Task runner
   -- Telescope start
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    run = 'make',
+  }
   use 'BurntSushi/ripgrep'
   use {
     'nvim-telescope/telescope.nvim',
@@ -107,7 +106,7 @@ return packer.startup(function(use)
   use 'mfussenegger/nvim-dap'
   use {
     "rcarriga/nvim-dap-ui",
-    requires = {"mfussenegger/nvim-dap"},
+    requires = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"},
   }
   -- Debugger end
   use '/Users/nathan/sandbox/mine/himalaya/vim'
@@ -144,6 +143,7 @@ return packer.startup(function(use)
       local tsj = require('treesj')
       tsj.setup({
         use_default_keymaps = false,
+        max_join_length = 999,
       })
     end
   }
@@ -162,6 +162,17 @@ return packer.startup(function(use)
         use_lsp_features = true
       })
     end
+  }
+  use {
+    "jiaoshijie/undotree",
+    requires = {
+      "nvim-lua/plenary.nvim",
+    },
+  }
+  use {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    requires = { {"nvim-lua/plenary.nvim"} }
   }
 
   packer.sync()

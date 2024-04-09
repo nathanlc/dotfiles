@@ -19,6 +19,12 @@ vim.api.nvim_set_keymap('n', 'k', 'gk', {noremap = true})
 vim.api.nvim_set_keymap('n', 'gj', 'j', {noremap = true})
 vim.api.nvim_set_keymap('n', 'gk', 'k', {noremap = true})
 vim.api.nvim_set_keymap('i', 'jk', '<ESC>', {noremap = true})
+vim.keymap.set({'n'}, '<C-d>', '<C-d>zz', {silent = true})
+vim.keymap.set({'n'}, '<C-u>', '<C-u>zz', {silent = true})
+vim.keymap.set({'n'}, '*', '*zz', {silent = true})
+vim.keymap.set({'n'}, '#', '#zz', {silent = true})
+vim.keymap.set({'n'}, 'n', 'nzz', {silent = true})
+vim.keymap.set({'n'}, 'N', 'Nzz', {silent = true})
 
 -- Command
 -- vim.api.nvim_set_keymap('c', '<C-b>', '<Left>', {noremap = true})
@@ -42,6 +48,16 @@ vim.api.nvim_set_keymap('n', '<leader>bs', [[<Cmd>lua require('utils.buffer').sc
 
 -- Browser
 vim.keymap.set('n', '<leader>Bl', [[<Cmd>lua require('plugins.browser_history').telescope({database = '/tmp/arc_history_db'})<CR>]], {silent = true})
+
+
+-- Harpoon
+local harpoon = require('harpoon')
+vim.keymap.set({'n'}, '<leader>hl', function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, {silent=true})
+vim.keymap.set({'n'}, '<leader>ha', function() harpoon:list():add() end, {silent=true})
+vim.keymap.set({'n'}, '<A-u>', function() harpoon:list():select(1) end, {silent=true})
+vim.keymap.set({'n'}, '<A-i>', function() harpoon:list():select(2) end, {silent=true})
+vim.keymap.set({'n'}, '<A-o>', function() harpoon:list():select(3) end, {silent=true})
+vim.keymap.set({'n'}, '<A-p>', function() harpoon:list():select(4) end, {silent=true})
 
 -- Help
 vim.api.nvim_set_keymap('n', '<leader>Hl', [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], {noremap = true, silent = true})
@@ -97,8 +113,14 @@ vim.keymap.set({'n'}, '<leader>ts', [[<Cmd>OverseerQuickAction open hsplit<CR>]]
 vim.api.nvim_set_keymap('n', '<leader>Pp', '<Cmd>pwd<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>Pf', '<Cmd>echo expand("%")<CR>', {noremap = true, silent = true})
 
+-- Undo tree
+vim.keymap.set({'n'}, '<leader>uo', require('undotree').open, {silent=true})
+vim.keymap.set({'n'}, '<leader>uc', require('undotree').close, {silent=true})
+
+
 -- Yank
 vim.api.nvim_set_keymap('n', '<leader>yf', ':let @+=@%<CR>', {noremap = true, silent = true})
+vim.keymap.set({'v'}, '<leader>p', '"_dP', {silent = true})
 
 -- Windows
 vim.api.nvim_set_keymap('n', '<leader>w', '<C-w>', {noremap = true})
@@ -123,15 +145,11 @@ vim.api.nvim_set_keymap('n', '<A-h>', ':TmuxNavigateLeft<CR>', {noremap = true, 
 vim.api.nvim_set_keymap('n', '<A-j>', ':TmuxNavigateDown<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<A-k>', ':TmuxNavigateUp<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<A-l>', ':TmuxNavigateRight<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('t', '<A-h>', ':TmuxNavigateLeft<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('t', '<A-j>', ':TmuxNavigateDown<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('t', '<A-k>', ':TmuxNavigateUp<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('t', '<A-l>', ':TmuxNavigateRight<CR>', {noremap = true, silent = true})
 
 -- Search
 vim.api.nvim_set_keymap('n', '<leader>sg', ':Telescope live_grep<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>sG', ':silent grep ', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>ss', ':Telescope current_buffer_fuzzy_find<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>sf', ':Telescope current_buffer_fuzzy_find<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>sr', [[<Cmd>lua require('telescope.builtin').resume({initial_mode = "normal"})<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>sl', [[<Cmd>lua require('telescope.builtin').pickers({initial_mode = "normal"})<CR>]], {noremap = true, silent = true})
 
@@ -244,17 +262,18 @@ vim.keymap.set({'n'}, '<leader>dt', function() require('dap').terminate() end, {
 -- Org mode
 vim.api.nvim_set_keymap('n', '<leader>O', ':tabedit $ORG/gtd.org<CR>:lcd $ORG<CR>', {noremap = true, silent = true})
 
--- Copilot
-vim.keymap.set({'n'}, '<leader>Cp', '<Cmd>Copilot panel<CR>', {silent=true})
+-- Config
+vim.keymap.set({'n'}, '<leader>C', [[<Cmd>lua require('plugins.project.project').open_project_tab('~/sandbox/mine/dotfiles')<CR>]], {silent=true})
 
 
 -- Clipboards
 vim.keymap.set({'n'}, '<leader>cl', [[<Cmd>lua require('plugins.clipboard').telescope()<CR>]], {silent=true})
+vim.keymap.set({'n'}, '<leader>ce', [[<Cmd>lua require('plugins.clipboard').edit()<CR>]], {silent=true})
 
 
 -- File explorer
 vim.keymap.set({"n"}, "-", require("oil").open, {silent=true})
--- See nvim/lua/plugins/file-explorer.lua for oil keymaps
+-- See nvim/lua/plugins/oil.lua for oil keymaps
 
 -- Mason
 vim.keymap.set({'n'}, '<leader>M', '<Cmd>Mason<CR>', {silent=true})
@@ -267,6 +286,10 @@ vim.keymap.set({'n'}, '<leader>mj', '<Cmd>TSJJoin<CR>', {silent=true})
 
 -- Go to (Opener)
 vim.keymap.set({'n'}, 'gx', require('open').open_cword, {silent=true})
+
+
+-- Gcal
+vim.keymap.set({'n'}, '<leader>aa', require('plugins.gcal').add, {silent=true})
 
 
 -- Snippets

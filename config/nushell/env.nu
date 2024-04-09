@@ -97,8 +97,20 @@ $env.NU_PLUGIN_DIRS = [
     ($nu.default-config-dir | path join 'plugins') # add <nushell-config-dir>/plugins
 ]
 
+# Bun
+$env.BUN_INSTALL = $"($env.HOME)/.bun"
+
+# Go
+$env.GOPATH = $"($env.HOME)/go"
+
 # To add entries to PATH (on Windows you might use Path), you can use the following pattern:
-# $env.PATH = ($env.PATH | split row (char esep) | prepend '/opt/homebrew/bin')
+$env.PATH = (
+    $env.PATH |
+    split row (char esep) |
+    prepend $"($env.GOPATH)/bin" |
+    prepend '/opt/homebrew/bin' |
+    prepend $"($env.BUN_INSTALL)/bin"
+)
 
 # Configure zoxide
 zoxide init nushell | str replace "def-env" "def --env" --all | str replace "$env.PWD -- $rest" "$env.PWD -- ...$rest" --all | save -f ~/.zoxide.nu

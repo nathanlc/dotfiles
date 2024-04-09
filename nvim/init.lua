@@ -22,7 +22,10 @@ require('plugins.opener')
 require('plugins.rust-tools')
 require('plugins.flutter-tools')
 require('plugins.task-runner')
-require('plugins.file-explorer')
+require('plugins.oil')
+require('plugins.term')
+require('plugins.undotree')
+require('plugins.harpoon')
 
 -- require('plugins.noice')
 

@@ -53,7 +53,7 @@ alias gd='git diff'
 alias gs='git status'
 alias gl='git log --oneline --decorate --graph'
 alias gfa='git fetch --all'
-alias gwl='git worktree'
+alias gwl='git worktree list'
 alias gwa='git worktree add'
 alias gwr='git worktree remove'
 alias o='open'
@@ -66,6 +66,8 @@ alias mx='mutagen-compose exec'
 alias vc='nvim --clean'
 alias vs='nvim --listen /tmp/nvimsocket'
 alias v='nvr'
+alias gcs='gh copilot suggest'
+alias gce='gh copilot explain'
 # alias zz='pmset sleepnow'
 # alias dnd="bash $SCRIPTS/do_not_disturb_toggle.sh"
 # alias f="bash $SCRIPTS/search-firefox-history.sh"
@@ -97,9 +99,8 @@ eval "$(starship init zsh)"
 # Starship END
 export XDG_DATA_HOME="$HOME/.local/share"
 # Go START
-export GOPATH="$HOME/sandbox/mine/go"
-export GOROOT="/usr/local/go"
-PATH="${GOPATH}/bin:${GOROOT}/bin:$PATH"
+export GOPATH="$HOME/go"
+PATH="${GOPATH}/bin:$PATH"
 # Go END
 PATH="$HOME/.local/bin:$PATH"
 PATH="/usr/local/bin:$PATH"
@@ -116,6 +117,9 @@ PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 PATH="$HOME/.jenv/bin:$PATH"
 PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 # Java END
+# Bun START
+export BUN_INSTALL="$HOME/.bun"
+PATH="$BUN_INSTALL/bin:$PATH"
 # Flutter START
 export FLUTTER_ROOT="$(asdf where flutter)"
 # Flutter END
@@ -134,10 +138,14 @@ eval "$(jenv init -)"
 # Node START
 export NODE_PATH=$(which node)
 # Node END
-# FZF START
+# FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# FZF END
+# Cargo
 . "$HOME/.cargo/env"
-
-# Configure zoxide
+# Atuin
+eval "$(atuin init zsh)"
+# zoxide
 eval "$(zoxide init zsh)"
+
+# bun completions
+[ -s "/Users/nathan/.bun/_bun" ] && source "/Users/nathan/.bun/_bun"

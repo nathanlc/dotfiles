@@ -1,7 +1,6 @@
 local nvim_lsp = require('lspconfig')
 local lsp_config = require('plugins/lsp-config')
 local lsp_signature = require('lsp_signature')
-local null_ls = require("null-ls")
 
 -- See ./lua/ftplugin/java.lua
 nvim_lsp.intelephense.setup(lsp_config) -- PHP - npm install -g intelephense
@@ -42,12 +41,4 @@ lsp_signature.setup({
   handler_opts = {
     border = "rounded"
   }
-})
-
-null_ls.setup({
-  sources = {
-    null_ls.builtins.formatting.stylua,
-    null_ls.builtins.diagnostics.eslint,
-    null_ls.builtins.completion.spell,
-  },
 })

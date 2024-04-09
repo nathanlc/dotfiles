@@ -757,11 +757,22 @@ key_bindings:
   - { key: 27,             mods: Alt,                       chars: "]"                     }
   - { key: 28,             mods: Alt,                       chars: "\\"                    }
   - { key: 29,             mods: Alt,                       chars: "@"                     }
-  # Solve Alt-jklm bindings not working in neovim
+  # Solve Alt-jklm bindings not working in neovim (and other alts)
   - { key: J,        mods: Alt,     chars: "\x1bj"                       }
   - { key: K,        mods: Alt,     chars: "\x1bk"                       }
   - { key: H,        mods: Alt,     chars: "\x1bh"                       }
   - { key: L,        mods: Alt,     chars: "\x1bl"                       }
+  - { key: A,        mods: Alt,     chars: "\x1ba"                       }
+  - { key: Q,        mods: Alt,     chars: "\x1bq"                       }
+  - { key: U,        mods: Alt,     chars: "\x1bu"                       }
+  - { key: I,        mods: Alt,     chars: "\x1bi"                       }
+  - { key: O,        mods: Alt,     chars: "\x1bo"                       }
+  - { key: P,        mods: Alt,     chars: "\x1bp"                       }
+
+  - { key: B,        mods: Alt,     chars: "\x1bb"                       } # Skip word left
+  - { key: F,        mods: Alt,     chars: "\x1bf"                       } # Skip word right
+  - { key: Left,     mods: Alt,     chars: "\x1bb"                       } # Skip word left
+  - { key: Right,    mods: Alt,     chars: "\x1bf"                       } # Skip word right
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }

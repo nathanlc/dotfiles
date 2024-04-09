@@ -1,5 +1,6 @@
-local scandir = require('plenary.scandir').scan_dir
+-- local scandir = require('plenary.scandir').scan_dir
 local Path = require('plenary.path')
+local Job = require('plenary.job')
 -- local buffer = require('utils.buffer')
 local term = require('utils.term')
 local Table = require('utils.table')
@@ -17,14 +18,36 @@ local function get_project_name(project_dir)
   return vim.fn.fnamemodify(project_dir, ':t')
 end
 
-local function find_project_dirs()
-  local git_dirs = scandir(root, {
-    hidden = true,
-    -- only_dirs = true,
-    add_dirs = true,
-    depth = 5,
-    search_pattern = '%.git$'
-  })
+-- local function find_project_dirs_with_lua()
+--   local git_dirs = scandir(root, {
+--     hidden = true,
+--     -- only_dirs = true,
+--     add_dirs = true,
+--     depth = 5,
+--     search_pattern = '%.git$'
+--   })
+--
+--   local project_dirs = {}
+--   for i, v in ipairs(git_dirs) do
+--     local git_path = Path:new(v)
+--     local project_path = git_path:parent()
+--     project_dirs[i] = '~/' .. project_path:normalize(home)
+--   end
+--
+--   return project_dirs
+-- end
+
+local function find_project_dirs_with_fd()
+  local git_dirs = Job:new({
+    'fd',
+    '--hidden',
+    '--max-depth',
+    '3',
+    '--color',
+    'never',
+    '^.git$',
+    root,
+  }):sync()
 
   local project_dirs = {}
   for i, v in ipairs(git_dirs) do
@@ -114,8 +137,8 @@ local function open_project(project_path)
   -- close_window()
   vim.api.nvim_command('lcd ' .. project_path)
   update_recent_projects(project_path)
-  configure_project(project_path)
   vim.api.nvim_command('edit .')
+  configure_project(vim.fn.getcwd())
   if require('lualine') then
     vim.api.nvim_command('LualineRenameTab ' .. get_project_name(project_path))
   end
@@ -195,7 +218,7 @@ local function open_telescope(opts)
   pickers.new(opts, {
     prompt_title = "Project picker",
     finder = finders.new_table {
-      results = find_project_dirs()
+      results = find_project_dirs_with_fd()
     },
     sorter = conf.generic_sorter(opts),
     attach_mappings = function(prompt_bufnr, _)
@@ -391,6 +414,7 @@ end
 return {
   open_telescope = open_telescope,
   open_project = open_project,
+  open_project_tab = open_project_tab,
   run_console = run_console,
   run_repl = run_repl,
   run_test_suite = run_test_suite,
