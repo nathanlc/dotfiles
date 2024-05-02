@@ -7,7 +7,7 @@ vim.opt.undolevels = 10000
 vim.opt.undoreload = 10000
 
 vim.opt.shortmess = 'atOI'
-
+vim.opt.shada._value = "!,'500,<50,s10,h"
 vim.opt.report = 0
 
 vim.opt.listchars = {
@@ -26,8 +26,13 @@ vim.opt.relativenumber = true
 
 vim.opt.hidden = true
 
+-- Folding
 vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldtext = ''
+vim.opt.fillchars = 'fold: '
 vim.opt.foldlevel = 99
+-- 
 
 vim.opt.scrolloff = 1
 

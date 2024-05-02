@@ -22,7 +22,7 @@ telescope.setup({
       "^.git/",
     },
     cache_picker = {
-      num_pickers = 15,
+      num_pickers = 20,
     },
     layout_strategy = "vertical",
     layout_config = {

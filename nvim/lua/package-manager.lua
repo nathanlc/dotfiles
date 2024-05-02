@@ -17,31 +17,32 @@ return packer.startup(function(use)
   }
   use 'neovim/nvim-lspconfig'
   use 'mfussenegger/nvim-jdtls' -- Lsp for Java. Download java language server jdtls from https://download.eclipse.org/jdtls/snapshots/?d and extract in chosen path
-  use 'ray-x/lsp_signature.nvim'
   -- nvim-cmp start Auto completion compatible with LSP
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
+  use 'dmitmel/cmp-cmdline-history'
   use 'hrsh7th/cmp-nvim-lua'
   use 'hrsh7th/nvim-cmp'
   use 'saadparwaiz1/cmp_luasnip'
   use 'onsails/lspkind.nvim'
   -- nvim-cmp end
+  -- use 'gelguy/wilder.nvim'
   use {
     'L3MON4D3/LuaSnip',
+    tag = "v2.*",
     requires = {
       'saadparwaiz1/cmp_luasnip',
       'rafamadriz/friendly-snippets'
     },
     run = "make install_jsregexp"
   }
-  use 'nvim-lua/popup.nvim'
   use 'ggandor/leap.nvim'
   use 'jghauser/mkdir.nvim'
   use {
     'nmac427/guess-indent.nvim',
-    config = function() require('guess-indent').setup() end,
+    config = function() require('guess-indent').setup({}) end,
   }
   -- File explorer start
   -- use 'tpope/vim-vinegar'
@@ -62,20 +63,10 @@ return packer.startup(function(use)
   -- Telescope end
   use 'christoomey/vim-tmux-navigator'
   use 'tpope/vim-rsi'
-  use 'tpope/vim-dispatch'
+  use 'tpope/vim-dispatch' -- TODO: remove?
   -- Themes start
   -- use 'navarasu/onedark.nvim'
   use 'neanias/everforest-nvim'
-  -- use {
-  --   'xiyaowong/transparent.nvim',
-  --   config = function()
-  --     local transparent = require("transparent")
-  --     transparent.setup({
-  --       extra_groups = {}
-  --     })
-  --     vim.cmd("TransparentEnable")
-  --   end
-  -- }
   -- Themes end
   use 'nanotee/sqls.nvim'
   use 'tpope/vim-dadbod'
@@ -101,7 +92,7 @@ return packer.startup(function(use)
   -- Neogit end
   use 'tpope/vim-fugitive'
   use 'tpope/vim-rhubarb'
-  use 'nvim-orgmode/orgmode'
+  use 'nvim-orgmode/orgmode' -- TODO: remove?
   -- Debugger start
   use 'mfussenegger/nvim-dap'
   use {
@@ -109,7 +100,6 @@ return packer.startup(function(use)
     requires = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"},
   }
   -- Debugger end
-  use '/Users/nathan/sandbox/mine/himalaya/vim'
   use {
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }

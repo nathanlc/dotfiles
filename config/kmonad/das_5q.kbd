@@ -34,7 +34,7 @@
 (deflayer symbols
   _      _      _      _      _      _      _      _      _      _      _      _      _   
   _      _      @til   @sha   _      _      @pip   @bti   @bsl   _      @at    _      _      _   
-  _      @lshe  _      _      _      _      _      _      _      _      @sha   _      _      _
+  _      @lshe  _      _      _      _      _      _      _      =      @sha   _      _      _
   _      _      @lbr   @lsq   @lpa   _      bspc   @rpa   @rsq   @rbr   @rshe  _      _
   _      _      _      _      _      _      _      @star  _      _      _      _             _
   _      _      _                           spc                  _      _      _      _

@@ -1,6 +1,5 @@
 local nvim_lsp = require('lspconfig')
 local lsp_config = require('plugins/lsp-config')
-local lsp_signature = require('lsp_signature')
 
 -- See ./lua/ftplugin/java.lua
 nvim_lsp.intelephense.setup(lsp_config) -- PHP - npm install -g intelephense
@@ -35,10 +34,3 @@ nvim_lsp.lua_ls.setup({ -- brew install lua-language-server
   },
 })
 nvim_lsp.nushell.setup(lsp_config) -- language server built-in nushell
-
-lsp_signature.setup({
-  bind = true,
-  handler_opts = {
-    border = "rounded"
-  }
-})

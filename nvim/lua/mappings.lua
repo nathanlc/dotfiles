@@ -26,6 +26,15 @@ vim.keymap.set({'n'}, '#', '#zz', {silent = true})
 vim.keymap.set({'n'}, 'n', 'nzz', {silent = true})
 vim.keymap.set({'n'}, 'N', 'Nzz', {silent = true})
 
+
+-- TEMP
+vim.keymap.set({'n'}, "'.", function() print('Use g; instead!') end, {silent = true})
+
+
+-- Indent
+vim.keymap.set({'v'}, '<', '<gv', {silent = true})
+vim.keymap.set({'v'}, '>', '>gv', {silent = true})
+
 -- Command
 -- vim.api.nvim_set_keymap('c', '<C-b>', '<Left>', {noremap = true})
 -- vim.api.nvim_set_keymap('c', '<C-f>', '<Right>', {noremap = true})
@@ -294,7 +303,7 @@ vim.keymap.set({'n'}, '<leader>aa', require('plugins.gcal').add, {silent=true})
 
 -- Snippets
 local luasnip = require('luasnip')
-vim.keymap.set({'i', 's'}, '<C-i>', function()
+vim.keymap.set({'i'}, '<C-i>', function()
     if luasnip.expandable() then
         luasnip.expand({})
     end
