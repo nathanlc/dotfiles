@@ -3,10 +3,10 @@
 local hyper = {"cmd", "alt", "ctrl", "shift"}
 
 hs.hotkey.bind(hyper, "a", function()
-    hs.application.launchOrFocus("iTerm")
+    hs.application.launchOrFocus("Alacritty")
 end)
 hs.hotkey.bind(hyper, "z", function() -- Sometimes ² gets remapped to <...
-    hs.application.launchOrFocus("Alacritty")
+    hs.application.launchOrFocus("Kitty")
 end)
 hs.hotkey.bind(hyper, "e", function() -- ctrl + 2 doesn't work anymore...
     hs.application.launchOrFocus("Arc")
@@ -26,10 +26,30 @@ end)
 hs.hotkey.bind(hyper, "p", function()
     hs.application.launchOrFocus("1Password")
 end)
+
+-- Open new tab in Qutebrowser
+hs.hotkey.bind({"alt"}, 'space', function()
+    hs.application.launchOrFocus("qutebrowser")
+    hs.eventtap.keyStroke({}, 'ESCAPE')
+    hs.eventtap.keyStroke({"shift"}, 'o')
+end)
+
 -- Start chatgpt in Arc
-hs.hotkey.bind(hyper, "c", function()
+hs.hotkey.bind(hyper, "g", function()
     hs.application.launchOrFocus("Arc")
     hs.eventtap.keyStroke({"cmd", "alt"}, 'g')
+end)
+
+-- Open calendar
+hs.hotkey.bind(hyper, "c", function()
+    hs.application.launchOrFocus("Arc")
+    hs.eventtap.keyStroke({"cmd"}, '1')
+end)
+
+-- Open mail
+hs.hotkey.bind(hyper, "m", function()
+    hs.application.launchOrFocus("Arc")
+    hs.eventtap.keyStroke({"cmd"}, '2')
 end)
 
 hs.window.animationDuration = 0.01
@@ -121,17 +141,4 @@ end)
 bindScrool("j", function()
     centerMouse()
     hs.eventtap.scrollWheel({0, -1}, {}, "line")
-end)
-
-
--- Start Cmd-T in Arc from anywhere
-hs.hotkey.bind({"alt"}, 'space', function()
-    hs.application.launchOrFocus("Arc")
-    hs.eventtap.keyStroke({"cmd"}, 't')
-end)
-
--- Start Cmd-T in Arc from anywhere
-hs.hotkey.bind({"alt"}, 'space', function()
-    hs.application.launchOrFocus("Arc")
-    hs.eventtap.keyStroke({"cmd"}, 't')
 end)

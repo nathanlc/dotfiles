@@ -187,6 +187,33 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
 
+# Themes
+# schemes:
+#   everforest_dark_hard: &everforest_dark_hard
+#     primary:
+#       background: '#272e33'
+#       foreground: '#d3c6aa'
+#     normal:
+#       black:   '#414b50'
+#       red:     '#e67e80'
+#       green:   '#a7c080'
+#       yellow:  '#dbbc7f'
+#       blue:    '#7fbbb3'
+#       magenta: '#d699b6'
+#       cyan:    '#83c092'
+#       white:   '#d3c6aa'
+#     bright:
+#       black:   '#475258'
+#       red:     '#e67e80'
+#       green:   '#a7c080'
+#       yellow:  '#dbbc7f'
+#       blue:    '#7fbbb3'
+#       magenta: '#d699b6'
+#       cyan:    '#83c092'
+#       white:   '#d3c6aa'
+#
+# colors: *everforest_dark_hard
+
 # Colors (Tomorrow Night)
 #colors:
   # Default colors
@@ -768,6 +795,7 @@ key_bindings:
   - { key: I,        mods: Alt,     chars: "\x1bi"                       }
   - { key: O,        mods: Alt,     chars: "\x1bo"                       }
   - { key: P,        mods: Alt,     chars: "\x1bp"                       }
+  - { key: C,        mods: Alt,     chars: "\x1bc"                       }
 
   - { key: B,        mods: Alt,     chars: "\x1bb"                       } # Skip word left
   - { key: F,        mods: Alt,     chars: "\x1bf"                       } # Skip word right
