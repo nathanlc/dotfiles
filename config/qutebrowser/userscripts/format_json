@@ -1,0 +1,22 @@
+#!/bin/sh
+set -eu
+
+# Stolen from https://github.com/qutebrowser/qutebrowser/blob/main/misc/userscripts/format_json
+# and adapted.
+
+# Behavior:
+#   Userscript for qutebrowser which will take the raw JSON text of the current
+#   page, format it using `jq` and open pretty printed json in a new tab.
+#
+#   In order to use this script, just start it using `spawn --userscript format_json`
+#   from qutebrowser. I recommend using an alias, e.g.
+#
+#     :config-dict-add aliases json "spawn --userscript /path/to/json_format"
+#
+# Bryan Gilbert, 2017
+
+TEMP_FILE="$(/opt/homebrew/opt/coreutils/libexec/gnubin/mktemp --suffix .json)"
+/opt/homebrew/bin/jq . "$QUTE_TEXT" > "$TEMP_FILE"
+
+# send the command to qutebrowser to open the new file containing the formatted json
+echo "open -t file://$TEMP_FILE" >> "$QUTE_FIFO"
