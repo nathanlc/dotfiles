@@ -102,7 +102,6 @@ vim.api.nvim_set_keymap('n', '<leader>xh', [[<Cmd>lua require('plugins.expressio
 vim.api.nvim_set_keymap('i', '<C-s>', '<ESC>:write<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<C-s>', ':write<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>fl', ':Telescope find_files hidden=true<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>fL', [[<Cmd>lua require('commands').find_files()<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>fo', ':Telescope oldfiles<CR>', {noremap = true, silent = true})
 vim.keymap.set({"n"}, "<leader>fr", [[<Cmd>call feedkeys(":saveas %<Tab>", "tn")<CR>]], {})
 vim.keymap.set({"n"}, "<leader>fs", [[<Cmd>write<CR>]], {})
