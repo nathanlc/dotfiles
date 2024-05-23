@@ -1,6 +1,8 @@
 local ts_utils = require('nvim-treesitter.ts_utils')
 local telescope = require('telescope.builtin')
 local textcase = require('textcase')
+local utils_url = require('utils.url')
+local docs_plugin = require('plugins.docs')
 
 local M = {}
 
@@ -68,6 +70,11 @@ M.lsp_workspace_symbols = function()
     default_text = M.current_symbol(),
   }
   telescope.lsp_workspace_symbols(opts)
+end
+
+M.docs = function ()
+  local symbol = M.current_symbol()
+  docs_plugin.search(symbol)
 end
 
 return M

@@ -12,6 +12,7 @@ local Window = require('utils.window')
 local home = os.getenv('HOME')
 local root = home .. '/sandbox'
 local recent_projects_file = vim.fn.stdpath('cache') .. '/recent_projects.txt'
+local pname = '.project-nvim.json'
 ConfiguredProjects = {}
 
 local function get_project_name(project_dir)
@@ -113,7 +114,7 @@ local function get_recents()
 end
 
 local function configure_project(project_path)
-  local conf_path = project_path .. '/.project-nvim.json'
+  local conf_path = project_path .. '/' .. pname
   local project_name = get_project_name(project_path)
   local conf_file = Path:new(conf_path)
   if not conf_file:is_file() then
@@ -151,6 +152,44 @@ end
 local function open_project_tab(project_path)
   vim.api.nvim_command('tabnew')
   open_project(project_path)
+end
+
+local function open_jira()
+  return Job:new({
+    'git',
+    'branch',
+    '--show-current',
+    on_exit = function(job)
+      local output = job:result()[1]
+      if output == nil or output == '' then
+        print('project#open_jira: No branch found.')
+        return
+      end
+      local ticket = string.match(output, '^%u+%-%d+')
+      local url = 'https://glooko.atlassian.net/browse/' .. ticket
+      vim.schedule(function()
+        vim.cmd('silent !open "' .. url .. '"')
+      end)
+    end
+  }):start()
+end
+
+local function open_pr()
+  return Job:new({
+    'git',
+    'branch',
+    '--show-current',
+    on_exit = function(job)
+      local output = job:result()[1]
+      if output == nil or output == '' then
+        print('project#open_pr: No branch found.')
+        return
+      end
+      vim.schedule(function()
+        vim.cmd('silent !gh pr view ' .. output .. ' --web')
+      end)
+    end
+  }):start()
 end
 
 -- local function set_mappings(buff)
@@ -241,6 +280,10 @@ end
 local function get_current_project_name()
   local current_dir = vim.fn.getcwd()
   return get_project_name(current_dir)
+end
+
+local function edit_project_config()
+  vim.cmd('edit ' .. pname)
 end
 
 local function get_current_config()
@@ -415,6 +458,8 @@ return {
   open_telescope = open_telescope,
   open_project = open_project,
   open_project_tab = open_project_tab,
+  open_jira = open_jira,
+  open_pr = open_pr,
   run_console = run_console,
   run_repl = run_repl,
   run_test_suite = run_test_suite,
@@ -426,4 +471,5 @@ return {
   get_recents = get_recents,
   project_terms_count = project_terms_count,
   project_terms_picker = project_terms_picker,
+  edit_project_config = edit_project_config,
 }

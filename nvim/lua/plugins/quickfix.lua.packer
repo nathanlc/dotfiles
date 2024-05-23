@@ -1,0 +1,5 @@
+require('pqf').setup({
+	show_multiple_lines = true,
+	max_filename_length = 49,
+	filename_truncate_prefix = '…',
+})
