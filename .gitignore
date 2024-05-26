@@ -1,3 +1,4 @@
+config/nushell/history.txt
 config/zsh/.zcompdump
 config/zsh/.zsh_history
-config/nushell/history.txt
+config/zsh/.zsh_sessions/
