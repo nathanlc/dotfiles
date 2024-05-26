@@ -23,13 +23,13 @@ return {
 			handlers = {
 				function(server)
 					require("lspconfig")[server].setup({
-						capabilities = require("lsp-capabilities").get(),
+						capabilities = require("plugins.lsp-capabilities").get(),
 					})
 				end,
 				["jdtls"] = function() end,
 				["lua_ls"] = function()
 					require("lspconfig").lua_ls.setup({
-						capabilities = require("lsp-capabilities").get(),
+						capabilities = require("plugins.lsp-capabilities").get(),
 						  settings = {
 							Lua = {
 								runtime = {

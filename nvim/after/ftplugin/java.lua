@@ -60,7 +60,7 @@ local config = {
         },
     },
 
-    capabilities = require('lsp-capabilities').get(),
+    capabilities = require("plugins.lsp-capabilities").get(),
 
     -- Language server `initializationOptions`
     -- You need to extend the `bundles` with paths to jar files

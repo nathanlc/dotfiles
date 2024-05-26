@@ -1,9 +1,18 @@
 return {
 	"NeogitOrg/neogit",
+	dependencies = { "sindrets/diffview.nvim" },
 	config = function()
 		require('neogit').setup({
 			disable_hint = true,
+			commit_editor = {
+				kind = "vsplit",
+			},
+			commit_select_view = {
+				kind = "vsplit",
+			},
 			kind = 'replace',
+			graph_style = "unicode",
+			disable_line_numbers = false,
 			sections = {
 				recent = {
 					folded = false,
