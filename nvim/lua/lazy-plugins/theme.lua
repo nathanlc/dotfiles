@@ -4,14 +4,33 @@ return {
 	-- 	config = function()
 	-- 		require('everforest').setup({
 	-- 			background = "hard",
-	-- 			vim.cmd([[colorscheme everforest]])
+	-- 			on_highlights = function(hl, _)
+	-- 				-- The default highlights for TSBoolean is linked to `Purple` which is fg
+	-- 				-- purple and bg none. If we want to just add a bold style to the existing,
+	-- 				-- we need to have the existing *and* the bold style. (We could link to
+	-- 				-- `PurpleBold` here otherwise.)
+	-- 				hl.Normal = { fg = "#d3c6aa", bg = "NvimDarkGrey2" }
+	-- 			end,
 	-- 		})
+	-- 		vim.cmd([[colorscheme everforest]])
 	-- 	end
 	-- },
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { 'kyazdani42/nvim-web-devicons', opt = true },
 		config = function()
+			vim.cmd([[hi Directory ctermfg=14 guifg=#F8C8DC]])
+			vim.cmd([[hi MoreMsg ctermfg=14 guifg=#F8C8DC]])
+			vim.cmd([[hi Question ctermfg=14 guifg=#F8C8DC]])
+			vim.cmd([[hi SpellRare cterm=undercurl gui=undercurl guisp=#F8C8DC]])
+			vim.cmd([[hi QuickFixLine ctermfg=14 guifg=#F8C8DC]])
+			vim.cmd([[hi Special ctermfg=14 guifg=#F8C8DC]])
+			vim.cmd([[hi DiagnosticInfo ctermfg=14 guifg=#F8C8DC]])
+			vim.cmd([[hi Function ctermfg=14 guifg=#F8C8DC]])
+			vim.cmd([[hi Changed ctermfg=14 guifg=#F8C8DC]])
+			vim.cmd([[hi DiagnosticUnderlineInfo cterm=underline gui=underline guisp=#F8C8DC]])
+			vim.cmd([[hi CmpItemKindDefault guifg=#F8C8DC]])
+
 			local c = {bg = "NvimDarkGrey2", fg = "NvimLightGrey2"}
 			local b = c
 
@@ -66,9 +85,6 @@ return {
 				}
 			end
 
-			-- local lualine_theme = require('lualine.themes.everforest')
-			-- lualine_theme.normal.c.fg = '#abb2bf'
-
 			require('lualine').setup({
 				options = {
 					theme = theme,
@@ -82,8 +98,8 @@ return {
 							mode = 2,
 							max_length = vim.o.columns,
 							tabs_color = {
-								-- active = { bg = '' }
-								-- inactive = 'lualine_c_inactive'
+								-- active = { bg = '' },
+								inactive = 'lualine_c_inactive'
 							}
 						},
 					},
@@ -106,6 +122,7 @@ return {
 					lualine_a = {},
 					lualine_b = {},
 					lualine_c = { filetype(color_inactive), filepath(color_inactive) },
+					-- lualine_c = { filetype({}), filepath({}) },
 					lualine_x = { 'location' },
 					lualine_y = {},
 					lualine_z = {},

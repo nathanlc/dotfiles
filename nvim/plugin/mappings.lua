@@ -249,6 +249,8 @@ vim.api.nvim_create_autocmd('TermOpen', {
 vim.api.nvim_set_keymap('n', '<leader>ed', '<Cmd>lua vim.diagnostic.open_float()<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>ep', '<Cmd>lua vim.diagnostic.goto_prev()<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>en', '<Cmd>lua vim.diagnostic.goto_next()<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>eh', '<Cmd>lua vim.diagnostic.hide()<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>es', '<Cmd>lua vim.diagnostic.show()<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>el', '<Cmd>lua vim.diagnostic.setloclist()<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>eq', '<Cmd>lua vim.diagnostic.setqflist()<CR>', {noremap = true, silent = true})
 

@@ -1,1 +1,1 @@
-vim.bo.suffixesadd = '.ts,.tsx,.js,.jsx'
+vim.bo.suffixesadd = '.tsx,.js,.jsx'
