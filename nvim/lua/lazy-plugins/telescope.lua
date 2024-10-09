@@ -7,15 +7,25 @@ return {
 	},
 	config = function()
 		local telescope = require('telescope')
+		local actions = require("telescope.actions")
 
 		telescope.setup({
 			wrap_results = true,
 			defaults = {
 				mappings = {
 					i = {
+						["<A-b>"] = { "<S-Left>", type = "command" },
 						["<A-f>"] = { "<S-Right>", type = "command" },
+						["<C-b>"] = { "<Left>", type = "command" },
 						["<C-f>"] = { "<Right>", type = "command" },
 						["<C-d>"] = { "<Del>", type = "command" },
+						['<C-j>'] = require('telescope.actions').preview_scrolling_down,
+						['<C-k>'] = require('telescope.actions').preview_scrolling_up,
+						['<C-o>'] = require('telescope.actions.layout').toggle_preview,
+						['<C-S-q>'] = actions.send_selected_to_qflist + actions.open_qflist,
+					},
+					n = {
+						['<C-S-q>'] = actions.send_selected_to_qflist + actions.open_qflist,
 					},
 				},
 				file_ignore_patterns = {
@@ -30,16 +40,40 @@ return {
 					vertical = {
 						height = 0.95,
 						width = 0.95,
-					}
-				}
+					},
+				},
+				preview = {
+					hide_on_startup = true,
+				},
 			},
 			pickers = {
-				-- lsp_references = {
-				--   theme = "cursor"
-				-- }
+				buffers = {
+					theme = "ivy",
+				},
+				find_files = {
+					theme = "ivy",
+				},
+				lsp_references = {
+				  theme = "ivy",
+				},
+				oldfiles = {
+				  theme = "ivy",
+				},
 			}
 		})
 
 		telescope.load_extension('fzf')
+
+		vim.api.nvim_create_autocmd("User", {
+			pattern = "TelescopePreviewerLoaded",
+			callback = function(args)
+				-- if args.data.filetype ~= "help" then
+				-- 	vim.wo.number = true
+				-- elseif args.data.bufname:match("*.csv") then
+				-- 	vim.wo.wrap = false
+				-- end
+				vim.wo.wrap = true
+			end,
+		})
 	end,
 }

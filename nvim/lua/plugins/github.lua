@@ -66,4 +66,25 @@ function M.prs_ongoing_sync()
   return prs
 end
 
+function M.pr_checks()
+  local job = Job:new({
+    'gh',
+    'pr',
+    'checks',
+    '--watch',
+    '--fail-fast',
+  })
+  job:start()
+  job:after_success(function()
+    vim.schedule(function()
+      vim.api.nvim_command([[silent !hs -c 'hs.alert.show("PR OK")']])
+    end)
+  end)
+  job:after_failure(function()
+    vim.schedule(function()
+      vim.api.nvim_command([[silent !hs -c 'hs.alert.show("PR FAILED (or does not exist)")']])
+    end)
+  end)
+end
+
 return M

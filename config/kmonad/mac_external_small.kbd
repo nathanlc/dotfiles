@@ -1,0 +1,103 @@
+(defcfg
+  input (iokit-name "Magic Keyboard")
+  output (kext)
+  fallthrough true
+)
+
+(defsrc
+  esc    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
+  grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
+  tab    a      z      e      r      t      y      u      i      o      p      [      ]      ret
+  caps   q      s      d      f      g      h      j      k      l      ;      '      bksl
+  lsft   grv    w      x      c      v      b      n      m      ,      .      /             rsft
+  fn     lctl   lalt   lmet                 spc                         rmet   ralt
+)
+
+(deflayer default
+  caps   brdn   brup   lp     mctl   dict   f6     prev   pp     next   mute   vold   volu
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _   
+  _      @num   _      _      _      _      _      _      _      _      _      _      _      _
+  @hesc  _      _      _      _      _      _      _      _      _      _      @hyp_% _
+  _      _      _      @alt_x @met_c @ctl_v _      _      @ctl_, @met_; @alt_: _             _
+  @fn    lctl   lalt   @sym                 spc                         @sym   ralt
+)
+
+(deflayer function
+  _      f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _   
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _  
+  _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      _      _      _      _      _      _      _      _      _      _      _             _   
+  _      _      _      _                    _                           _      _
+)
+
+(deflayer symbols
+  _      _      _      _      _      _      _      _      _      _      _      _      _   
+  _      _      @til   @sha   _      _      @pip   @bti   @bsl   _      @at    _      _      _   
+  _      @lshe  _      _      _      _      _      _      _      =      @sha   _      _      _
+  _      _      @lbr   @lsq   @lpa   _      bspc   @rpa   @rsq   @rbr   @rshe  _      _
+  _      _      _      _      _      _      _      @star     _      _      _      _             _
+  _      _      _      _                    spc                         _      _   
+)
+#| -------
+Symbols:
+! ; : %     ? ^ * = . - + => -> _ # @ | ` \ / " ' ~ &
+Navigation:
+left down up right, +alt, pgup pgdown, alt+tab, cmd+tab, cmd/ctl + num
+--------|#
+
+(deflayer numbers
+  _      _      _      _      _      _      _      _      _      _      _      _      _   
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _   
+  _      _      _      _      _      _      _      &      *      \(     \)     _      _      _
+  _      _      _      _      _      _      _      $      %      ^      _      _      _
+  _      _      _      _      _      _      _      _      !      @      #      _             _
+  _      _      _      _                    spc                         _      _
+)
+
+(defalias
+  alt_x (tap-hold-next-release 200 x lalt)
+  met_c (tap-hold-next-release 200 c lmet)
+  ctl_v (tap-hold-next-release 180 v lctl)
+  ctl_, (tap-hold-next-release 180 m rctl)
+  met_; (tap-hold-next-release 180 , rmet)
+  alt_: (tap-hold-next-release 180 . lalt)
+
+  hyp (around lmet (around lctl (around lalt lsft)))
+  hesc (tap-hold-next-release 180 esc @hyp)
+  % "
+  star \
+  hyp_% (tap-hold-next-release 180 @% @hyp)
+
+  lpa 5
+  rpa -
+  til RA-2
+  sha RA-3
+  lshe grv
+  rshe S-grv
+  lbr RA-4
+  rbr RA-=
+  lsq RA-5
+  rsq RA--
+  pip RA-6
+  bti RA-7
+  bsl RA-8
+  at  RA-0
+
+  num (tap-hold-next-release 180 a (layer-toggle numbers))
+  sym (layer-toggle symbols)
+  fn (around (layer-toggle function) fn)
+  car (around lsft 6) ;; caret
+  col (around lsft ;) ;; colon
+)
+
+#| -----------------------------
+(deflayer name
+  _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _   
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _  
+  _      _      _      _      f      _      _      j      _      _      _      _      _
+  _      _      _      _      _      _      _      _      _      _      _      _             _   
+  _      _      _      _                    _                           _      _
+)
+ ------------------------------ |#

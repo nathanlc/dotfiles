@@ -3,16 +3,15 @@ return {
 	config = function()
 		require("copilot").setup({
 			panel = {
-				enabled = true,
-				auto_refresh = true,
+				enabled = false,
 			},
 			suggestion = {
 				enabled = true,
 				auto_trigger = true,
 				keymap = {
 					accept = "<Tab>",
-					next = "<C-j>",
-					prev = "<C-k>",
+					next = "<C-f>",
+					prev = "<C-b>",
 				}
 			}
 		})

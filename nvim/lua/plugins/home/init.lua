@@ -2,7 +2,7 @@ local Path = require('plenary.path')
 local Buffer = require('utils.buffer')
 local String = require('utils.string')
 local Table = require('utils.table')
-local Project = require('plugins.project.project')
+local Project = require('plugins.project')
 local Section = require('plugins.home.section')
 
 local M = {}

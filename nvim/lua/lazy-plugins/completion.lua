@@ -1,6 +1,8 @@
 return {
 	{
-		"hrsh7th/nvim-cmp",
+		-- "hrsh7th/nvim-cmp",
+		"iguanacucumber/magazine.nvim",
+		name = "nvim-cmp",
 		lazy = false,
 		priority = 100,
 		dependencies = {
@@ -14,6 +16,12 @@ return {
 				"L3MON4D3/LuaSnip",
 				version = "v2.*",
 				build = "make install_jsregexp",
+				dependencies = {
+					"rafamadriz/friendly-snippets",
+				},
+				config = function ()
+					require("luasnip.loaders.from_vscode").lazy_load()
+				end
 			},
 			"saadparwaiz1/cmp_luasnip",
 		},
@@ -25,11 +33,6 @@ return {
 			ls.filetype_extend('ruby', {'rails'})
 			ls.filetype_extend('javascript', {'javascriptreact'})
 			require('luasnip.loaders.from_vscode').lazy_load()
-
-			ls.config.set_config({
-				history = true,
-				update_events = 'TextChanged,TextChangedI',
-			})
 
 			cmp.setup({
 				snippet = {
@@ -65,9 +68,13 @@ return {
 				updateevents = "TextChanged,TextChangedI",
 			})
 
-			-- for _, ft_path in ipairs(vim.api.nvim_get_runtime_file("lua/custom/snippets/*.lua", true)) do
-			--   loadfile(ft_path)()
-			-- end
+			for _, ft_path in ipairs(vim.api.nvim_get_runtime_file("lua/snippets/*.lua", true)) do
+			  loadfile(ft_path)()
+			end
+
+			vim.keymap.set({ "i" }, "<C-i>", function()
+					ls.expand_or_jump()
+			end, { silent = true })
 
 			vim.keymap.set({ "i", "s" }, "<C-j>", function()
 				if ls.expand_or_jumpable() then

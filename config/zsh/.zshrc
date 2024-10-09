@@ -64,8 +64,8 @@ alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 alias mc='mutagen-compose'
 alias mx='mutagen-compose exec'
 alias vc='nvim --clean'
-alias vs='nvim --listen /tmp/nvimsocket'
-alias v='nvr'
+# alias vs='nvim --listen /tmp/nvimsocket'
+# alias v='nvr'
 alias gcs='gh copilot suggest'
 alias gce='gh copilot explain'
 # alias zz='pmset sleepnow'
@@ -103,14 +103,13 @@ export GOPATH="$HOME/go"
 PATH="${GOPATH}/bin:$PATH"
 # Go END
 PATH="$HOME/.local/bin:$PATH"
+PATH="$HOME/bin:$PATH"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/opt:$PATH"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 PATH="$SCRIPTS:$PATH"
-PATH="$SCRIPTS/diasend:$PATH"
-PATH="$SCRIPTS/glooko:$PATH"
 PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 # Java START
@@ -138,6 +137,9 @@ eval "$(jenv init -)"
 # Node START
 export NODE_PATH=$(which node)
 # Node END
+# Docker / docker compose START
+export COMPOSE_MENU=0
+# END
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # Cargo

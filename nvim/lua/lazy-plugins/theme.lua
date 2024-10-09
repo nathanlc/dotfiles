@@ -1,20 +1,4 @@
 return {
-	-- {
-	-- 	"neanias/everforest-nvim",
-	-- 	config = function()
-	-- 		require('everforest').setup({
-	-- 			background = "hard",
-	-- 			on_highlights = function(hl, _)
-	-- 				-- The default highlights for TSBoolean is linked to `Purple` which is fg
-	-- 				-- purple and bg none. If we want to just add a bold style to the existing,
-	-- 				-- we need to have the existing *and* the bold style. (We could link to
-	-- 				-- `PurpleBold` here otherwise.)
-	-- 				hl.Normal = { fg = "#d3c6aa", bg = "NvimDarkGrey2" }
-	-- 			end,
-	-- 		})
-	-- 		vim.cmd([[colorscheme everforest]])
-	-- 	end
-	-- },
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { 'kyazdani42/nvim-web-devicons', opt = true },
@@ -31,43 +15,49 @@ return {
 			vim.cmd([[hi DiagnosticUnderlineInfo cterm=underline gui=underline guisp=#F8C8DC]])
 			vim.cmd([[hi CmpItemKindDefault guifg=#F8C8DC]])
 
-			local c = {bg = "NvimDarkGrey2", fg = "NvimLightGrey2"}
+			-- Transparent BG:
+			-- vim.cmd([[highlight Normal guibg=none]])
+			-- vim.cmd([[highlight NonText guibg=none]])
+			-- vim.cmd([[highlight Normal ctermbg=none]])
+			-- vim.cmd([[highlight NonText ctermbg=none]])
+
+			local c = { bg = "NvimDarkGrey2", fg = "NvimLightGrey2" }
 			local b = c
 
 			local theme = {
 				normal = {
-					a = {bg = "NvimLightGrey2", fg = "NvimDarkGrey1", gui = 'bold'},
+					a = { bg = "NvimLightGrey2", fg = "NvimDarkGrey1", gui = 'bold' },
 					b = b,
 					c = c,
 				},
 				insert = {
-					a = {bg = "NvimLightYellow", fg = "NvimDarkGrey1", gui = 'bold'},
+					a = { bg = "NvimLightYellow", fg = "NvimDarkGrey1", gui = 'bold' },
 					b = b,
 					c = c,
 				},
 				visual = {
-					a = {bg = "NvimLightRed", fg = "NvimDarkGrey1", gui = 'bold'},
+					a = { bg = "NvimLightRed", fg = "NvimDarkGrey1", gui = 'bold' },
 					b = b,
 					c = c,
 				},
 				replace = {
-					a = {bg = "NvimLightCyan", fg = "NvimDarkGrey1", gui = 'bold'},
+					a = { bg = "NvimLightCyan", fg = "NvimDarkGrey1", gui = 'bold' },
 					b = b,
 					c = c,
 				},
 				command = {
-					a = {bg = "NvimLightGreen", fg = "NvimDarkGrey1", gui = 'bold'},
+					a = { bg = "NvimLightGreen", fg = "NvimDarkGrey1", gui = 'bold' },
 					b = b,
 					c = c,
 				},
 				inactive = {
-					a = {bg = "NvimLightGrey4", fg = "NvimDarkGrey1", gui = 'bold'},
+					a = { bg = "NvimLightGrey4", fg = "NvimDarkGrey1", gui = 'bold' },
 					b = b,
 					c = c,
 				}
 			}
 
-			local color_inactive = {fg = "NvimLightGrey4"}
+			local color_inactive = { fg = "NvimLightGrey4" }
 
 			local filepath = function(color)
 				return {
@@ -111,11 +101,26 @@ return {
 					lualine_z = { 'branch' },
 				},
 				sections = {
-					lualine_a = { { 'mode' , fmt = function(str) return str:sub(1,1) end } },
+					lualine_a = {
+						{ 'mode', fmt = function(str) return str == 'TERMINAL' and str or str:sub(1, 1) end },
+					},
 					lualine_b = {},
-					lualine_c = { filetype({}), filepath({}), 'diagnostics' },
-					lualine_x = { 'selectioncount', 'searchcount' },
-					lualine_y = { 'progress' },
+					lualine_c = {
+						filetype({}),
+						filepath({}),
+						{
+							'encoding',
+							show_bomb = true,
+							fmt = function(str) return str == "utf-8" and "" or string.upper(str) end,
+							color = { fg = "NvimLightRed" },
+						},
+						'diagnostics',
+						'searchcount',
+						'selectioncount',
+					},
+					lualine_x = {},
+					lualine_y = {
+					},
 					lualine_z = { 'location' },
 				},
 				inactive_sections = {

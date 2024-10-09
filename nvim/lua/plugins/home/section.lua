@@ -1,4 +1,4 @@
-local Project = require('plugins.project.project')
+local Project = require('plugins.project')
 local Path = require('plenary.path')
 local Table = require('utils.table')
 local github = require('plugins.github')

@@ -171,16 +171,15 @@ export XDG_DATA_HOME="$HOME/.local/share"
 # export JAVA_HOME="/usr/local/opt/openjdk/bin/java"
 # export JDTLS_HOME="$HOME/jdtls"
 # export WORKSPACE="$HOME/jdtls_workspace"
-export GOPATH="$HOME/go"
-PATH="${GOPATH}/bin:$PATH"
-PATH="/usr/local/bin:$PATH"
-PATH="/usr/local/opt:$PATH"
+export GOPATH="${HOME}/go"
+PATH="${GOPATH}/bin:${PATH}"
+PATH="${HOME}/bin:${PATH}"
+PATH="${SCRIPTS}:$PATH"
+PATH="/usr/local/bin:${PATH}"
+PATH="/usr/local/opt:${PATH}"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-PATH="$SCRIPTS:$PATH"
-PATH="$SCRIPTS/diasend:$PATH"
-PATH="$SCRIPTS/glooko:$PATH"
 PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 # Java START
@@ -205,6 +204,9 @@ export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export NODE_PATH=$(which node)
 # Node END
+# Docker / docker compose START
+export COMPOSE_MENU=0
+# END
 # FZF START
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # FZF END

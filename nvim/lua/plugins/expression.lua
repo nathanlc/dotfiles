@@ -1,10 +1,29 @@
 local ts_utils = require('nvim-treesitter.ts_utils')
 local telescope = require('telescope.builtin')
 local textcase = require('textcase')
-local utils_url = require('utils.url')
 local docs_plugin = require('plugins.docs')
 
 local M = {}
+
+local expression_cycles = {
+  {"true", "false"},
+  {"True", "False"},
+  {"public", "private", "protected"},
+  {"debug", "info", "warn", "error"},
+}
+
+M.cycle = function()
+  local current = vim.fn.expand('<cword>')
+  for _, cycle in ipairs(expression_cycles) do
+    for i, value in ipairs(cycle) do
+      if value == current then
+        local next_value = cycle[(i % #cycle) + 1]
+        vim.cmd('normal ciw' .. next_value)
+        return
+      end
+    end
+  end
+end
 
 local ts_current_symbol = function()
   local node = ts_utils.get_node_at_cursor(0)

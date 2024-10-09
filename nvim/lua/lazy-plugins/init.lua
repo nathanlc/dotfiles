@@ -5,13 +5,20 @@ return {
 	"christoomey/vim-tmux-navigator",
 	"tpope/vim-rsi",
 	"tpope/vim-dispatch", -- TODO: remove?
-	"tpope/vim-rails",
+	{
+
+		"tpope/vim-rails",
+		lazy = false
+	},
 	"tpope/vim-projectionist",
 	"tpope/vim-abolish",
 	"tpope/vim-fugitive",
 	"tpope/vim-rhubarb",
 	"andymass/vim-matchup",
-	"johmsalas/text-case.nvim",
+	{
+		"johmsalas/text-case.nvim",
+		config = function() require("textcase").setup({}) end
+	},
 	{
 		"kylechui/nvim-surround",
 		config = function() require("nvim-surround").setup({}) end
@@ -30,7 +37,7 @@ return {
 	},
 	{
 		"nmac427/guess-indent.nvim",
-		config = function() require('guess-indent').setup() end,
+		config = function() require('guess-indent').setup({}) end,
 	},
 	{
 		"folke/zen-mode.nvim",
@@ -57,33 +64,33 @@ return {
 			})
 		end
 	},
-	{
-		"akinsho/flutter-tools.nvim",
-		dependencies = {
-		  "nvim-lua/plenary.nvim",
-		  "stevearc/dressing.nvim",
-		},
-		config = function()
-			require("flutter-tools").setup({
-				flutter_lookup_cmd = "asdf where flutter"
-			})
-		end,
-	},
-	{
-		"simrat39/rust-tools.nvim",
-		config = function()
-			local rt = require("rust-tools")
-
-			rt.setup({
-				server = {
-					on_attach = function(_, bufnr)
-						-- Hover actions
-						vim.keymap.set("n", "K", rt.hover_actions.hover_actions, { buffer = bufnr })
-						-- Code action groups
-						vim.keymap.set("n", "<Leader>ca", rt.code_action_group.code_action_group, { buffer = bufnr })
-					end,
-				},
-			})
-		end
-	},
+	-- {
+	-- 	"akinsho/flutter-tools.nvim",
+	-- 	dependencies = {
+	-- 	  "nvim-lua/plenary.nvim",
+	-- 	  "stevearc/dressing.nvim",
+	-- 	},
+	-- 	config = function()
+	-- 		require("flutter-tools").setup({
+	-- 			flutter_lookup_cmd = "asdf where flutter"
+	-- 		})
+	-- 	end,
+	-- },
+	-- {
+	-- 	"simrat39/rust-tools.nvim",
+	-- 	config = function()
+	-- 		local rt = require("rust-tools")
+	--
+	-- 		rt.setup({
+	-- 			server = {
+	-- 				on_attach = function(_, bufnr)
+	-- 					-- Hover actions
+	-- 					vim.keymap.set("n", "K", rt.hover_actions.hover_actions, { buffer = bufnr })
+	-- 					-- Code action groups
+	-- 					vim.keymap.set("n", "<Leader>ca", rt.code_action_group.code_action_group, { buffer = bufnr })
+	-- 				end,
+	-- 			},
+	-- 		})
+	-- 	end
+	-- },
 }

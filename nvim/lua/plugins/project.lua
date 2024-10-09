@@ -5,7 +5,7 @@ local Job = require('plenary.job')
 local term = require('utils.term')
 local Table = require('utils.table')
 local Buffer = require('utils.buffer')
-local Window = require('utils.window')
+-- local Window = require('utils.window')
 
 -- local win
 -- local buffer_max_line = 3
@@ -124,13 +124,7 @@ local function configure_project(project_path)
   local conf_string = conf_file:read()
   local conf = vim.fn.json_decode(conf_string)
 
-  ConfiguredProjects[project_name] = {
-    console = conf['console'],
-    test = conf['test'],
-    repl = conf['repl'],
-    logs = conf['logs'],
-    verify = conf['verify'],
-  }
+  ConfiguredProjects[project_name] = conf
 end
 
 local function open_project(project_path)
@@ -174,24 +168,6 @@ local function open_jira()
   }):start()
 end
 
-local function open_pr()
-  return Job:new({
-    'git',
-    'branch',
-    '--show-current',
-    on_exit = function(job)
-      local output = job:result()[1]
-      if output == nil or output == '' then
-        print('project#open_pr: No branch found.')
-        return
-      end
-      vim.schedule(function()
-        vim.cmd('silent !gh pr view ' .. output .. ' --web')
-      end)
-    end
-  }):start()
-end
-
 -- local function set_mappings(buff)
 --   local mappings = {
 --     ['<Esc>'] = 'close_window()',
@@ -202,7 +178,7 @@ end
 --   }
 
 --   for k, v in pairs(mappings) do
---     vim.api.nvim_buf_set_keymap(buff, 'n', k, ':lua require("plugins.project.project").' .. v .. '<CR>', {
+--     vim.api.nvim_buf_set_keymap(buff, 'n', k, ':lua require("plugins.project").' .. v .. '<CR>', {
 --       nowait = true,
 --       noremap = true,
 --       silent = true,
@@ -320,118 +296,84 @@ local function run_repl()
   end
 end
 
-local function run_test_suite()
-  local window = vim.api.nvim_get_current_win()
+-- local function run_test_suite()
+--   local window = vim.api.nvim_get_current_win()
+--
+--   local project_config = get_current_config()
+--   local test_key = 'test'
+--   local command_key = 'command'
+--   local dir_key = 'dir'
+--
+--   if project_config
+--     and project_config[test_key]
+--     and project_config[test_key][command_key]
+--     and project_config[test_key][dir_key] then
+--     local test_cmd = project_config[test_key][command_key]
+--       .. ' '
+--       .. project_config[test_key][dir_key]
+--     term.run_in_term(test_cmd)
+--   elseif vim.g.loaded_dispatch then
+--     vim.api.nvim_command('Dispatch')
+--   else
+--     print('Project not configured correctly for testing.')
+--     vim.pretty_print(project_config)
+--   end
+--
+--   vim.api.nvim_set_current_win(window)
+-- end
 
-  local project_config = get_current_config()
-  local test_key = 'test'
-  local command_key = 'command'
-  local dir_key = 'dir'
+-- local function run_test_file(buffer)
+--   local window = vim.api.nvim_get_current_win()
+--
+--   local project_config = get_current_config()
+--   local test_key = 'test'
+--   local command_key = 'command'
+--   local buffer_path = Path:new(vim.api.nvim_buf_get_name(buffer))
+--   local file_path = buffer_path:normalize(vim.fn.getcwd())
+--
+--   if project_config
+--     and project_config[test_key]
+--     and project_config[test_key][command_key] then
+--     local test_cmd = project_config[test_key][command_key]
+--       .. ' '
+--       .. file_path
+--     term.run_in_term(test_cmd)
+--   elseif vim.g.loaded_dispatch then
+--     vim.api.nvim_command('Dispatch')
+--   else
+--     print('Project not configured correctly for testing.')
+--     vim.pretty_print(project_config)
+--   end
+--
+--   vim.api.nvim_set_current_win(window)
+-- end
 
-  if project_config
-    and project_config[test_key]
-    and project_config[test_key][command_key]
-    and project_config[test_key][dir_key] then
-    local test_cmd = project_config[test_key][command_key]
-      .. ' '
-      .. project_config[test_key][dir_key]
-    term.run_in_term(test_cmd)
-  elseif vim.g.loaded_dispatch then
-    vim.api.nvim_command('Dispatch')
-  else
-    print('Project not configured correctly for testing.')
-    vim.pretty_print(project_config)
-  end
-
-  vim.api.nvim_set_current_win(window)
-end
-
-local function run_test_file(buffer)
-  local window = vim.api.nvim_get_current_win()
-
-  local project_config = get_current_config()
-  local test_key = 'test'
-  local command_key = 'command'
-  local buffer_path = Path:new(vim.api.nvim_buf_get_name(buffer))
-  local file_path = buffer_path:normalize(vim.fn.getcwd())
-
-  if project_config
-    and project_config[test_key]
-    and project_config[test_key][command_key] then
-    local test_cmd = project_config[test_key][command_key]
-      .. ' '
-      .. file_path
-    term.run_in_term(test_cmd)
-  elseif vim.g.loaded_dispatch then
-    vim.api.nvim_command('Dispatch')
-  else
-    print('Project not configured correctly for testing.')
-    vim.pretty_print(project_config)
-  end
-
-  vim.api.nvim_set_current_win(window)
-end
-
-local function run_test_current(buffer, line)
-  local window = vim.api.nvim_get_current_win()
-
-  local project_config = get_current_config()
-  local test_key = 'test'
-  local command_key = 'command'
-  local buffer_path = Path:new(vim.api.nvim_buf_get_name(buffer))
-  local file_path = buffer_path:normalize(vim.fn.getcwd())
-    .. ':' .. line
-
-  if project_config
-    and project_config[test_key]
-    and project_config[test_key][command_key] then
-    local test_cmd = project_config[test_key][command_key]
-      .. ' '
-      .. file_path
-    term.run_in_term(test_cmd)
-  elseif vim.g.loaded_dispatch then
-    vim.api.nvim_command('Dispatch')
-  else
-    print('Project not configured correctly for testing.')
-    vim.pretty_print(project_config)
-  end
-
-  vim.api.nvim_set_current_win(window)
-end
-
-local function run_logs()
-  local project_config = get_current_config()
-  local config_key = 'logs'
-  local logs_buffer_key = 'logs_buffer'
-  local logs_buffer = nil
-  if project_config and project_config[logs_buffer_key] then
-    logs_buffer = project_config[logs_buffer_key]
-  end
-
-  if logs_buffer and vim.api.nvim_buf_is_loaded(project_config[logs_buffer_key]) then
-    Window.open_below()
-    vim.api.nvim_set_current_buf(project_config[logs_buffer_key])
-    return
-  end
-
-  if project_config and project_config[config_key] then
-    logs_buffer = term.run_in_term(project_config[config_key])
-    project_config[logs_buffer_key] = logs_buffer
-  else
-    print(config_key .. ': command not configured')
-  end
-end
-
-local function run_verify()
-  local project_config = get_current_config()
-  local config_key = 'verify'
-
-  if project_config and project_config[config_key] then
-    term.run_in_term(project_config[config_key])
-  else
-    print(config_key .. ': command not configured')
-  end
-end
+-- local function run_test_current(buffer, line)
+--   local window = vim.api.nvim_get_current_win()
+--
+--   local project_config = get_current_config()
+--   local test_key = 'test'
+--   local command_key = 'command'
+--   local buffer_path = Path:new(vim.api.nvim_buf_get_name(buffer))
+--   local file_path = buffer_path:normalize(vim.fn.getcwd())
+--     .. ':' .. line
+--
+--   if project_config
+--     and project_config[test_key]
+--     and project_config[test_key][command_key] then
+--     local test_cmd = project_config[test_key][command_key]
+--       .. ' '
+--       .. file_path
+--     term.run_in_term(test_cmd)
+--   elseif vim.g.loaded_dispatch then
+--     vim.api.nvim_command('Dispatch')
+--   else
+--     print('Project not configured correctly for testing.')
+--     vim.pretty_print(project_config)
+--   end
+--
+--   vim.api.nvim_set_current_win(window)
+-- end
 
 local function project_terms_count()
   local buffers = Buffer.list()
@@ -451,7 +393,47 @@ end
 local function project_terms_picker()
   local project_name = get_current_project_name()
   local default_text = 'term://' .. project_name
-  require('telescope.builtin').buffers({default_text = default_text, initial_mode = "normal"})
+  require('telescope.builtin').buffers({ default_text = default_text, initial_mode = "normal" })
+end
+
+--- @param options {target: string}
+local function run_test(options)
+  local opts = options or {}
+  local target = opts.target or "file"
+
+  local project_config = get_current_config()
+  if not project_config then
+    print("Project not configured.")
+    return
+  end
+
+  local project_name = get_current_project_name()
+  local test_config = project_config["test"]
+  if not test_config then
+    print(project_name .. ': "test" not configured.')
+    return
+  end
+
+  if target == "file" then
+    local file_name = vim.fn.expand("%:t")
+    local file_config = nil
+    for file_pattern, file_test_config in pairs(test_config) do
+      local pattnern_len = string.len(file_pattern)
+      local file_name_end = string.sub(file_name, -pattnern_len)
+      if file_name_end == file_pattern then
+        file_config = file_test_config
+        break
+      end
+    end
+    if not file_config then
+      print(project_name .. ': "test" not configured for ' .. file_name)
+      return
+    end
+
+    local makeprg = file_config["makeprg"] .. " %"
+    vim.opt_local.makeprg = makeprg -- string.gsub(makeprg, ' ', '\\ ')
+    vim.api.nvim_command('make')
+  end
 end
 
 return {
@@ -459,14 +441,12 @@ return {
   open_project = open_project,
   open_project_tab = open_project_tab,
   open_jira = open_jira,
-  open_pr = open_pr,
   run_console = run_console,
   run_repl = run_repl,
-  run_test_suite = run_test_suite,
-  run_test_file = run_test_file,
-  run_test_current = run_test_current,
-  run_logs = run_logs,
-  run_verify = run_verify,
+  run_test = run_test,
+  -- run_test_suite = run_test_suite,
+  -- run_test_file = run_test_file,
+  -- run_test_current = run_test_current,
   reload_config = reload_config,
   get_recents = get_recents,
   project_terms_count = project_terms_count,

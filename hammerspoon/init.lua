@@ -1,17 +1,22 @@
--- Application manipulations
+-- Enable cli hs
+require("hs.ipc")
+hs.ipc.cliInstall("/opt/homebrew", false)
+hs.ipc.cliSaveHistory(true)
+hs.ipc.cliSaveHistorySize(5000)
 
+-- Application manipulations
 local hyper = {"cmd", "alt", "ctrl", "shift"}
 
 hs.hotkey.bind(hyper, "a", function()
     hs.application.launchOrFocus("Alacritty")
 end)
-hs.hotkey.bind(hyper, "z", function() -- Sometimes ² gets remapped to <...
+hs.hotkey.bind(hyper, "z", function()
     hs.application.launchOrFocus("Kitty")
 end)
-hs.hotkey.bind(hyper, "e", function() -- ctrl + 2 doesn't work anymore...
+hs.hotkey.bind(hyper, "e", function()
     hs.application.launchOrFocus("Arc")
 end)
-hs.hotkey.bind(hyper, "r", function() -- ctrl + 2 doesn't work anymore...
+hs.hotkey.bind(hyper, "r", function()
     hs.application.launchOrFocus("Slack")
 end)
 hs.hotkey.bind(hyper, "t", function()
@@ -25,6 +30,9 @@ hs.hotkey.bind(hyper, "o", function()
 end)
 hs.hotkey.bind(hyper, "p", function()
     hs.application.launchOrFocus("1Password")
+end)
+hs.hotkey.bind(hyper, "s", function()
+    hs.application.launchOrFocus("Spotify")
 end)
 
 -- Open new tab in Qutebrowser
@@ -40,16 +48,26 @@ hs.hotkey.bind(hyper, "g", function()
     hs.eventtap.keyStroke({"cmd", "alt"}, 'g')
 end)
 
+---Type a key with mods after a set delay
+---@param mods table
+---@param key string
+local type_delay = function(mods, key)
+    hs.timer.doAfter(
+        0.1,
+        hs.eventtap.keyStroke(mods, key)
+    )
+end
+
 -- Open calendar
 hs.hotkey.bind(hyper, "c", function()
     hs.application.launchOrFocus("Arc")
-    hs.eventtap.keyStroke({"cmd"}, '1')
+    type_delay({"cmd"}, '1')
 end)
 
 -- Open mail
 hs.hotkey.bind(hyper, "m", function()
     hs.application.launchOrFocus("Arc")
-    hs.eventtap.keyStroke({"cmd"}, '2')
+    type_delay({"cmd"}, '2')
 end)
 
 hs.window.animationDuration = 0.01
@@ -57,19 +75,7 @@ local function bindWindow(key, lambda)
     hs.hotkey.bind({"cmd", "alt"}, key, lambda)
 end
 
-bindWindow("H", function()
-    local window = hs.window.focusedWindow()
-    local frame = window:frame()
-    local screenFrame = window:screen():frame()
-
-    frame.x = screenFrame.x
-    frame.y = screenFrame.y
-    frame.w = screenFrame.w / 2
-    frame.h = screenFrame.h
-    window:setFrame(frame)
-end)
-
-bindWindow("L", function()
+function WindowRight()
     local window = hs.window.focusedWindow()
     local frame = window:frame()
     local screenFrame = window:screen():frame()
@@ -80,13 +86,28 @@ bindWindow("L", function()
     frame.w = halfScreenWidth
     frame.h = screenFrame.h
     window:setFrame(frame)
-end)
+end
 
-bindWindow("M", function()
+function WindowLeft()
     local window = hs.window.focusedWindow()
+    local frame = window:frame()
+    local screenFrame = window:screen():frame()
 
+    frame.x = screenFrame.x
+    frame.y = screenFrame.y
+    frame.w = screenFrame.w / 2
+    frame.h = screenFrame.h
+    window:setFrame(frame)
+end
+
+function WindowMaximize()
+    local window = hs.window.focusedWindow()
     window:maximize()
-end)
+end
+
+bindWindow("H", WindowLeft)
+bindWindow("L", WindowRight)
+bindWindow("M", WindowMaximize)
 
 bindWindow("i", function()
     local window = hs.window.focusedWindow()

@@ -12,6 +12,7 @@ vim.opt.undoreload = 10000
 vim.opt.completeopt = {"menu", "menuone", "noselect" }
 
 vim.opt.shortmess = 'atOISc'
+vim.opt.showmode = false
 
 vim.opt.shada._value = "!,'500,<50,s10,h"
 
@@ -22,8 +23,6 @@ vim.opt.listchars = {
     trail = '~',
 }
 vim.opt.list = true
-
-vim.wo.wrap = true
 
 vim.opt.clipboard = 'unnamed'
 
@@ -156,7 +155,6 @@ autocmd.create_augroup({
     { 'FileType', 'qf', 'setlocal', 'cursorline' },
     { 'FileType', 'qf', 'setlocal', 'number' },
     { 'FileType', 'qf', 'setlocal', 'norelativenumber' },
-    { 'FileType', 'qf', 'nnoremap', '<C-Space>', '<CR>:copen<CR>' },
 }, 'quickfix')
 
 -- autocmd.create_augroup({

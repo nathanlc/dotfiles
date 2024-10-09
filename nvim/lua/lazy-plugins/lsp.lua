@@ -11,14 +11,21 @@ return {
 		require("mason").setup({})
 		require("mason-lspconfig").setup({
 			ensure_installed = {
-				"elmls",
+				-- "clang-format",
+				-- "clangd",
+				-- "elm-format",
+				-- "elm-language-server",
+				-- "elmls",
+				-- "eslint-lsp",
 				"gopls",
-				"intelephense",
+				-- "intelephense",
 				"jdtls",
 				"lua_ls",
 				"pyright",
 				"ruby_lsp",
-				"tsserver",
+				-- "rust-analyzer",
+				"sqlls",
+				"ts_ls",
 			},
 			handlers = {
 				function(server)
@@ -36,7 +43,10 @@ return {
 									version = 'LuaJIT',
 								},
 								diagnostics = {
-									globals = { 'vim' },
+									globals = {
+										'vim',
+										'hs', -- hammerspoon
+									},
 								},
 								workspace = {
 									library = vim.api.nvim_get_runtime_file("", true),
