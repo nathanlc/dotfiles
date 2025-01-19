@@ -4,13 +4,7 @@ local M = {}
 
 M.search = function(query)
   local filetype = vim.bo.filetype
-  local url = nil
-  if filetype == 'ruby' then
-    url = 'https://rubyapi.org/o/s?q='
-  else
-    print('Not supported for filetype: ' .. filetype)
-    return
-  end
+  local url = "dash://?query=" .. filetype .. ":"
 
   if query == nil or query == '' then
     query = vim.fn.input(url)

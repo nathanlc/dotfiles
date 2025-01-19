@@ -14,8 +14,8 @@ HISTFILE=${ZDOTDIR}/.zsh_history
 # Add more info for each history entry
 setopt EXTENDED_HISTORY
 # Remember number of commands in session and file
-SAVEHIST=5000
-HISTSIZE=2000
+SAVEHIST=500000
+HISTSIZE=500000
 # Share history across multiple zsh
 setopt SHARE_HISTORY
 # Append to history
@@ -75,16 +75,19 @@ alias gce='gh copilot explain'
 
 # Completion START
 autoload -Uz compinit && compinit
-# Case insensitive path-completion 
-zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 
+# Use zsh-autosuggestions
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# Case insensitive path-completion
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 # Partial completion suggestions
-zstyle ':completion:*' list-suffixes zstyle ':completion:*' expand prefix suffix 
-# Load bashcompinit for some old bash completions 
+zstyle ':completion:*' list-suffixes zstyle ':completion:*' expand prefix suffix
+# Load bashcompinit for some old bash completions
 autoload bashcompinit && bashcompinit
 # Completion END
 
 # Word delimiters in zsh
 export WORDCHARS="${WORDCHARS/\/}"
+
 # asdf START
 . "$HOME/.asdf/asdf.sh"
 # asdf END
@@ -93,11 +96,11 @@ export SCRIPTS="$HOME/sandbox/scripts"
 export EDITOR="nvr"
 export LESS="-SXR"
 export XDG_CONFIG_HOME="$HOME/.config"
-# Starship START
-export STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/starship.toml
-eval "$(starship init zsh)"
-# Starship END
 export XDG_DATA_HOME="$HOME/.local/share"
+export JIRA_API_TOKEN=ATATT3xFfGF0fnw-URTheLdzCNJTY84zsACRQK65n2ZVeGot0Y5FNfKdS275_C4GM8-wuZpvclXVpVEBHeepi7xH67688NnhzGndhW9mrXnWx-s8bCUvIE2SX5f2Xpf6wsQst8CxwUMo6Gw6gf94LHYNK-XBhwUb_HKSd_4I1L9mDyyzDE3TZCU=6EEB9995
+# ripgrep START
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/.ripgreprc"
+# ripgrep END
 # Go START
 export GOPATH="$HOME/go"
 PATH="${GOPATH}/bin:$PATH"
@@ -115,6 +118,10 @@ PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 # Java START
 PATH="$HOME/.jenv/bin:$PATH"
 PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+# Starship START
+export STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/starship.toml
+eval "$(starship init zsh)"
+# Starship END
 # Java END
 # Bun START
 export BUN_INSTALL="$HOME/.bun"

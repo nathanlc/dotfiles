@@ -4,9 +4,7 @@ return {
 	"jghauser/mkdir.nvim",
 	"christoomey/vim-tmux-navigator",
 	"tpope/vim-rsi",
-	"tpope/vim-dispatch", -- TODO: remove?
 	{
-
 		"tpope/vim-rails",
 		lazy = false
 	},
@@ -24,7 +22,8 @@ return {
 		config = function() require("nvim-surround").setup({}) end
 	},
 	{
-		'windwp/nvim-autopairs',
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
 		config = function() require('nvim-autopairs').setup() end,
 	},
 	{
@@ -48,6 +47,27 @@ return {
 		lazy = false,
 		branch = "harpoon2",
 		dependencies = { "nvim-lua/plenary.nvim" },
+	},
+	{
+		"ThePrimeagen/refactoring.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+		},
+		lazy = false,
+		config = function()
+			require("refactoring").setup({})
+		end,
+	},
+	{
+		"Wansmer/treesj",
+		config = function()
+			local tsj = require('treesj')
+			tsj.setup({
+				use_default_keymaps = false,
+				max_join_length = 999,
+			})
+		end
 	},
 	{
 		"jiaoshijie/undotree",

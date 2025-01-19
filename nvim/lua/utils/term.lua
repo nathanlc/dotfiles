@@ -1,11 +1,10 @@
-local Window = require('utils.window')
-
 local M = {}
 
 function M.open_small_term(shell)
   shell = shell or 'zsh'
   vim.api.nvim_command('split term://' .. shell)
-  Window.make_small()
+  vim.cmd.wincmd("J")
+  vim.api.nvim_win_set_height(0, 15)
 end
 
 local function run_command(command)

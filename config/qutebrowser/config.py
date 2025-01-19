@@ -2200,6 +2200,8 @@ config.bind("Ctrl-u", "scroll-page 0 -1")
 
 config.bind(",p", "spawn --userscript 1pass")
 config.bind(",j", "spawn --userscript format_json")
+config.bind(",ge", "spawn --userscript github_pr_expand_all")
+config.bind(",gc", "spawn --userscript github_pr_collapse_all")
 config.bind(",t", "config-cycle tabs.show always switching")
 config.bind(",ce", "config-edit")
 config.bind(",cr", "config-source")

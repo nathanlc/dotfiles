@@ -30,7 +30,7 @@ function M.screen_size()
 end
 
 function M.make_small()
-    vim.api.nvim_command('resize 18')
+    vim.api.nvim_command('resize 15')
 end
 
 return M

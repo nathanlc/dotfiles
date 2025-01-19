@@ -3,7 +3,6 @@ local autocmd = require('utils.autocmd')
 vim.opt.path = vim.opt.path - { '/usr/include' } + { '**' }
 
 vim.opt.colorcolumn = ""
-vim.cmd([[highlight ColorColumn ctermbg=darkgrey guibg='#222222']])
 
 vim.opt.undofile = true
 vim.opt.undolevels = 10000
@@ -31,12 +30,9 @@ vim.opt.relativenumber = true
 vim.opt.hidden = true
 
 -- Folding
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.opt.foldtext = ''
-vim.opt.fillchars = 'fold: '
+vim.wo.foldmethod = 'expr'
+vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.opt.foldlevel = 99
--- 
 
 vim.opt.scrolloff = 1
 
@@ -53,6 +49,7 @@ vim.opt.shiftwidth = 4
 
 vim.o.breakindent = true
 
+vim.opt.showtabline = 1
 
 -- Preview commands
 vim.o.inccommand = 'split'
@@ -87,7 +84,6 @@ vim.api.nvim_create_autocmd('TermOpen', {
       vim.opt_local.scrollback = 100000
     end
 })
-
 
 -- quickfix start
 -- From https://github.com/kevinhwang91/nvim-bqf?tab=readme-ov-file#customize-quickfix-window-easter-egg

@@ -7,6 +7,7 @@ vim.api.nvim_set_keymap('n', 'z1', ':setlocal foldlevel=1<CR>', {noremap = true}
 vim.api.nvim_set_keymap('n', 'z2', ':setlocal foldlevel=2<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', 'z3', ':setlocal foldlevel=3<CR>', {noremap = true})
 vim.keymap.set({"i"}, "<D-h>", "ch", {silent = true}) -- accidental press of <D-h>
+vim.keymap.set({"i"}, "<C-b>", "<Left>", {silent = true}) -- accidental press of <D-h>
 
 
 -- Commands
@@ -14,10 +15,6 @@ vim.api.nvim_set_keymap('n', '<leader>:', ':Telescope commands<CR>', {noremap = 
 
 
 -- Navigation
-vim.api.nvim_set_keymap('n', 'j', 'gj', {noremap = true})
-vim.api.nvim_set_keymap('n', 'k', 'gk', {noremap = true})
-vim.api.nvim_set_keymap('n', 'gj', 'j', {noremap = true})
-vim.api.nvim_set_keymap('n', 'gk', 'k', {noremap = true})
 vim.keymap.set({'i', 's'}, 'jk', '<ESC>', {silent = true})
 vim.keymap.set({'n'}, '<C-d>', '<C-d>zz', {silent = true})
 vim.keymap.set({'n'}, '<C-u>', '<C-u>zz', {silent = true})
@@ -46,7 +43,8 @@ vim.keymap.set({'n'}, '<leader>z', [[<Cmd>ZenMode<CR>]], {silent=true})
 vim.api.nvim_set_keymap('n', '<leader>bl', ':Telescope buffers<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>bd', ':bprevious<CR>:bdelete!#<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>bD', ':bprevious<CR>:bdelete!#<CR><C-w>c', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>br', ':edit %<CR>', {noremap = true})
+vim.keymap.set({'n'}, '<leader>br', ':edit %<CR>', {noremap = true})
+vim.keymap.set({'n'}, '<leader>bR', '<Cmd>enew<CR><Cmd>bdelete!#<CR><Cmd>e #<CR><Cmd>bdelete!#<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>bn', ':enew <CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>be', 'ggdG', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>by', 'mbggVGy`b', {noremap = true, silent = true})
@@ -79,6 +77,15 @@ vim.api.nvim_set_keymap('n', '<leader>hs', [[<Cmd>lua require('plugins.docs').se
 vim.api.nvim_set_keymap('n', '<leader>H', [[<Cmd>lua require('plugins.home').home()<CR>]], {noremap = true, silent = true})
 
 
+-- Refactor
+vim.keymap.set("x", "<leader>re", ":Refactor extract ")
+vim.keymap.set("x", "<leader>rf", ":Refactor extract_to_file ")
+vim.keymap.set("x", "<leader>rv", ":Refactor extract_var ")
+vim.keymap.set({ "n", "x" }, "<leader>ri", ":Refactor inline_var")
+vim.keymap.set( "n", "<leader>rI", ":Refactor inline_func")
+vim.keymap.set("n", "<leader>rb", ":Refactor extract_block")
+vim.keymap.set("n", "<leader>rbf", ":Refactor extract_block_to_file")
+
 -- Expression (under cursor)
 vim.api.nvim_set_keymap('n', '<leader>xg', [[<Cmd>lua require('plugins.expression').grep()<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>xG', [[:silent grep <C-r><C-w> ]], {noremap = true})
@@ -87,8 +94,6 @@ vim.api.nvim_set_keymap('n', '<leader>xf', [[<Cmd>lua require('plugins.expressio
 vim.api.nvim_set_keymap('n', '<leader>xH', [[<Cmd>lua require('plugins.expression').help_tags()<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>xj', [[<Cmd>lua require('plugins.expression').lsp_workspace_symbols()<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>xh', [[<Cmd>lua require('plugins.expression').docs()<CR>]], {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>xr', [[:%S/\<<C-r><C-w>\>//g<Left><Left>]], {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>xc', [[<Cmd>lua require('plugins.expression').cycle()<CR>]], {noremap = true})
 vim.api.nvim_set_keymap('n', '<C-Space>', [[<Cmd>lua require('plugins.expression').cycle()<CR>]], {noremap = true})
 
 
@@ -144,10 +149,12 @@ vim.keymap.set({'n'}, '<leader>uc', require('undotree').close, {silent=true})
 
 
 -- Yank / paste
+vim.keymap.set({'n'}, 'gy', 'gvy', {silent = true})
 vim.keymap.set({'n'}, 'Y', 'yg_', {silent = true})
 vim.api.nvim_set_keymap('n', '<leader>yf', ':let @+=@%<CR>', {noremap = true, silent = true})
-vim.keymap.set({'v'}, '<leader>p', '"_dP', {silent = true})
+vim.keymap.set({'v'}, '<leader>p', '"_dp', {silent = true})
 vim.keymap.set({'n'}, 'gp', '`[v`]', {silent = true})
+vim.keymap.set({'n'}, '<leader>xp', 'viwP', {silent = true})
 -- vim.keymap.set({'v'}, '<C-j>', [[:'<,'>move +1<CR>gv]], {silent = true})
 -- vim.keymap.set({'v'}, '<C-k>', [[:'<,'>move -2<CR>gv]], {silent = true})
 
@@ -161,7 +168,11 @@ vim.api.nvim_set_keymap('n', '<leader>wl', '<C-w>L', {noremap = true, silent = t
 vim.api.nvim_set_keymap('n', '<leader>wd', '<C-w>c', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>wS', ':leftabove split<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>wV', ':leftabove vsplit<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>wm', [[<Cmd>lua require('utils.window').make_small()<CR>]], {noremap = true, silent = true})
+vim.keymap.set({'n'}, '<leader>wm', [[<Cmd>lua vim.api.nvim_win_set_height(0, 15)<CR>]], {silent = true})
+vim.keymap.set({'n'}, '<leader>wf', function()
+    local file = vim.fn.findfile(vim.fn.expand("<cfile>"), "**")
+    vim.cmd('vsplit ' .. file)
+end, {silent = true})
 vim.keymap.set({'n'}, '<leader>wp', '<C-w><C-p>', {silent = true})
 -- vim.api.nvim_set_keymap('n', '<A-h>', '<C-w>h', {noremap = true})
 -- vim.api.nvim_set_keymap('n', '<A-j>', '<C-w>j', {noremap = true})
@@ -205,6 +216,7 @@ vim.keymap.set({'n'}, '<leader>kr', '<Cmd>source ' .. session_file_path .. '<CR>
 -- Jump
 vim.api.nvim_set_keymap('n', '<leader>js', [[<Cmd>lua require('telescope.builtin').treesitter({})<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>jf', [[<Cmd>lua require('telescope.builtin').treesitter({default_text = ':function: '})<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>jt', [[<Cmd>lua require('telescope.builtin').treesitter({default_text = ':type: '})<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>jm', [[<Cmd>lua require('telescope.builtin').treesitter({default_text = ':method: '})<CR>]], {noremap = true, silent = true})
 
 
@@ -238,11 +250,15 @@ vim.api.nvim_set_keymap('n', 'T9', '9gt', {noremap = true, silent = true})
 
 
 -- Toggle
+vim.api.nvim_set_keymap('n', '<leader>!c', ':TSContextToggle<CR>', {noremap = true})
+vim.keymap.set({'n'}, '<leader>!d', function ()
+    vim.diagnostic.enable(not vim.diagnostic.is_enabled({bufnr = 0}), {bufnr = 0})
+end, {silent = true})
 vim.api.nvim_set_keymap('n', '<leader>!h', ':set hlsearch!<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>!l', ':setlocal wrap!<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>!wh', ':set winfixheight!<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>!c', ':TSContextToggle<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>!n', ':set number!<CR>:set relativenumber!<CR>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>!s', ':setlocal spell!<CR>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>!wh', ':set winfixheight!<CR>', {noremap = true})
 
 
 -- Terminal
@@ -253,7 +269,7 @@ vim.keymap.set({'n'}, '<leader>"v', [[<Cmd>vsplit | term<CR>i]], {silent = true}
 vim.api.nvim_set_keymap('n', '<leader>"l', [[<Cmd>lua require('telescope.builtin').buffers({default_text = "term://", initial_mode = "normal"})<CR>]], {noremap = true, silent = true})
 vim.keymap.set({'n'}, '<leader>"t', [[<Cmd>tabnew | term<CR>]], {silent = true})
 vim.keymap.set({'n'}, '<leader>"r', [[<Cmd>lua require('plugins.term').history()<CR>]], {silent = true})
-vim.api.nvim_set_keymap('t', 'jk', '<C-\\><C-N>', {noremap = true})
+-- vim.api.nvim_set_keymap('t', 'jk', '<C-\\><C-N>', {noremap = true}) -- This prevents from using some tuis where j is used to scroll down.
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-N>', {noremap = true})
 vim.api.nvim_set_keymap('t', '<A-h>', [[<Cmd>wincmd h<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<A-j>', [[<Cmd>wincmd j<CR>]], {noremap = true, silent = true})
@@ -264,7 +280,23 @@ vim.api.nvim_create_autocmd('TermOpen', {
     group = vim.api.nvim_create_augroup('nathanlc:TermOpen', {clear=true}),
     pattern = {"*"},
     callback = function()
-      vim.keymap.set({'n'}, '<C-p>', 'i<C-p>', {buffer=true})
+        local term = require('plugins.term')
+        -- local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+
+        vim.schedule(function()
+            vim.cmd('setlocal nospell')
+            vim.keymap.set({'n'}, '<C-p>', 'i<C-p>', {buffer=true})
+            vim.keymap.set({'n', 'x', 'o'}, '[l', function()
+                -- local bufnr = vim.api.nvim_get_current_buf()
+                -- term.jump_previous_prompt({bufnr = bufnr})
+                term.jump_previous_prompt()
+            end, {buffer=true})
+            vim.keymap.set({'n', 'x', 'o'}, ']l', function()
+                -- local bufnr = vim.api.nvim_get_current_buf()
+                -- term.jump_next_prompt({bufnr = bufnr})
+                term.jump_next_prompt()
+            end, {buffer=true})
+        end)
     end
 })
 
@@ -300,7 +332,6 @@ vim.api.nvim_set_keymap('n', '<leader>lp', ':silent lolder<CR>', {noremap = true
 -- vim.api.nvim_set_keymap('n', '<leader>gs', ':Git<CR>', {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap('n', '<leader>gd', ':Git diff<CR>', {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap('n', '<leader>gl', ":Git log --graph --pretty=format:'%h - (%ad)%d %s <%an>' --abbrev-commit --date=local<CR>", {noremap = true, silent = true})
--- vim.api.nvim_set_keymap('n', '<leader>gfb', ':Git blame<CR>', {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap('n', '<leader>gfl', ":Git log --graph --pretty=format:'%h - (%ad)%d %s <%an>' --abbrev-commit --date=local -- %<CR>", {noremap = true, silent = true})
 
 
@@ -314,7 +345,7 @@ vim.keymap.set({'n'}, '<leader>gL', '<Cmd>Telescope git_commits<CR>', {silent=tr
 vim.keymap.set({'n'}, '<leader>gg', "<Cmd>GBrowse<CR>", {silent = true})
 vim.keymap.set({'n'}, '<leader>gd', "<Cmd>Gdiffsplit<CR>", {silent = true})
 vim.keymap.set({'n'}, '<leader>gc', ":!gh pr create --fill --draft && gh pr view --web<CR>", {silent = true})
-vim.keymap.set({'n'}, '<leader>gj', require('plugins.github').pr_checks, {silent = true}) -- "j" for jenkins
+vim.keymap.set({'n'}, '<leader>gj', require('plugins.github').pr_checks, {}) -- "j" for jenkins
 vim.keymap.set({'n'}, '<leader>gv', ":!gh pr view --web<CR>", {silent = true})
 
 
@@ -327,16 +358,11 @@ vim.keymap.set({'n'}, '<leader>do', function() require('dap').step_out() end, {s
 vim.keymap.set({'n'}, '<leader>dt', function() require('dap').terminate() end, {silent=true})
 
 
--- Open
+-- Open / Org
 vim.keymap.set({'n'}, '<leader>od', function() require('oil').open('~/Downloads') end, {silent=true})
 vim.keymap.set({'n'}, '<leader>os', [[<Cmd>edit ~/.ssh/config<CR>]], {silent=true})
-vim.keymap.set({'n'}, '<leader>om', [[<Cmd>edit ~/Dropbox/neorg/meetings.norg<CR>]], {silent=true})
-vim.keymap.set({'n'}, '<leader>ot', [[<Cmd>edit ~/Dropbox/neorg/todos.norg<CR>]], {silent=true})
-vim.keymap.set({'n'}, '<leader>oT', [[<Cmd>tabedit ~/Dropbox/neorg/todos.norg<CR>]], {silent=true})
-
-
--- Org mode
-vim.api.nvim_set_keymap('n', '<leader>O', ':tabedit $ORG/gtd.org<CR>:lcd $ORG<CR>', {noremap = true, silent = true})
+vim.keymap.set({'n'}, '<leader>oC', [[<Cmd>edit $ORG/capture.org<CR>]], {silent=true})
+vim.keymap.set({'n'}, '<leader>O', [[<Cmd>edit $ORG/gtd.org<CR>]], {silent = true})
 
 
 -- Config / Clipboard
@@ -392,7 +418,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         -- -- vim.keymap.set('n', '<leader>Wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
         -- -- vim.keymap.set('n', '<leader>Wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
         -- -- vim.keymap.set('n', '<leader>Wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-        vim.keymap.set('n', '<leader>rb', vim.lsp.buf.rename, bufopts)
+        vim.keymap.set('n', '<leader>xr', vim.lsp.buf.rename, bufopts)
         vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
         vim.keymap.set("n", "<leader>=", vim.lsp.buf.format, bufopts)
         -- -- vim.keymap.set("n", "<leader>I", [[<Cmd>lua print(vim.inspect(vim.lsp.get_clients({buffer=bufnr})[1].resolved_capabilities))<CR>]], bufopts)
@@ -424,19 +450,20 @@ vim.api.nvim_create_autocmd('FileType', {
     pattern = {"qf"},
     callback = function()
         vim.schedule(function()
-            vim.keymap.set('n', '<C-Space>', '<CR>:copen<CR>', {silent=true, buffer=true})
+            vim.keymap.set({'n'}, '<C-Space>', '<CR>:copen<CR>', {silent=true, buffer=true})
+            vim.keymap.set({'n'}, '<leader>/', '<Cmd>packadd cfilter<CR>:Cfilter', {buffer=true})
         end)
     end
 })
 
 -- norg / neorg
-vim.api.nvim_create_autocmd('FileType', {
-    group = nathan_lc_group,
-    pattern = {"norg"},
-    callback = function()
-        vim.schedule(function()
-            vim.keymap.set('n', '<C-Space>', '<Plug>(neorg.qol.todo-items.todo.task-cycle)', {silent=true, buffer=true})
-        end)
-    end
-})
+-- vim.api.nvim_create_autocmd('FileType', {
+--     group = nathan_lc_group,
+--     pattern = {"norg"},
+--     callback = function()
+--         vim.schedule(function()
+--             vim.keymap.set('n', '<C-Space>', '<Plug>(neorg.qol.todo-items.todo.task-cycle)', {silent=true, buffer=true})
+--         end)
+--     end
+-- })
 

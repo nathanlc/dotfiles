@@ -1,0 +1,91 @@
+set real_name = "Nathan Lecourt"
+set from = "nathan.lecourt@glooko.com"
+
+# set folder = "imaps://nathan.lecourt@glooko.com@imap.gmail.com:993"
+# set imap_pass = "`security find-generic-password -s neomutt-glooko -w`"
+# set ssl_starttls = yes
+# set ssl_force_tls = yes
+# set timeout = 30
+# set spool_file = "+INBOX"
+# set record = "+[Gmail]/Sent Mail"
+# set postponed = "+[Gmail]/Drafts"
+# set mbox ="+[Gmail]/All Mail"
+# set trash = "+[Gmail]/Trash"
+
+set mbox_type = Maildir
+set folder = "~/Documents/Maildir/glooko"
+set spool_file = "+INBOX"
+set record = "+Sent"
+set postponed = "+Drafts"
+set mbox ="+All"
+# set trash = "+Trash"
+mailboxes =INBOX =Starred =Sent =Drafts =All # =Trash
+
+set smtp_url = "smtps://nathan.lecourt@glooko.com@smtp.gmail.com:465"
+set smtp_pass = "`security find-generic-password -s neomutt-glooko -w`"
+set smtp_authenticators = "login"
+
+set send_charset="us-ascii:utf-8"
+set mime_type_query_command = "file --mime-type -b %s"
+set forward_attachments = "yes"
+set use_envelope_from = "yes"
+set forward_format = "Fwd: %s"
+set forward_quote
+set include
+set edit_headers
+
+set header_cache = "~/.cache/neomutt/glooko/header_cache"
+set message_cachedir = "~/.cache/neomutt/glooko/message_cache"
+set mailcap_path = "$XDG_CONFIG_HOME/neomutt/mailcap"
+set editor = "nvim"
+unset mark_old
+unset confirm_append
+unset wait_key
+unset prompt_after
+set timeout = 30
+set pipe_decode
+set thorough_search
+set pager_index_lines = 10
+set pager_context = 3
+set pager_stop = "yes"
+set menu_scroll
+set tilde
+set use_threads = yes # sort=last-date sort_aux=date
+set sort = threads 
+set sort_aux = last-date-received
+alternative_order text/html text/plain text/enriched text/*
+# alternative_order text/plain text/html
+auto_view text/html text/calendar application/ics
+
+# set date_format="%Y-%m-%d %H:%M"
+# set index_format="%2C %Z  %?X?A& ? %D %-15.15F %s"
+set index_format = "%Z %(%Y-%m-%d %H:%M) %-15.15L %s"
+set sidebar_visible
+set mail_check_stats
+set sidebar_format = "%B%* %<N?%N/>%S"
+
+startup-hook 'echo `mbsync -a &> /dev/null &`'
+
+macro index,pager \cb "<pipe-message> urlscan<Enter>" "Call urlscan to extract URLs out of a message"
+bind pager \cd half-down
+bind pager \cu half-up
+bind index,pager B sidebar-toggle-visible
+bind index,pager g noop
+macro index,pager gi "<change-folder>=INBOX<enter>" "Go to Inbox"
+macro index,pager gf "<change-folder>=Starred<enter>" "Go to Starred" # f as in favorites
+macro index,pager gs "<change-folder>=Sent<enter>" "Go to Sent"
+macro index,pager gd "<change-folder>=Drafts<enter>" "Go to Drafts"
+# macro index,pager gt "<change-folder>=Trash<enter>" "Go to Trash"
+macro index,pager ga "<change-folder>=All<enter>" "Go to All"
+bind pager G bottom
+bind index,pager m noop
+macro index,pager ma "<save-message>=All<enter>" "Move to All"
+macro index mi "<save-message>=INBOX<enter>" "Move to Inbox"
+bind index L limit
+bind index,pager R group-reply
+macro index,pager U "<shell-escape>mbsync -a &> /dev/null &<enter>" "Update Mail"
+macro index,pager V "<view-attachments><search>html<enter><view-mailcap><exit>" "View HTML in web browser"
+# macro index,pager 'V' "<view-attachments><search>html<pipe-entry>iconv -c --to-code=UTF8 > /tmp/mutt-mail.html<enter><shell-escape>open /tmp/mutt-mail.html<enter>" "Open in web browser"
+
+
+color index bold default default "~N"

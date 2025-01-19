@@ -3,11 +3,14 @@ function instance_to_mfa_profile {
   instance_split=(${instance_name//-/ })
   environment=${instance_split[0]}
   region=${instance_split[1]}
-  if [[ "${environment}" == "qa" ]]
-  then
+  if [[ "${region}" == "de" ]]; then
+    region="defr"
+  fi
+  if [[ "${environment}" == "qa" ]]; then
     profile="qa"
-  elif [[ "${environment}" == "staging" ]]
-  then
+  elif [[ "${environment}" == "qa2" ]]; then
+    profile="qa"
+  elif [[ "${environment}" == "staging" ]]; then
     profile="prod-${region}"
   else
     # e.g. prod-eu
@@ -29,7 +32,7 @@ function instance_to_region {
     echo "eu-west-1"
 	  return 0
 	  ;;
-	"defr")
+	"defr"|"de")
 	  echo "eu-central-1"
     return 0
 	  ;;

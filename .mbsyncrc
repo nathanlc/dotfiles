@@ -1,0 +1,65 @@
+# WORK Email
+
+IMAPAccount glooko
+Host imap.gmail.com
+user nathan.lecourt@glooko.com
+PassCmd "security find-generic-password -s neomutt-glooko -w"
+TLSType IMAPS
+AuthMechs LOGIN
+
+IMAPStore glooko-remote
+Account glooko
+
+MaildirStore glooko-local
+Path ~/Documents/Maildir/glooko/
+Inbox ~/Documents/Maildir/glooko/Inbox
+
+Channel glooko-inbox
+Far :glooko-remote:
+Near :glooko-local:
+Patterns "INBOX"
+Create Both
+Expunge Both
+SyncState *
+
+Channel glooko-starred
+Far :glooko-remote:"[Gmail]/Starred"
+Near :glooko-local:"Starred"
+Create Both
+Expunge Both
+SyncState *
+
+# Channel work-gmail-trash
+# Far :work-gmail-remote:"[Gmail]/Trash"
+# Near :work-gmail-local:"Trash"
+# Create Both
+# Expunge Both
+# SyncState *
+
+Channel glooko-sent
+Far :glooko-remote:"[Gmail]/Sent Mail"
+Near :glooko-local:"Sent"
+Create Both
+Expunge Both
+SyncState *
+
+Channel glooko-drafts
+Far :glooko-remote:"[Gmail]/Drafts"
+Near :glooko-local:"Drafts"
+Create Both
+Expunge Both
+SyncState *
+
+Channel glooko-all
+Far :glooko-remote:"[Gmail]/All Mail"
+Near :glooko-local:"All"
+Create Both
+Expunge Both
+SyncState *
+
+Group glooko
+Channel glooko-inbox
+Channel glooko-starred
+Channel glooko-sent
+# Channel work-gmail-trash
+Channel glooko-all

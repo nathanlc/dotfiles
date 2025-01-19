@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+js() {
+cat <<EOF
+document.querySelectorAll('button.btn-octicon.js-details-target[aria-expanded="true"]').forEach(button => button.click());
+EOF
+}
+
+echo "jseval -q $(js)" >> "$QUTE_FIFO"

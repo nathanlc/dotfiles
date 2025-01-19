@@ -1,19 +1,41 @@
 return {
 	{
 		"nvim-lualine/lualine.nvim",
-		dependencies = { 'kyazdani42/nvim-web-devicons', opt = true },
+		dependencies = {
+			{ 'kyazdani42/nvim-web-devicons', opt = true },
+			{
+				'sainnhe/gruvbox-material',
+				lazy = false,
+				priority = 1000,
+
+			},
+			{
+				'projekt0n/github-nvim-theme',
+				name = 'github-theme',
+				lazy = false,
+				priority = 1000,
+			},
+		},
 		config = function()
-			vim.cmd([[hi Directory ctermfg=14 guifg=#F8C8DC]])
-			vim.cmd([[hi MoreMsg ctermfg=14 guifg=#F8C8DC]])
-			vim.cmd([[hi Question ctermfg=14 guifg=#F8C8DC]])
-			vim.cmd([[hi SpellRare cterm=undercurl gui=undercurl guisp=#F8C8DC]])
-			vim.cmd([[hi QuickFixLine ctermfg=14 guifg=#F8C8DC]])
-			vim.cmd([[hi Special ctermfg=14 guifg=#F8C8DC]])
-			vim.cmd([[hi DiagnosticInfo ctermfg=14 guifg=#F8C8DC]])
-			vim.cmd([[hi Function ctermfg=14 guifg=#F8C8DC]])
-			vim.cmd([[hi Changed ctermfg=14 guifg=#F8C8DC]])
-			vim.cmd([[hi DiagnosticUnderlineInfo cterm=underline gui=underline guisp=#F8C8DC]])
-			vim.cmd([[hi CmpItemKindDefault guifg=#F8C8DC]])
+			-- require('github-theme').setup({})
+			-- vim.cmd('colorscheme github_dark_dimmed')
+
+			vim.g.gruvbox_material_enable_italic = true
+			vim.g.gruvbox_material_background = 'hard'
+			-- vim.g.gruvbox_material_foreground = 'original'
+			vim.cmd('colorscheme gruvbox-material')
+
+			-- vim.cmd([[hi Directory ctermfg=14 guifg=#F8C8DC]])
+			-- vim.cmd([[hi MoreMsg ctermfg=14 guifg=#F8C8DC]])
+			-- vim.cmd([[hi Question ctermfg=14 guifg=#F8C8DC]])
+			-- vim.cmd([[hi SpellRare cterm=undercurl gui=undercurl guisp=#F8C8DC]])
+			-- vim.cmd([[hi QuickFixLine ctermfg=14 guifg=#F8C8DC]])
+			-- vim.cmd([[hi Special ctermfg=14 guifg=#F8C8DC]])
+			-- vim.cmd([[hi DiagnosticInfo ctermfg=14 guifg=#F8C8DC]])
+			-- vim.cmd([[hi Function ctermfg=14 guifg=#F8C8DC]])
+			-- vim.cmd([[hi Changed ctermfg=14 guifg=#F8C8DC]])
+			-- vim.cmd([[hi DiagnosticUnderlineInfo cterm=underline gui=underline guisp=#F8C8DC]])
+			-- vim.cmd([[hi CmpItemKindDefault guifg=#F8C8DC]])
 
 			-- Transparent BG:
 			-- vim.cmd([[highlight Normal guibg=none]])
@@ -21,65 +43,72 @@ return {
 			-- vim.cmd([[highlight Normal ctermbg=none]])
 			-- vim.cmd([[highlight NonText ctermbg=none]])
 
-			local c = { bg = "NvimDarkGrey2", fg = "NvimLightGrey2" }
-			local b = c
+			-- local c = { bg = "NvimDarkGrey2", fg = "NvimLightGrey2" }
+			-- local b = c
+			--
+			-- local theme = {
+			-- 	normal = {
+			-- 		a = { bg = "NvimLightGrey2", fg = "NvimDarkGrey1", gui = 'bold' },
+			-- 		b = b,
+			-- 		c = c,
+			-- 	},
+			-- 	insert = {
+			-- 		a = { bg = "NvimLightYellow", fg = "NvimDarkGrey1", gui = 'bold' },
+			-- 		b = b,
+			-- 		c = c,
+			-- 	},
+			-- 	visual = {
+			-- 		a = { bg = "NvimLightRed", fg = "NvimDarkGrey1", gui = 'bold' },
+			-- 		b = b,
+			-- 		c = c,
+			-- 	},
+			-- 	replace = {
+			-- 		a = { bg = "NvimLightCyan", fg = "NvimDarkGrey1", gui = 'bold' },
+			-- 		b = b,
+			-- 		c = c,
+			-- 	},
+			-- 	command = {
+			-- 		a = { bg = "NvimLightGreen", fg = "NvimDarkGrey1", gui = 'bold' },
+			-- 		b = b,
+			-- 		c = c,
+			-- 	},
+			-- 	inactive = {
+			-- 		a = { bg = "NvimLightGrey4", fg = "NvimDarkGrey1", gui = 'bold' },
+			-- 		b = b,
+			-- 		c = c,
+			-- 	}
+			-- }
 
-			local theme = {
-				normal = {
-					a = { bg = "NvimLightGrey2", fg = "NvimDarkGrey1", gui = 'bold' },
-					b = b,
-					c = c,
-				},
-				insert = {
-					a = { bg = "NvimLightYellow", fg = "NvimDarkGrey1", gui = 'bold' },
-					b = b,
-					c = c,
-				},
-				visual = {
-					a = { bg = "NvimLightRed", fg = "NvimDarkGrey1", gui = 'bold' },
-					b = b,
-					c = c,
-				},
-				replace = {
-					a = { bg = "NvimLightCyan", fg = "NvimDarkGrey1", gui = 'bold' },
-					b = b,
-					c = c,
-				},
-				command = {
-					a = { bg = "NvimLightGreen", fg = "NvimDarkGrey1", gui = 'bold' },
-					b = b,
-					c = c,
-				},
-				inactive = {
-					a = { bg = "NvimLightGrey4", fg = "NvimDarkGrey1", gui = 'bold' },
-					b = b,
-					c = c,
-				}
-			}
-
-			local color_inactive = { fg = "NvimLightGrey4" }
+			-- local color_inactive = { fg = "NvimLightGrey4" }
 
 			local filepath = function(color)
-				return {
+				local conf = {
 					'%f %m',
-					color = color
 				}
+				if color then
+					conf.color = color
+				end
+				return conf
 			end
 			local filetype = function(color)
-				return {
+				local conf = {
 					'filetype',
 					separator = '',
 					icon_only = true,
 					padding = { left = 1, right = 0 },
-					color = color
 				}
+				if color then
+					conf.color = color
+				end
+				return conf
 			end
 
 			require('lualine').setup({
 				options = {
-					theme = theme,
+					-- theme = theme,
 					section_separators = { left = '', right = '' },
 					component_separators = { left = '', right = '' },
+					always_show_tabline = false,
 				},
 				tabline = {
 					lualine_a = {
@@ -89,16 +118,16 @@ return {
 							max_length = vim.o.columns,
 							tabs_color = {
 								-- active = { bg = '' },
-								inactive = 'lualine_c_inactive'
+								-- inactive = 'lualine_c_inactive'
 							}
 						},
 					},
 					lualine_b = {},
 					-- lualine_c = { project_terms_count, 'overseer' },
-					lualine_c = { 'overseer' },
+					lualine_c = {},
 					lualine_x = {},
 					lualine_y = {},
-					lualine_z = { 'branch' },
+					lualine_z = {},
 				},
 				sections = {
 					lualine_a = {
@@ -117,6 +146,7 @@ return {
 						'diagnostics',
 						'searchcount',
 						'selectioncount',
+						'overseer',
 					},
 					lualine_x = {},
 					lualine_y = {
@@ -126,7 +156,7 @@ return {
 				inactive_sections = {
 					lualine_a = {},
 					lualine_b = {},
-					lualine_c = { filetype(color_inactive), filepath(color_inactive) },
+					lualine_c = { filetype(), filepath() },
 					-- lualine_c = { filetype({}), filepath({}) },
 					lualine_x = { 'location' },
 					lualine_y = {},

@@ -60,7 +60,7 @@ local config = {
         },
     },
 
-    capabilities = require("plugins.lsp-capabilities").get(),
+    capabilities = require('blink.cmp').get_lsp_capabilities(),
 
     -- Language server `initializationOptions`
     -- You need to extend the `bundles` with paths to jar files

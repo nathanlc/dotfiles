@@ -1,13 +1,15 @@
 return {
 	"williamboman/mason.nvim",
 	dependencies = {
+		"saghen/blink.cmp",
 		"neovim/nvim-lspconfig",
 		"mfussenegger/nvim-jdtls",
 		"williamboman/mason-lspconfig.nvim",
-		"hrsh7th/cmp-nvim-lsp",
+		-- "hrsh7th/cmp-nvim-lsp",
 		-- "WhoIsSethDaniel/mason-tool-installer.nvim",
 	},
 	config = function()
+		local capabilities = require('blink.cmp').get_lsp_capabilities()
 		require("mason").setup({})
 		require("mason-lspconfig").setup({
 			ensure_installed = {
@@ -30,13 +32,13 @@ return {
 			handlers = {
 				function(server)
 					require("lspconfig")[server].setup({
-						capabilities = require("plugins.lsp-capabilities").get(),
+						capabilities = capabilities,
 					})
 				end,
 				["jdtls"] = function() end,
 				["lua_ls"] = function()
 					require("lspconfig").lua_ls.setup({
-						capabilities = require("plugins.lsp-capabilities").get(),
+						capabilities = capabilities,
 						  settings = {
 							Lua = {
 								runtime = {

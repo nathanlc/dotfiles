@@ -33,6 +33,11 @@ function bucket_identifier {
       return 0
       ;;
 
+    "prod-defr"|"prod-de-fr")
+      echo "${base}-prod-eu-central-1"
+      return 0
+      ;;
+
     *)
       >&2 echo "Cannot map bucket mapper to bucket_identifier: ${bucket_mapper}"
       exit 2

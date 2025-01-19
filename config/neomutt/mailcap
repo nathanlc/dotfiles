@@ -1,0 +1,7 @@
+# Chosen when viewing the text/html attachment
+# text/html; w3m -sixel -o auto_image=TRUE -o display_image=1 -T text/html %s; nametemplate=%s.html; needsterminal
+text/html; open -a arc %s; nametemplate=%s.html; needsterminal
+image/*; open -a arc %s; needsterminal
+
+# Chosen by auto_view due to the copiousoutput tag
+text/html; w3m -s -I %{charset} -T text/html -cols 140 -o display_link_number=1 -dump; copiousoutput

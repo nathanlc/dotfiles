@@ -168,6 +168,9 @@ export LESS="-SXR"
 export XDG_CONFIG_HOME="$HOME/.config"
 export STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/starship.toml
 export XDG_DATA_HOME="$HOME/.local/share"
+# ripgrep START
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/.ripgreprc"
+# ripgrep END
 # export JAVA_HOME="/usr/local/opt/openjdk/bin/java"
 # export JDTLS_HOME="$HOME/jdtls"
 # export WORKSPACE="$HOME/jdtls_workspace"

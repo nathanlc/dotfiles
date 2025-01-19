@@ -10,15 +10,21 @@ return {
 			commit_select_view = {
 				kind = "vsplit",
 			},
-			kind = 'replace',
+			kind = 'tab',
 			graph_style = "unicode",
 			disable_line_numbers = false,
 			sections = {
+				untracked = {
+					folded = true,
+					hidden = false,
+				},
 				recent = {
 					folded = false,
+					hidden = false,
 				},
 				stashes = {
 					folded = true,
+					hidden = false,
 				},
 			},
 		});
@@ -27,12 +33,12 @@ return {
 		local autocmd_errors = {}
 		vim.api.nvim_create_autocmd('FileType', {
 			group = vim.api.nvim_create_augroup('nathanlc:Neogit', { clear = true }),
-			pattern = "NeogitCommitMessage",
+			pattern = "gitcommit",
 			callback = function()
 				local function print_ticket_if_found(line)
 					local ticket = string.match(line, '^%u+%-%d+')
 					if ticket then
-						vim.api.nvim_buf_set_lines(0, 0, 0, false, {ticket})
+						vim.api.nvim_buf_set_lines(0, 0, 0, false, { ticket })
 					end
 				end
 
@@ -59,7 +65,7 @@ return {
 						end
 					end,
 					on_exit = function(_, _, _)
-						vim.api.nvim_win_set_cursor(0, {1, 0})
+						vim.api.nvim_win_set_cursor(0, { 1, 0 })
 						vim.api.nvim_command('normal $')
 
 						if next(autocmd_errors) ~= nil then
