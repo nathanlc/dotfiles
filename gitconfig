@@ -5,6 +5,10 @@
     name = Nathan Lecourt
 [github]
     user = nathanlc
+[status]
+    showUntrackedFiles = all
+    short = true
+    showStash = true
 [core]
 	editor = nvr --remote-wait-silent
 [diff]
