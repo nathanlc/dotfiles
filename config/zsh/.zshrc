@@ -90,6 +90,7 @@ export WORDCHARS="${WORDCHARS/\/}"
 
 # asdf START
 . "$HOME/.asdf/asdf.sh"
+. $HOME/.asdf/completions/asdf.bash
 # asdf END
 export ORG="$HOME/Dropbox/org"
 export SCRIPTS="$HOME/sandbox/scripts"
@@ -118,14 +119,19 @@ PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 # Java START
 PATH="$HOME/.jenv/bin:$PATH"
 PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+eval "$(jenv init -)"
+# Java END
 # Starship START
 export STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/starship.toml
 eval "$(starship init zsh)"
 # Starship END
-# Java END
 # Bun START
 export BUN_INSTALL="$HOME/.bun"
 PATH="$BUN_INSTALL/bin:$PATH"
+# Bun END
+# Node START
+export NODE_PATH=$(which node)
+# Node END
 # Flutter START
 export FLUTTER_ROOT="$(asdf where flutter)"
 # Flutter END
@@ -138,23 +144,16 @@ export HOMEBREW_REPOSITORY="/opt/homebrew"
 export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
 export PATH
 export MANPATH
-# Java START
-eval "$(jenv init -)"
-# Java END
-# Node START
-export NODE_PATH=$(which node)
-# Node END
 # Docker / docker compose START
 export COMPOSE_MENU=0
 # END
-# FZF
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # Cargo
 . "$HOME/.cargo/env"
-# Atuin
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(atuin init zsh)"
-# zoxide
 eval "$(zoxide init zsh)"
+eval "$(direnv hook zsh)"
 
 # bun completions
 [ -s "/Users/nathan/.bun/_bun" ] && source "/Users/nathan/.bun/_bun"

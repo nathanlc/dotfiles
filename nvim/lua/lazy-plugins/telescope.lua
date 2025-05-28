@@ -25,6 +25,7 @@ return {
 						['<C-j>'] = require('telescope.actions').preview_scrolling_down,
 						['<C-k>'] = require('telescope.actions').preview_scrolling_up,
 						['<C-o>'] = require('telescope.actions.layout').toggle_preview,
+						["<C-u>"] = false, -- clear input instead of scrolling previewer
 					},
 					n = {
 						['<C-S-q>'] = actions.send_selected_to_qflist + actions.open_qflist,
@@ -38,6 +39,7 @@ return {
 				file_ignore_patterns = {
 					"%.class",
 					"^.git/",
+					"^lib/c/sqlite", -- This is for dont-be-strangers only
 				},
 				cache_picker = {
 				  num_pickers = 20,

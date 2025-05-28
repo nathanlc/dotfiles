@@ -28,6 +28,7 @@ return {
 				"rust",
 				"typescript",
 				"vimdoc",
+				"zig",
 			},
 			sync_install = false,
 			auto_install = true,

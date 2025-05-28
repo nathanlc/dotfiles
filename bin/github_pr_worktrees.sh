@@ -43,7 +43,7 @@ do
 	# Setup
 	## Handle only glooko prs
 	cd "${HOME}/sandbox/glooko"
-	existing_worktrees=$(ls -d *_pr-*)
+	existing_worktrees=$((ls -d *_pr-* --color=never) 2>/dev/null || true)
 	prs=$(fetch_prs)
 	fetched_worktrees=()
 
@@ -53,21 +53,26 @@ do
 		fetched_worktrees+=("${worktree_name}")
 	done
 
+	echo '------'
+	echo -e "Existing worktrees:\n${existing_worktrees}\n"
+	echo -e "PRS:\n${prs}\n"
+	echo -e "Fetched worktrees:\n${fetched_worktrees[@]}\n"
+
 	# Create new worktrees
-	echo 'Creating new worktrees'
-	for worktree in ${fetched_worktrees[@]}; do
-		if [[ "${existing_worktrees}" =~ "$worktree" ]]; then
-			echo "  Skipping existing worktree: ${worktree}"
-			continue
-		fi
-		echo "  Creating new worktree: ${worktree}"
-		repo=$(worktree_to_repo "${worktree}")
-		pr_number=$(worktree_to_pr_number "${worktree}")
-		git -C "${repo}" worktree add "../${worktree}"
-		cd "${worktree}"
-		gh pr checkout "${pr_number}"
-		cd ..
-	done
+	# echo 'Creating new worktrees'
+	# for worktree in ${fetched_worktrees[@]}; do
+	# 	if [[ "${existing_worktrees}" =~ "$worktree" ]]; then
+	# 		echo "  Skipping existing worktree: ${worktree}"
+	# 		continue
+	# 	fi
+	# 	echo "  Creating new worktree: ${worktree}"
+	# 	repo=$(worktree_to_repo "${worktree}")
+	# 	pr_number=$(worktree_to_pr_number "${worktree}")
+	# 	git -C "${repo}" worktree add "../${worktree}"
+	# 	cd "${worktree}"
+	# 	gh pr checkout "${pr_number}"
+	# 	cd ..
+	# done
 
 	# Cleanup old worktrees
 	# echo 'Deleting old worktrees'
@@ -80,7 +85,6 @@ do
 	# 	repo=$(worktree_to_repo "${worktree}")
 	# 	git -C "${repo}" worktree remove -f "../${worktree}"
 	# done
-	echo '------'
 
 	sleep 5m
 done
