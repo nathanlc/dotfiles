@@ -88,10 +88,6 @@ autoload bashcompinit && bashcompinit
 # Word delimiters in zsh
 export WORDCHARS="${WORDCHARS/\/}"
 
-# asdf START
-. "$HOME/.asdf/asdf.sh"
-. $HOME/.asdf/completions/asdf.bash
-# asdf END
 export ORG="$HOME/Dropbox/org"
 export SCRIPTS="$HOME/sandbox/scripts"
 export EDITOR="nvr"
@@ -132,9 +128,6 @@ PATH="$BUN_INSTALL/bin:$PATH"
 # Node START
 export NODE_PATH=$(which node)
 # Node END
-# Flutter START
-export FLUTTER_ROOT="$(asdf where flutter)"
-# Flutter END
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 MANPATH="/opt/local/share/man:$MANPATH"
 MANPATH="/opt/homebrew/share/man:$MANPATH"
@@ -157,3 +150,6 @@ eval "$(direnv hook zsh)"
 
 # bun completions
 [ -s "/Users/nathan/.bun/_bun" ] && source "/Users/nathan/.bun/_bun"
+
+# mise
+eval "$(mise activate zsh)"

@@ -15,7 +15,7 @@ return {
 			disable_line_numbers = false,
 			sections = {
 				untracked = {
-					folded = true,
+					folded = false,
 					hidden = false,
 				},
 				recent = {

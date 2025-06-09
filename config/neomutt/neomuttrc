@@ -86,6 +86,8 @@ bind index,pager R group-reply
 macro index,pager U "<shell-escape>mbsync -a &> /dev/null &<enter>" "Update Mail"
 macro index,pager V "<view-attachments><search>html<enter><view-mailcap><exit>" "View HTML in web browser"
 # macro index,pager 'V' "<view-attachments><search>html<pipe-entry>iconv -c --to-code=UTF8 > /tmp/mutt-mail.html<enter><shell-escape>open /tmp/mutt-mail.html<enter>" "Open in web browser"
+# To move all read messages to "All" =>
+# T~R\n;ma      (shit T = tag-pattern, \n = Enter, ; = apply next command to tagged emails, ma = move to All defined above)
 
 
 color index bold default default "~N"

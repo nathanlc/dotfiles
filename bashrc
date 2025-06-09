@@ -156,10 +156,6 @@ vterm_printf(){
     fi
 }
 
-# asdf START
-. "$HOME/.asdf/asdf.sh"
-. "$HOME/.asdf/completions/asdf.bash"
-# asdf END
 export BASH_SILENCE_DEPRECATION_WARNING=1 # Remove message about zsh being default term in macos
 export ORG="$HOME/Dropbox/org"
 export SCRIPTS="$HOME/sandbox/scripts"
@@ -217,3 +213,6 @@ export COMPOSE_MENU=0
 #
 # Configure zoxide
 eval "$(zoxide init bash)"
+
+# mise
+eval "$(mise activate bash)"

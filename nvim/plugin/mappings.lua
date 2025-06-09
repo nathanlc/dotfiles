@@ -366,7 +366,7 @@ vim.keymap.set({'n'}, '<leader>O', [[<Cmd>edit $ORG/gtd.org<CR>]], {silent = tru
 
 
 -- Config / Clipboard
-vim.keymap.set({'n'}, '<leader>cc', function() require('plugins.project').open_project_tab('~/sandbox/mine/dotfiles') end, {silent=true})
+vim.keymap.set({'n'}, '<leader>cc', function() require('plugins.project').open_project_tab('~/sandbox/nathanlc/dotfiles') end, {silent=true})
 vim.keymap.set({'n'}, '<leader>cs', [[<Cmd>Lazy sync<CR>]], {silent=true})
 
 vim.keymap.set({'n'}, '<leader>cl', function() require('plugins.clipboard').telescope() end, {silent=true})

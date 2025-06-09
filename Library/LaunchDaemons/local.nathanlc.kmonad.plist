@@ -7,7 +7,7 @@
         <key>ProgramArguments</key>
         <array>
             <string>/Users/nathan/.local/bin/kmonad</string>
-            <string>/Users/nathan/sandbox/mine/dotfiles/config/kmonad/macbook.kbd</string>
+            <string>/Users/nathan/sandbox/nathanlc/dotfiles/config/kmonad/macbook.kbd</string>
         </array>
         <key>UserName</key>
         <string>nathan</string>
