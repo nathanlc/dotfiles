@@ -1,7 +1,7 @@
 kl https://github.com/glooko/kings-landing
 ccm https://github.com/glooko/A21003-cloud_connection_management_service
 cis https://github.com/glooko/cloud-services
-j https://glooko.atlassian.net/jira/software/c/projects/GCI/boards/376
+j https://glooko.atlassian.net/jira/software/c/projects/ATL/boards/1440
 okta https://glooko.okta.com/app/UserHome?iss=https://glooko.okta.com&session_hint=AUTHENTICATED
 ccmt http://localhost:4000/login
 wiki https://glooko.atlassian.net/wiki/home
