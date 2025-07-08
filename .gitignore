@@ -1,3 +1,5 @@
+.env
+.DS_Store
 config/nushell/history.txt
 config/zsh/.zcompdump
 config/zsh/.zsh_history
