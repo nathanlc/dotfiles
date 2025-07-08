@@ -61,9 +61,56 @@ EOF
 URL=$(echo "$QUTE_URL" | awk -F/ '{print $3}' | sed 's/www.//g')
 echo "message-info 'Looking for password for $URL...'" >> $QUTE_FIFO
 
-UUID_URL=$(/opt/homebrew/bin/op item list --format json | /opt/homebrew/bin/jq -r '.[] | select(has("urls")) | {id, title} + (.urls[]) | "\(.id):\(.href)"' | grep "$URL") || $(echo "message-error 'No entry found for $URL'" >> $QUTE_FIFO)
+is_op_running=$(ps aux | grep "1Password" | grep "1Password.app")
+if [ -z "$is_op_running" ]; then
+  echo "message-error '1Password is not running. Please start it and try again.'" >> $QUTE_FIFO
+  exit 1
+fi
 
-IFS=: read -r UUID var2 <<< "$UUID_URL"
+results=()
+while IFS= read -r line; do
+    results+=("$line")
+done < <(/opt/homebrew/bin/op item list --format json | /opt/homebrew/bin/jq -r '.[] | select(has("urls")) | {id, title} + (.urls[]) | "\(.id):\(.title):\(.href)"' | grep "$URL")
+
+if [ ${#results[@]} -eq 0 ]; then
+  echo "message-error 'No entry found for $URL'" >> $QUTE_FIFO
+  exit 1
+fi
+
+result=""
+if [ $URL == "github.com" ]; then
+    for item in "${results[@]}"; do
+        if [[ "$item" == *nathanlc* ]]; then
+            result="$item"
+            break
+        fi
+    done
+elif [ ${#results[@]} -eq 1 ]; then
+    result="${results[0]}"
+else
+    # Prepare the list of results for the osascript dialog
+    result_list=$(printf '"%s", ' "${results[@]}")
+    result_list=${result_list%, }  # Remove trailing comma
+
+    result=$(osascript <<EOF
+tell application "System Events"
+    activate
+end tell
+
+set optionsList to {${result_list}}
+set selectedOption to choose from list optionsList with prompt "Select entry:" default items {"${results[0]}"}
+if selectedOption is false then
+    return "CANCELLED"
+else
+    return selectedOption as string
+end if
+EOF
+)
+fi
+
+echo "message-info 'Selected: $result'" >> "$QUTE_FIFO"
+
+IFS=: read -r UUID var1 var2 <<< "$result"
 ITEM=$(/opt/homebrew/bin/op item get --format json "$UUID")
 
 PASSWORD=$(echo "$ITEM" | /opt/homebrew/bin/jq -r '.fields | .[] | select(.id=="password") | .value')
@@ -77,11 +124,13 @@ if [ -n "$PASSWORD" ]; then
   }
   echo "jseval -q $(printjs)" >> "$QUTE_FIFO"
 
-  TOTP=$(echo "$ITEM" | /opt/homebrew/bin/op item get --otp "$UUID")
+  TOTP=$(echo "$ITEM" | /opt/homebrew/bin/op item get --otp "$UUID" || echo "")
   if [ -n "$TOTP" ]; then
     echo "$TOTP" | pbcopy
-    echo "One time password for $TITLE: $TOTP in clipboard"
+    echo "message-info 'One time password for $TITLE: $TOTP in clipboard'" >> "$QUTE_FIFO"
   fi
 else
-  echo "No password found for $URL"
+  echo "message-warning 'No password found for $URL'" >> "$QUTE_FIFO"
 fi
+
+echo "message-info 'DONE'" >> "$QUTE_FIFO"

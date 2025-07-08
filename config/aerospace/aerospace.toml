@@ -59,12 +59,12 @@ S = 'built-in'
 #                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
-inner.horizontal = 0
-inner.vertical =   0
-outer.left =       0
-outer.bottom =     0
-outer.top =        0
-outer.right =      0
+inner.horizontal = [{ monitor."DELL U2417H" = 4 }, { monitor."PHL 346E2C" = 4} ,2]
+inner.vertical =   [{ monitor."DELL U2417H" = 4 }, { monitor."PHL 346E2C" = 4} ,2]
+outer.left =       [{ monitor."DELL U2417H" = 4 }, { monitor."PHL 346E2C" = 6} ,2]
+outer.bottom =     [{ monitor."DELL U2417H" = 4 }, { monitor."PHL 346E2C" = 4} ,2]
+outer.top =        [{ monitor."DELL U2417H" = 4 }, { monitor."PHL 346E2C" = 4} ,2]
+outer.right =      [{ monitor."DELL U2417H" = 4 }, { monitor."PHL 346E2C" = 6} ,2]
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes

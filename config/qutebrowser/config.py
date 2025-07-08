@@ -2161,7 +2161,7 @@ c.tabs.wrap = False
 ## Hide the window decoration.  This setting requires a restart on
 ## Wayland.
 ## Type: Bool
-c.window.hide_decoration = True
+c.window.hide_decoration = False
 
 ## Format to use for the window title. The same placeholders like for
 ## `tabs.title.format` are defined.

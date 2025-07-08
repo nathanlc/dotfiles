@@ -27,4 +27,4 @@ instance_ids=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].
 instance_id=$(echo ${instance_ids} | head -1 | awk '{print $2}')
 echo "Instance ID: ${instance_id}"
 
-aws ssm start-session --target ${instance_id} --profile ${mfa_profile}
+aws ssm start-session --target ${instance_id} --profile ${mfa_profile} --region ${region}

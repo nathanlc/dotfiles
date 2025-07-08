@@ -8,7 +8,7 @@ return {
     local file_path_rel = file_path_abs:normalize(vim.fn.getcwd())
 
     return {
-      cmd = { "docker", "compose", "exec", "web", "bin/rspec", file_path_rel },
+      cmd = { "docker", "compose", "exec", "web", "zsh", "-ic", "bin/rspec", file_path_rel },
       components = { "on_complete_notify", "on_complete_dispose" , "default" },
     }
   end,

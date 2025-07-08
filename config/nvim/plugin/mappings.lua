@@ -10,6 +10,10 @@ vim.keymap.set({"i"}, "<D-h>", "ch", {silent = true}) -- accidental press of <D-
 vim.keymap.set({"i"}, "<C-b>", "<Left>", {silent = true}) -- accidental press of <D-h>
 
 
+-- Jumplist
+vim.keymap.set({"n"}, "<leader><C-o>", [[<Cmd>lua require("plugins.jumplist").jump_to_previous_file()<CR>]], {silent = true}) -- accidental press of <D-h>
+vim.keymap.set({"n"}, "<leader><C-i>", [[<Cmd>lua require("plugins.jumplist").jump_to_next_file()<CR>]], {silent = true}) -- accidental press of <D-h>
+
 -- Commands
 vim.api.nvim_set_keymap('n', '<leader>:', ':Telescope commands<CR>', {noremap = true, silent = true})
 
@@ -53,7 +57,7 @@ vim.api.nvim_set_keymap('n', '<leader>bs', [[<Cmd>lua require('utils.buffer').sc
 
 
 -- Browser
-vim.keymap.set('n', '<leader>Bl', [[<Cmd>lua require('plugins.browser_history').telescope({database = '/tmp/arc_history_db'})<CR>]], {silent = true})
+-- vim.keymap.set('n', '<leader>Bl', [[<Cmd>lua require('plugins.browser_history').telescope({database = '/tmp/arc_history_db'})<CR>]], {silent = true})
 
 
 -- Harpoon
@@ -98,7 +102,7 @@ vim.api.nvim_set_keymap('n', '<C-Space>', [[<Cmd>lua require('plugins.expression
 
 
 -- Files
-vim.api.nvim_set_keymap('i', '<C-s>', '<ESC>:write<CR>', {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap('i', '<C-s>', '<ESC>:write<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<C-s>', ':write<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>fl', ':Telescope find_files hidden=true<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>fo', ':Telescope oldfiles<CR>', {noremap = true, silent = true})
@@ -121,7 +125,7 @@ vim.keymap.set({'n'}, '<leader>pj', [[<Cmd>lua require('plugins.project').open_j
 
 
 -- Tasks
-vim.keymap.set({'n'}, '<leader>to', [[<Cmd>OverseerOpen left<CR>]], {silent = true})
+vim.keymap.set({'n'}, '<leader>to', [[<Cmd>OverseerOpen bottom<CR>]], {silent = true})
 vim.keymap.set({'n'}, '<leader>tl', [[<Cmd>OverseerRun<CR>]], {silent = true})
 vim.keymap.set({'n'}, '<leader>tf', [[<Cmd>lua require("overseer").run_template({ tags = { "test_file" } })<CR>]], {silent = true})
 vim.keymap.set({'n'}, '<leader>tF', [[<Cmd>lua require("plugins.project").run_test({ target = "file" })<CR>]], {silent = true})
@@ -214,10 +218,11 @@ vim.keymap.set({'n'}, '<leader>kr', '<Cmd>source ' .. session_file_path .. '<CR>
 
 
 -- Jump
-vim.api.nvim_set_keymap('n', '<leader>js', [[<Cmd>lua require('telescope.builtin').treesitter({})<CR>]], {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>jf', [[<Cmd>lua require('telescope.builtin').treesitter({default_text = ':function: '})<CR>]], {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>jt', [[<Cmd>lua require('telescope.builtin').treesitter({default_text = ':type: '})<CR>]], {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>jm', [[<Cmd>lua require('telescope.builtin').treesitter({default_text = ':method: '})<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>js', [[<Cmd>lua require('telescope.builtin').treesitter({preview = { hide_on_startup = false }})<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>jf', [[<Cmd>lua require('telescope.builtin').treesitter({default_text = ':function: ', preview = { hide_on_startup = false }})<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>jt', [[<Cmd>lua require('telescope.builtin').treesitter({default_text = ':type: ', preview = { hide_on_startup = false }})<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>jm', [[<Cmd>lua require('telescope.builtin').treesitter({default_text = ':method: ', preview = { hide_on_startup = false }})<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>jc', [[<Cmd>lua require('telescope.builtin').treesitter({default_text = ':class: ', preview = { hide_on_startup = false }})<CR>]], {noremap = true, silent = true})
 
 
 -- Tabs
@@ -250,7 +255,7 @@ vim.api.nvim_set_keymap('n', 'T9', '9gt', {noremap = true, silent = true})
 
 
 -- Toggle
-vim.api.nvim_set_keymap('n', '<leader>!c', ':TSContextToggle<CR>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>!c', ':TSContext toggle<CR>', {noremap = true})
 vim.keymap.set({'n'}, '<leader>!d', function ()
     vim.diagnostic.enable(not vim.diagnostic.is_enabled({bufnr = 0}), {bufnr = 0})
 end, {silent = true})
@@ -258,7 +263,9 @@ vim.api.nvim_set_keymap('n', '<leader>!h', ':set hlsearch!<CR>', {noremap = true
 vim.api.nvim_set_keymap('n', '<leader>!l', ':setlocal wrap!<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>!n', ':set number!<CR>:set relativenumber!<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>!s', ':setlocal spell!<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>!wh', ':set winfixheight!<CR>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>!w', [[<Cmd>lua require("plugins.win-hoarder-layout").toggle_enabled()<CR>]], {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>>', [[<Cmd>lua require("plugins.win-hoarder-layout").toggle_expand_horizontal_direction()<CR>]], {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader><', [[<Cmd>lua require("plugins.win-hoarder-layout").toggle_expand_horizontal_direction()<CR>]], {noremap = true})
 
 
 -- Terminal
@@ -270,7 +277,7 @@ vim.api.nvim_set_keymap('n', '<leader>"l', [[<Cmd>lua require('telescope.builtin
 vim.keymap.set({'n'}, '<leader>"t', [[<Cmd>tabnew | term<CR>]], {silent = true})
 vim.keymap.set({'n'}, '<leader>"r', [[<Cmd>lua require('plugins.term').history()<CR>]], {silent = true})
 -- vim.api.nvim_set_keymap('t', 'jk', '<C-\\><C-N>', {noremap = true}) -- This prevents from using some tuis where j is used to scroll down.
-vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-N>', {noremap = true})
+vim.api.nvim_set_keymap('t', '<Esc><Space>', '<C-\\><C-N>', {noremap = true})
 vim.api.nvim_set_keymap('t', '<A-h>', [[<Cmd>wincmd h<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<A-j>', [[<Cmd>wincmd j<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<A-k>', [[<Cmd>wincmd k<CR>]], {noremap = true, silent = true})
@@ -362,7 +369,7 @@ vim.keymap.set({'n'}, '<leader>dt', function() require('dap').terminate() end, {
 vim.keymap.set({'n'}, '<leader>od', function() require('oil').open('~/Downloads') end, {silent=true})
 vim.keymap.set({'n'}, '<leader>os', [[<Cmd>edit ~/.ssh/config<CR>]], {silent=true})
 vim.keymap.set({'n'}, '<leader>oC', [[<Cmd>edit $ORG/capture.org<CR>]], {silent=true})
-vim.keymap.set({'n'}, '<leader>O', [[<Cmd>edit $ORG/gtd.org<CR>]], {silent = true})
+vim.keymap.set({'n'}, '<leader>O', [[<Cmd>tabedit $ORG/gtd.org<CR>]], {silent = true})
 
 
 -- Config / Clipboard
@@ -408,8 +415,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
         local bufopts = { silent = true, buffer = bufnr }
         -- -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
         vim.keymap.set('n', 'gd', [[<Cmd>lua require('telescope.builtin').lsp_definitions({initial_mode = 'normal'})<CR>]], bufopts)
-        vim.keymap.set('n', 'gD', [[<CMD>vsplit<CR><Cmd>lua require('telessope.builtin').lsp_definitions()<CR>]], bufopts)
-        vim.keymap.set('n', 'gi', [[<Cmd>lua require('telessope.builtin').lsp_implementations({initial_mode = 'normal'})<CR>]], bufopts)
+        vim.keymap.set('n', 'gD', [[<CMD>vsplit<CR><Cmd>lua require('telescope.builtin').lsp_definitions()<CR>]], bufopts)
+        vim.keymap.set('n', 'gi', [[<Cmd>lua require('telescope.builtin').lsp_implementations({initial_mode = 'normal'})<CR>]], bufopts)
         vim.keymap.set('n', 'gr', [[<Cmd>lua require('telescope.builtin').lsp_references({initial_mode = 'normal'})<CR>]], bufopts)
         vim.keymap.set('n', 'gR', vim.lsp.buf.references, bufopts)
         -- -- vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, bufopts)

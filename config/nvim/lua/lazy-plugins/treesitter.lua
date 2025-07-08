@@ -3,6 +3,7 @@ return {
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		"nvim-treesitter/nvim-treesitter-context",
+		"nvim-treesitter/nvim-treesitter-refactor",
 		"RRethy/nvim-treesitter-endwise",
 		'windwp/nvim-ts-autotag',
 	},
@@ -83,6 +84,14 @@ return {
 						['[a'] = '@parameter.inner',
 						['[b'] = '@block.inner',
 					},
+					goto_previous_end = {
+						['[C'] = '@class.outer',
+						['[F'] = '@function.outer',
+						['[L'] = '@loop.outer',
+						['[I'] = '@conditional.outer',
+						['[A'] = '@parameter.inner',
+						['[B'] = '@block.inner',
+					},
 					goto_next_start = {
 						[']c'] = '@class.outer',
 						[']f'] = '@function.outer',
@@ -90,6 +99,14 @@ return {
 						[']i'] = '@conditional.outer',
 						[']a'] = '@parameter.inner',
 						[']b'] = '@block.inner',
+					},
+					goto_next_end = {
+						[']C'] = '@class.outer',
+						[']F'] = '@function.outer',
+						[']L'] = '@loop.outer',
+						[']I'] = '@conditional.outer',
+						[']A'] = '@parameter.inner',
+						[']B'] = '@block.inner',
 					},
 				}
 			},
@@ -99,6 +116,24 @@ return {
 			endwise = {
 				enable = true,
 			},
+			refactor = {
+				highlight_definitions = {
+					enable = true,
+				},
+				highlight_current_scope = {
+					enable = false,
+				},
+				smart_rename = {
+					enable = false,
+				},
+				navigation = {
+					enable = false,
+				},
+			},
+		})
+
+		require('treesitter-context').setup({
+			multiline_threshold = 15,
 		})
 
 		vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
