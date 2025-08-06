@@ -1,0 +1,21 @@
+[general]
+status_path = "~/.vdirsyncer/status/"
+
+[pair gmail_glooko]
+a = "gmail_glooko_local"
+b = "gmail_glooko_remote"
+collections = ["from b"]
+
+[storage gmail_glooko_local]
+type = "filesystem"
+path = "Users/nathan/.calendars/gmail_glooko/"
+fileext = ".ics"
+
+[storage gmail_glooko_remote]
+type = "google_calendar"
+token_file = "~/.vdirsyncer/tokens/gmail_glooko"
+client_id = "***"
+client_secret = "***"
+
+
+# brew services start vdirsyncer

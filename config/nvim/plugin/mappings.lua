@@ -7,7 +7,8 @@ vim.api.nvim_set_keymap('n', 'z1', ':setlocal foldlevel=1<CR>', {noremap = true}
 vim.api.nvim_set_keymap('n', 'z2', ':setlocal foldlevel=2<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', 'z3', ':setlocal foldlevel=3<CR>', {noremap = true})
 vim.keymap.set({"i"}, "<D-h>", "ch", {silent = true}) -- accidental press of <D-h>
-vim.keymap.set({"i"}, "<C-b>", "<Left>", {silent = true}) -- accidental press of <D-h>
+vim.keymap.set({"i"}, "<C-b>", "<Left>", {silent = true})
+vim.keymap.set({"i"}, "<C-f>", "<Right>", {silent = true})
 
 
 -- Jumplist
@@ -30,6 +31,10 @@ vim.keymap.set({'n'}, 'gd', 'gdzz', {silent = true})
 vim.keymap.set({'n', 'o'}, 'gs', function ()
   require('leap.remote').action()
 end)
+vim.keymap.set({'n', 'o'}, 'H', '_', {silent = true})
+vim.keymap.set({'n', 'o'}, 'L', 'g_', {silent = true})
+vim.keymap.set({'n', 'o'}, 'U', '<C-^>', {silent = true})
+vim.keymap.set({'i', 't'}, ';U', '<C-^>', {silent = true})
 
 
 -- Indent / Format
@@ -264,6 +269,7 @@ vim.api.nvim_set_keymap('n', '<leader>!l', ':setlocal wrap!<CR>', {noremap = tru
 vim.api.nvim_set_keymap('n', '<leader>!n', ':set number!<CR>:set relativenumber!<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>!s', ':setlocal spell!<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>!w', [[<Cmd>lua require("plugins.win-hoarder-layout").toggle_enabled()<CR>]], {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>!r', ':set lazyredraw!<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>>', [[<Cmd>lua require("plugins.win-hoarder-layout").toggle_expand_horizontal_direction()<CR>]], {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader><', [[<Cmd>lua require("plugins.win-hoarder-layout").toggle_expand_horizontal_direction()<CR>]], {noremap = true})
 
@@ -381,7 +387,7 @@ vim.keymap.set({'n'}, '<leader>ce', function() require('plugins.clipboard').edit
 
 
 -- File explorer
-vim.keymap.set({"n"}, "-", require("oil").open, {silent=true})
+vim.keymap.set({"n"}, "<leader>-", require("oil").open, {silent=true})
 -- See nvim/lua/plugins/oil.lua for oil keymaps
 
 
@@ -421,7 +427,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', 'gR', vim.lsp.buf.references, bufopts)
         -- -- vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, bufopts)
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-        vim.keymap.set('n', 'H', vim.lsp.buf.signature_help, bufopts)
+        -- vim.keymap.set('n', 'H', vim.lsp.buf.signature_help, bufopts)
         -- -- vim.keymap.set('n', '<leader>Wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
         -- -- vim.keymap.set('n', '<leader>Wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
         -- -- vim.keymap.set('n', '<leader>Wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)

@@ -1,0 +1,16 @@
+[calendars]
+
+[[glooko_planned_work]]
+path = ~/.calendars/gmail_glooko/c_f668c803574491b3d02183466659339d556aaa5ac2a09a0176ed048c91eddba2@group.calendar.google.com/
+readonly = True
+addresses = nathan.lecourt@glooko.com
+color = dark blue
+
+[[glooko_meetings]]
+path = ~/.calendars/gmail_glooko/nathan.lecourt@glooko.com/
+readonly = True
+addresses = nathan.lecourt@glooko.com
+color = dark red
+
+[view]
+agenda_event_format = {calendar-color}{cancelled}{start-end-time-style} {title}{repeat-symbol}{reset}

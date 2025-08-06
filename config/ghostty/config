@@ -1,0 +1,53 @@
+# Font
+# font-family = "FiraCode Nerd Font Mono"
+font-family =
+font-size = 17
+
+# Window / theme
+theme = gruvbox-material
+macos-titlebar-style = hidden
+# window-padding-balance = true
+window-padding-y = 2
+
+# Cursor
+# cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor
+
+# Quick terminal
+quick-terminal-animation-duration = 0.05
+
+# Keyboard
+macos-option-as-alt = left
+
+# Keybindings
+## Compatibility
+keybind = ctrl+tab=esc:[9;5u
+# keybind = alt+a=esc:a
+# keybind = alt+b=esc:b
+# keybind = alt+c=esc:c
+# keybind = alt+d=esc:d
+# keybind = alt+f=esc:f
+# keybind = alt+h=esc:h
+# keybind = alt+i=esc:i
+# keybind = alt+j=esc:j
+# keybind = alt+k=esc:k
+# keybind = alt+l=esc:l
+# keybind = alt+o=esc:o
+# keybind = alt+p=esc:p
+# keybind = alt+s=esc:s
+# keybind = alt+u=esc:u
+# keybind = alt+y=esc:y
+
+## Quick terminal
+keybind = global:alt+cmd+space=toggle_quick_terminal
+
+## Config
+# keybind = ctrl+space>r=reload_config
+
+## Window
+# keybind = ctrl+space>z=toggle_split_zoom
+# keybind = ctrl+space>w>v=new_split:right
+# keybind = ctrl+space>w>shift+v=new_split:left
+# keybind = ctrl+space>w>s=new_split:down
+# keybind = ctrl+space>w>shift+s=new_split:up

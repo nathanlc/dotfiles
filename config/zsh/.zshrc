@@ -37,6 +37,7 @@ setopt HIST_VERIFY
 setopt CORRECT
 
 # Aliases START
+alias c='khal calendar'
 alias cp='cp -iv'
 alias mv='mv -iv'
 alias ll='ls -AlhF --color=always --group-directories-first'
@@ -61,6 +62,7 @@ alias o='open'
 alias psg='ps aux | grep --colour -i'
 alias tmuxat='tmux a -t'
 alias s='for i in {1..15}; do echo; done' # Create some space in the terminal
+alias cl=clear
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 alias vc='nvim --clean'
 # alias vs='nvim --listen /tmp/nvimsocket'
@@ -87,6 +89,9 @@ autoload bashcompinit && bashcompinit
 # Word delimiters in zsh
 export WORDCHARS="${WORDCHARS/\/}"
 
+# Glooko START
+export AWS_CREDENTIALS_FOLDER="$HOME/.aws"
+# Glooko END
 export ORG="$HOME/Dropbox/org"
 export SCRIPTS="$HOME/sandbox/scripts"
 export EDITOR="nvr"

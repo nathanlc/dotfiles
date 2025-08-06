@@ -32,7 +32,7 @@ return {
 	},
 	{
 		"ggandor/leap.nvim",
-		config = function() require('leap').set_default_keymaps() end,
+		config = function() require('leap').set_default_mappings() end,
 	},
 	{
 		"nmac427/guess-indent.nvim",
