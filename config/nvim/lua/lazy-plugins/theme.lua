@@ -22,7 +22,8 @@ return {
 
 			vim.g.gruvbox_material_enable_italic = true
 			vim.g.gruvbox_material_background = 'hard'
-			-- vim.g.gruvbox_material_foreground = 'original'
+			vim.g.gruvbox_material_foreground = 'original'
+			-- vim.g.gruvbox_material_statusline_style = 'original'
 			vim.cmd('colorscheme gruvbox-material')
 
 			-- vim.cmd([[hi Directory ctermfg=14 guifg=#F8C8DC]])

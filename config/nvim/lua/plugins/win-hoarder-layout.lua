@@ -166,8 +166,12 @@ end
 
 function M.setup(opts)
   opts = opts or {}
+  if opts.enabled == nil then
+    plugin_enabled = true
+  else
+    plugin_enabled = opts.enabled
+  end
   win_expand_horizontal_direction = opts.expand_horizontal_direction or "right"
-  plugin_enabled = opts.enabled or true
   min_win_width = opts.min_win_width or 85
 
   register_autocmds()

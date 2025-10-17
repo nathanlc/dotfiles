@@ -27,5 +27,6 @@ require("lazy").setup(
 )
 
 require("plugins.win-hoarder-layout").setup({
+  enabled = false,
   expand_horizontal_direction = "right",
 })

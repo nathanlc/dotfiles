@@ -8,9 +8,13 @@ function instance_to_mfa_profile {
   fi
   if [[ "${environment}" == "qa" ]]; then
     profile="qa"
+  elif [[ "${environment}" == "qa2" ]]; then
+    profile="qa"
   elif [[ "${environment}" == "barkley" ]]; then
     profile="qa"
-  elif [[ "${environment}" == "qa2" ]]; then
+  elif [[ "${environment}" == "bert" ]]; then
+    profile="qa"
+  elif [[ "${environment}" == "preprod" ]]; then
     profile="qa"
   elif [[ "${environment}" == "staging" ]]; then
     profile="prod-${region}"

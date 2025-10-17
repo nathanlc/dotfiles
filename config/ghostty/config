@@ -1,10 +1,10 @@
 # Font
 # font-family = "FiraCode Nerd Font Mono"
-font-family =
+font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 17
 
 # Window / theme
-theme = gruvbox-material
+theme = Gruvbox Material
 macos-titlebar-style = hidden
 # window-padding-balance = true
 window-padding-y = 2
@@ -16,6 +16,8 @@ shell-integration-features = no-cursor
 
 # Quick terminal
 quick-terminal-animation-duration = 0.05
+quick-terminal-position = top
+quick-terminal-size = 45%
 
 # Keyboard
 macos-option-as-alt = left
@@ -44,6 +46,9 @@ keybind = global:alt+cmd+space=toggle_quick_terminal
 
 ## Config
 # keybind = ctrl+space>r=reload_config
+
+## Command palette
+keybind = super+p=toggle_command_palette
 
 ## Window
 # keybind = ctrl+space>z=toggle_split_zoom

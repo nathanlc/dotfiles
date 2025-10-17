@@ -161,7 +161,6 @@ vim.keymap.set({'n'}, '<leader>uc', require('undotree').close, {silent=true})
 vim.keymap.set({'n'}, 'gy', 'gvy', {silent = true})
 vim.keymap.set({'n'}, 'Y', 'yg_', {silent = true})
 vim.api.nvim_set_keymap('n', '<leader>yf', ':let @+=@%<CR>', {noremap = true, silent = true})
-vim.keymap.set({'v'}, '<leader>p', '"_dp', {silent = true})
 vim.keymap.set({'n'}, 'gp', '`[v`]', {silent = true})
 vim.keymap.set({'n'}, '<leader>xp', 'viwP', {silent = true})
 -- vim.keymap.set({'v'}, '<C-j>', [[:'<,'>move +1<CR>gv]], {silent = true})
@@ -275,15 +274,15 @@ vim.api.nvim_set_keymap('n', '<leader><', [[<Cmd>lua require("plugins.win-hoarde
 
 
 -- Terminal
-vim.api.nvim_set_keymap('n', '<leader>"n', [[<Cmd>lua require('utils.term').open_small_term()<CR>i]], {noremap = true, silent = true})
-vim.keymap.set({'n'}, '<leader>"o', [[<Cmd>term<CR>i]], {silent = true})
-vim.keymap.set({'n'}, '<leader>"s', [[<Cmd>split | term<CR>i]], {silent = true})
-vim.keymap.set({'n'}, '<leader>"v', [[<Cmd>vsplit | term<CR>i]], {silent = true})
-vim.api.nvim_set_keymap('n', '<leader>"l', [[<Cmd>lua require('telescope.builtin').buffers({default_text = "term://", initial_mode = "normal"})<CR>]], {noremap = true, silent = true})
-vim.keymap.set({'n'}, '<leader>"t', [[<Cmd>tabnew | term<CR>]], {silent = true})
-vim.keymap.set({'n'}, '<leader>"r', [[<Cmd>lua require('plugins.term').history()<CR>]], {silent = true})
+vim.api.nvim_set_keymap('n', "<leader>'n", [[<Cmd>lua require('utils.term').open_small_term()<CR>i]], {noremap = true, silent = true})
+vim.keymap.set({'n'}, "<leader>'o", [[<Cmd>term<CR>i]], {silent = true})
+vim.keymap.set({'n'}, "<leader>'s", [[<Cmd>split | term<CR>i]], {silent = true})
+vim.keymap.set({'n'}, "<leader>'v", [[<Cmd>vsplit | term<CR>i]], {silent = true})
+vim.api.nvim_set_keymap('n', "<leader>'l", [[<Cmd>lua require('telescope.builtin').buffers({default_text = "term://", initial_mode = "normal"})<CR>]], {noremap = true, silent = true})
+vim.keymap.set({'n'}, "<leader>'t", [[<Cmd>tabnew | term<CR>]], {silent = true})
+vim.keymap.set({'n'}, "<leader>'r", [[<Cmd>lua require('plugins.term').history()<CR>]], {silent = true})
 -- vim.api.nvim_set_keymap('t', 'jk', '<C-\\><C-N>', {noremap = true}) -- This prevents from using some tuis where j is used to scroll down.
-vim.api.nvim_set_keymap('t', '<Esc><Space>', '<C-\\><C-N>', {noremap = true})
+vim.api.nvim_set_keymap('t', '<Esc><Esc>', '<C-\\><C-N>', {noremap = true})
 vim.api.nvim_set_keymap('t', '<A-h>', [[<Cmd>wincmd h<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<A-j>', [[<Cmd>wincmd j<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<A-k>', [[<Cmd>wincmd k<CR>]], {noremap = true, silent = true})
@@ -398,6 +397,11 @@ vim.keymap.set({'n'}, '<leader>M', '<Cmd>Mason<CR>', {silent=true})
 -- Manipulation of text
 vim.keymap.set({'n'}, '<leader>ms', '<Cmd>TSJSplit<CR>', {silent=true})
 vim.keymap.set({'n'}, '<leader>mj', '<Cmd>TSJJoin<CR>', {silent=true})
+vim.keymap.set({'n'}, [[<leader>m"]], [[<Cmd>s/'/"/g<CR><Esc>]], {silent=true})
+vim.keymap.set({'n'}, [[<leader>m']], [[<Cmd>s/"/'/g<CR><Esc>]], {silent=true})
+vim.keymap.set({'n'}, [[<leader>mt]], [[<Cmd>%s/ \+$//g<CR><Esc>]], {silent=true})
+vim.keymap.set({'v'}, [[<leader>m"]], [[:s/\%V'/"/g<CR><Esc>]], {silent=true})
+vim.keymap.set({'v'}, [[<leader>m"]], [[:s/\%V'/"/g<CR><Esc>]], {silent=true})
 
 
 -- Insert text
@@ -452,7 +456,7 @@ vim.api.nvim_create_autocmd('FileType', {
     pattern = {"ruby", "rb", "erb"},
     callback = function()
         vim.schedule(function()
-            vim.keymap.set('n', '<leader>pa', ':R<CR>', {silent=true, buffer=true})
+            vim.keymap.set('n', '<leader>pA', ':R<CR>', {silent=true, buffer=true})
         end)
     end
 })

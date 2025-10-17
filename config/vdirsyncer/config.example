@@ -8,7 +8,7 @@ collections = ["from b"]
 
 [storage gmail_glooko_local]
 type = "filesystem"
-path = "Users/nathan/.calendars/gmail_glooko/"
+path = "/Users/nathan/.calendars/gmail_glooko/"
 fileext = ".ics"
 
 [storage gmail_glooko_remote]

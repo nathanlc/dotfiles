@@ -3,7 +3,7 @@ set -eu
 
 js() {
 cat <<EOF
-document.querySelectorAll('button.btn-octicon.js-details-target[aria-expanded="false"]').forEach(button => button.click());
+document.querySelectorAll('button svg.octicon.octicon-chevron-right').forEach(svg => svg.parentNode.click());
 EOF
 }
 

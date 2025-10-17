@@ -38,6 +38,7 @@ setopt CORRECT
 
 # Aliases START
 alias c='khal calendar'
+alias cs='vdirsyncer sync && khal calendar'
 alias cp='cp -iv'
 alias mv='mv -iv'
 alias ll='ls -AlhF --color=always --group-directories-first'

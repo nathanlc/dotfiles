@@ -14,3 +14,9 @@ color = dark red
 
 [view]
 agenda_event_format = {calendar-color}{cancelled}{start-end-time-style} {title}{repeat-symbol}{reset}
+
+[locale]
+timeformat = %H:%M
+longdateformat = %d.%m.%Y
+longdatetimeformat = %d.%m.%Y %H:%M
+dateformat = %d.%m
