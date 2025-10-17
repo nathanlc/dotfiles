@@ -1,0 +1,32 @@
+export AWS_CREDENTIALS_FOLDER="$HOME/.aws"
+export ORG="$HOME/Dropbox/org"
+export EDITOR="nvr"
+export LESS="-SXR"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/.ripgreprc"
+export GOPATH="$HOME/go"
+export NODE_PATH=$(which node)
+export HOMEBREW_PREFIX="/opt/homebrew"
+export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+export HOMEBREW_REPOSITORY="/opt/homebrew"
+export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
+# docker
+export COMPOSE_MENU=0
+MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+MANPATH="/opt/local/share/man:$MANPATH"
+MANPATH="/opt/homebrew/share/man:$MANPATH"
+PATH="${GOPATH}/bin:$PATH"
+PATH="$HOME/.local/bin:$PATH"
+PATH="$HOME/bin:$PATH"
+PATH="/usr/local/bin:$PATH"
+PATH="/usr/local/opt:$PATH"
+PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+PATH="$HOME/.jenv/bin:$PATH"
+PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+export PATH
+export MANPATH

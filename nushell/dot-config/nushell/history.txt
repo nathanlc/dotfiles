@@ -1,0 +1,714 @@
+config nu
+aws_credentials glooko-playground
+open output.csv
+scp gdpr_export.py ds.diasend.com:~/.
+scp ds.diasend.com:~/output.csv .
+open output.csv
+scp ds.diasend.com:~/user.csv .
+open user.csv
+scp gdpr_export.py ds.diasend.com:~/.
+scp ds.diasend.com:~/user.csv .
+open user.csv
+cat user.csv
+scp gdpr_export.py ds.diasend.com:~/.
+scp ds.diasend.com:~/user.csv .
+open user.csv
+cat user.csv
+scp gdpr_export.py ds.diasend.com:~/.
+scp ds.diasend.com:~/user.csv .
+more user.csv
+scp gdpr_export.py ds.diasend.com:~/.
+scp ds.diasend.com:~/user.csv .
+cat user.csv | pbcopy
+scp gdpr_export.py ds.diasend.com:~/.
+scp ds.diasend.com:~/user.csv .
+less user.csv
+scp gdpr_export.py ds.diasend.com:~/.
+scp ds.diasend.com:~/user.csv .
+scp ds.diasend.com:~/user.csv gdpr_example.csv
+scp ds.diasend.com:~/user.csv .
+wc -l user.csv
+scp gdpr_export.py ds.diasend.com:~/.
+mkdir ~/.local/share/atuin/; atuin init nu | save ~/.local/share/atuin/init.nu
+config nu
+atuin import auto
+atuin import nu
+config nu
+z sc
+aws_credentials glooko-playground
+mutagen-compose exec -e DISABLE_SPRING=1 mutagen-web bundle exec rails console
+mutagen-compose exec mutagen-web bash
+mx mutagen-web bundle exec i18n-tasks add-missing
+config nu
+mutagen-compose exec mutagen-web bundle exec i18n-tasks add-missing
+ssh barkley-us-ecs-cluster
+mutagen-compose exec mutagen-web bash
+mutagen-compose exec -e DISABLE_SPRING=1 mutagen-web bundle exec rails console
+mutagen-compose exec mutagen-web bash
+mutagen-compose exec -e DISABLE_SPRING=1 mutagen-web bundle exec rails console
+fd -e sql
+rg todo **/o_auth/
+rg TODO **/o_auth/
+rg uniq app/models/
+mx mutagen-web bundle exec rubocop **/oauth/
+mx mutagen-web bundle exec rubocop app/models/o_auth/ app/controllers/o_auth/ app/services/o_auth/ app/models/concerns/o_auth/ spec/models/o_auth/ spec/controllers/o_auth/ spec/services/o_auth/
+mx mutagen-web bundle exec rubocop -a app/models/o_auth/ app/controllers/o_auth/ app/services/o_auth/ app/models/concerns/o_auth/ spec/models/o_auth/ spec/controllers/o_auth/ spec/services/o_auth/
+mx mutagen-web bundle exec rubocop app/models/o_auth/ app/controllers/o_auth/ app/services/o_auth/ app/models/concerns/o_auth/ spec/models/o_auth/ spec/controllers/o_auth/ spec/services/o_auth/
+atuin search
+atuin search --human
+atuin search --format {command}
+atuin search --format {command} --reverse
+config nu
+config,e
+config nu
+:qa
+:q
+fd --help
+?dir
+prs
+to_review
+prs
+prs | get repository
+prs
+rs
+prs
+pr
+prs
+gh search prs --state=open --review-requested=@me --json
+z ki
+zsh
+config nu
+gwl
+prs
+$git_dirs
+prs
+$git_dirs
+prs
+z k
+z kin
+prs
+git branch -d pr-5634
+git branch -d pr-5645
+prs
+git branch -d pr-5645
+git branch -d pr-5634
+prs
+..
+rm -rf kings-landing-*
+cd kings-landing/
+prs
+z kin
+gwd ../kings-landing-pr-5645
+gwr ../kings-landing-pr-5645
+gwr ../kings-landing-pr-5634
+prs
+git branch -d pr-5634
+git branch -d pr-5645
+z kin
+git branch -d pr-5645
+git branch -d pr-5634
+prs
+gwr ../kings-landing-pr-5634
+gwr ../kings-landing-pr-5645
+git branch -d pr-5634
+git branch -d pr-5645
+prs
+z kin
+ll
+gwa ../kl pr-5645
+z kin
+../kings-landing-pr-5634/
+gb
+git branch
+../kings-landing-pr-5645/
+git branch
+git worktree add --help
+z kin
+gwr ../kings-landing-pr-5645
+gwr ../kings-landing-pr-5634
+prs
+git branch -d pr-5645
+git branch -d pr-5634
+prs
+gwr ../kings-landing-pr-5634
+gwr ../kings-landing-pr-5645
+git branch -d pr-5634
+git branch -d pr-5645
+prs
+gl
+gwr ../kings-landing-pr-5645
+gwr ../kings-landing-pr-5634
+git branch -d pr-5645
+git branch -d pr-5634
+git branch -D pr-5634
+git branch -D pr-5645
+prs
+git branch
+gwr ../kings-landing-pr-5634
+gwr ../kings-landing-pr-5645
+git branch -D pr-5645
+git branch -D pr-5634
+prs
+git branch -D pr-5634
+gwr ../kings-landing-pr-5645
+gwr ../kings-landing-pr-5634
+git branch -D pr-5634
+git branch -D pr-5645
+prs
+gh pr checkout 5634
+prs
+gwr ../kings-landing-pr-5634
+z kin
+gwr ../kings-landing-pr-5634
+gwr -f ../kings-landing-pr-5634
+gwr -f ../kings-landing-pr-5645
+git branch -D pr-5645
+git branch -D pr-5634
+prs
+ls
+cd ~/sandbox/
+ls
+..
+ls
+cd Dropbox/
+mv ~/sandbox/mine/obsidian/ .
+ll
+cd obsidian/
+ll
+..
+ll
+echo $HOME
+echo $env.HOME
+$env.BUN_INSTALL
+which bun
+go versin
+go version
+which go
+rm -rf /usr/local/go/
+sudo rm -rf /usr/local/go/
+zsh
+which go
+go v,e
+go version
+go --help
+go help init
+mkdir advent2024
+cd advent2024/
+ll
+ls
+go mod init github.com/nathanlc/advent2024
+ll
+touch day1.go
+v day1.go
+cd sandbox/mine/advent2024/
+go run day1.go
+go help test
+go test day1.go
+go test
+go run day1.go
+go run day1-1.go
+go
+go test day1_test.go
+rg TestParseLine
+go test day1_test.go
+go test
+go test day1_test.go
+go test
+go run day1-2.go
+go test
+cd day1
+ll
+go test
+go mod init github.com/nathanlc/advent2023-day1
+go mod tidy
+..
+mv advent2024/ advent2023
+cd advent2023/
+ll
+cd day1/
+ll
+cat go.mod
+go test
+go run part2.go
+..
+cd day2
+go mod init github.com/nathanlc/advent2023-day2
+go run part1.go
+..
+rg append
+cd day2
+go run part1.go
+cd sandbox/mine/advent2023/day2/
+go run part2.go
+touch part1.go
+go mod init github.com/nathanlc/advent2023-day3
+go mod tidy
+cat go.mod
+..
+cd day3
+v part1.go
+go run part1.go
+go test
+go run part1.go
+go run part2.go
+..
+mkdir day4
+cd day4
+ll
+go mod init github.com/nathanlc/advent2023-day4
+touch part1.go
+go mod tidy
+cat g,e
+cat go.mod
+v part1.go
+go run part1.go
+go run part2.go
+go install github.com/go-delve/delve/cmd/dlv@latest
+which dlv
+dlv debug
+cd
+cd .asdf/
+ll
+ls
+open asdf.sh
+v asdf.sh
+go mod init github.com/nathanlc/advent2023-day5
+touch part1.go
+go run part1.go
+dlv debug part1.go
+go run part1.go
+go test
+dlv debug part1.go
+go run part1.go
+go run part2.go
+dlv debug part2.go
+go run part2.go
+go run part1.go
+go run part2.go
+diff input.txt input_bkp.txt
+go run part2.go
+go run part1.go
+go run part2.go
+rg advent
+$env.GOPATH
+$env
+env 
+go mod init github.com/nathanlc/go-tree
+go mod tidy
+go run main.go
+..
+ll
+go run main.go
+..
+mv go_tree/ tour_go_tree
+ls
+v go.work
+go run main.go
+dlv debug main.go
+go run main.go
+python3
+z min
+mkdir go_cli_cal
+cd go_cli_cal/
+git init
+git branch -m main
+touch .gitignore
+echo "credentials.json" >> .gitignore
+cat .gitignore
+echo "credentials.json"
+echo "credentials.json" | save .gitignore
+echo "credentials.json" | save -f .gitignore
+cat .gitignore
+mv ~/Downloads/client_secret_401948809440-9jtrb9htm3822cnu3mh3m5o0rsf0e6md.apps.googleusercontent.com.json credentials.json
+go mod init github.com/nathanlc/go_cli_cal
+cat go.mod
+..
+v go.work
+go get google.golang.org/api/calendar/v3<\n>go get golang.org/x/oauth2/google
+go build
+go run main.go
+dlv debug main.go
+go install github.com/spf13/cobra-cli@latest
+..
+mv go_cli_cal/ go_cli_cal_old
+cobra-cli
+mv go_cli_cal_old/ go_cli_cal
+cd go
+cd go_cli_cal/
+cobra-cli init
+mv main.go stuff;go
+mv main.go stuff.go
+ll
+cat stuff
+mv stuff stuff.go
+ll
+cobra-cli init
+v main.go
+go run main.go
+ls
+cat cmd
+ls cmd
+rg go_cli_cal
+..
+mv go_cli_cal gcal
+cd gcal/
+rg go_cli
+rg gocal
+rg go_cli
+go run main.go
+v ../go.work
+go run main.go
+go run main.go -t
+go run main.go -b
+go run main.go -t
+ll
+go run main.go
+cobra-cli add add
+go run main.go add
+go run main.go -h
+go run main.go help add
+cobra-cli add list
+go run main.go list
+go run main.go
+cobra-cli add calendars
+go run main.go calendars
+go run main.go cals
+go run main.go add -c bob -s 2024-02-25T21:55:00+02:00 -d 1h
+go run main.go add -c bob -s 2024-02-25T21:55:00+02:00 -d 30m
+go run main.go add -c bob -s 2024-02-25T21:55:00+02:00 -d 30m -v
+go run main.go add -c bob -s 2024-02-25T21:55:00+02:00 -d 30m -v -t yo bob yo
+go run main.go add -c bob -s 2024-02-25T21:55:00+02:00 -d 30m -v -t "yo bob yo"
+go run main.go add -c bob -s 2024-02-25T22:30:00+02:00 -d 30m -v -t "yo bob yo"
+go run main.go add -s 2024-02-25T22:30:00+02:00 -v -t "yo bob yo"
+go run main.go list
+go run main.go add -s 2024-02-25T22:30:00+02:00 -v -t "yo bob yo"
+go run main.go list
+zsh
+zsh
+z help
+cd ~/sandbox/
+ll
+cd scripts/
+ll
+..
+ll
+cd glooko/helpers/
+ll
+cd b26/
+ll
+source ./venv/bin/activate
+zsh
+gs
+git status
+prs
+config nu
+prs
+nu
+prs
+ssh_config
+parse_ssh_config (ssh_config)
+which github
+prs
+nu
+gwr ../A06103-analyzer_server-pr-1127/
+man nc
+nc 0:0:0:0 80
+nc 127.0.0.1:80
+nc 127.0.0.1 80
+rg before_validation 
+z gcal
+ll
+git init
+git branch -m main
+go run main.go list
+z dow
+lt
+mv client_secret_401948809440-8amadfdefkcdf2jjenani3pqn34unbqn.apps.googleusercontent.com.json ~/sandbox/mine/gcal/credentials.json
+z gcal
+go run main.go list
+go run main.go add -s 2024-02-26T22:30:00+02:00 -v -t "yo bob yo"
+go run main.go add -s 2024-02-26T22:30:00+02:00 -v -t "Yihaa"
+go run main.go add -s 2024-02-26T22:30:00+02:00 -v -t "Wihoo"
+go run main.go list -n 2
+go run main.go list -n 10
+go run main.go list
+mutagen-compose exec -e RAILS_ENV=test -e DISABLE_SPRING=1 mutagen-web bundle exec rspec spec/models/o_auth/ spec/controllers/o_auth/ spec/services/o_auth/
+aws_credentials glooko-playground
+gs
+git status
+git push origin
+git push origin GCI-977-oauth-dynamodb
+git pull origin --rebase
+git pull origin --rebase GCI-977-oauth-dynamodb
+rg 
+zsh
+psql -h localhost -p 5432 ccm postgres
+psql -h localhost -p 5432 -U gkCCM ccm
+zsh
+ssh staging-us-ccm-db-tunnel
+git pull origin main
+rm -rf A22001-cloud_service_common_lib/
+git pull origin main
+cd A22010-omnipod_service/
+rg saveTransfer
+go run main.go calendars
+go build
+go run main.go calendars
+go build
+go run main.go calendars
+mv ~/Downloads/client_secret_401948809440-8amadfdefkcdf2jjenani3pqn34unbqn.apps.googleusercontent.com.json ./credentials.json
+go run main.go calendars
+go run main.go cals
+go run main.go list
+go run main.go list -c primary
+go run main.go list -c bob
+git pull --rebase origin GCI-977-oauth-dynamodb
+config env
+let res = (aws_credentials glooko-playground)
+res 
+$res
+$res | get .SessionToken
+$res | get SessionToken
+$res | get SessionToken | pbcopy
+$res
+prs
+gwr ../kings-landing-pr-5776/
+git fetch --all
+gfa
+gb
+git branch
+git branch -d GCI-959-oauth-make-pkce-with-code-challange-method-s256-mandatory-for-public-apps
+gwr ../kings-landing-pr-5768
+git pull --rebase origin GCI-959-oauth-make-pkce-with-code-challange-method-s256-mandatory-for-public-apps
+go run main.go cals
+cat calendars.txt
+go run main.go cals
+go run main.go list -n 5
+go run main.go cals
+go run main.go list -n 5
+ssh barkley-us-ecs-cluster
+rg scope
+let res = (aws_credentials glooko-playground)
+$res | get SessionToken | pbcopy
+$res
+z gcal
+go build
+ll
+ll gcal
+zsh
+z gcal
+go build
+go install
+gcal list
+z gcal
+..
+ll
+rm go.work.sum
+mv go.work ../.
+..
+v go.work
+z kin
+..
+mkdir stress
+cd stress/
+go mod init github.com/glooko/stress
+cobra-cli init
+v cmd/root.go
+gcal
+..
+go run main.go
+...
+cd glooko/
+go work use stress
+ll
+..
+cat go.work
+z stre
+go run main.go
+zsh
+zsh
+prs
+z dow
+lt
+mv Anytime.png POCTECH_YUWELL_M2C.png
+rg CSV
+let res = (aws_credentials glooko-playground)
+$res | get SessionToken | pbcopy
+$res
+sshprod-us-ccm-db-tunnel
+zsh
+ssh prod-us-ccm-db-tunnel
+dc up test-web-prod-us --build
+zsh
+git reflog
+git reset --hard b6f0b2e044
+go mod init github.com/glooko/stress
+...
+ll
+rm -rf stress/
+..
+v go.work
+cd go/
+cobra-cli init
+cobra-cli init -v
+cobra-cli init
+zsh
+...
+..
+v go.work
+cd go
+cobra-cli init
+go mod tidy
+cobra-cli init
+....
+go work
+ll
+v go.work
+...
+go work use ./glooko/qa_test_tools/go
+cd -
+cd go/
+go run main.go
+cobra-cli init
+git init
+git branch -m main
+ssh www.diasend.com
+ssh se.diasend.com
+mx mutagen-web bundle exec rubocop app/models/o_auth/ lib/tasks/oauth.rake lib/tasks/services/migrations/o_auth/ spec/lib/tasks/services/migrations/o_auth/ 
+mx mutagen-web bundle exec rubocop -a app/models/o_auth/ lib/tasks/oauth.rake lib/tasks/services/migrations/o_auth/ spec/lib/tasks/services/migrations/o_auth/ 
+mx mutagen-web bundle exec rubocop app/models/o_auth/ lib/tasks/oauth.rake lib/tasks/services/migrations/o_auth/ spec/lib/tasks/services/migrations/o_auth/ 
+cd go
+go run main.go -i data/test.csv
+go build
+./gcal add -c c_f668c803574491b3d02183466659339d556aaa5ac2a09a0176ed048c91eddba2@group.calendar.google.com -s 2024-03-04T09:00:00Z -t "Check Slack reminders"
+gcal list
+go run main.go list
+go build
+go install
+..
+gcal list
+..
+gcal add -c c_f668c803574491b3d02183466659339d556aaa5ac2a09a0176ed048c91eddba2@group.calendar.google.com -s 2024-03-04T11:00:00Z -t "bob"
+zsh
+config nu
+ssh qa-us-ecs-cluster-web 
+sshx qa-us-ecs-cluster-web 
+dc run analyzer python RegressionTest.py -v --httpurl=http://glooko-analyzer:8080 --protocol=http --glooko --file=test/testcases/test_data/OmnipodCloud/twelve_days_XF-OmnipodC2C.json
+dc ps
+ssh qa-us-ecs-cluster-web 
+zsh
+mx mutagen-web bundle exec rubocop app/models/statistic/insulin/overall.rb spec/models/statistic/insulin/overall_spec.rb
+mx mutagen-web bundle exec rubocop -a app/models/statistic/insulin/overall.rb spec/models/statistic/insulin/overall_spec.rb
+mx mutagen-web bundle exec rubocop app/models/statistic/insulin/overall.rb spec/models/statistic/insulin/overall_spec.rb
+zsh
+mx mutagen-web bundle exec rubocop app/models/statistic/insulin/overall.rb spec/models/statistic/insulin/overall_spec.rb
+mx mutagen-web bundle exec rubocop -a app/models/statistic/insulin/overall.rb spec/models/statistic/insulin/overall_spec.rb
+gl
+git log --oneline
+git show e766f90c2d
+rg user_delete_url
+mx mutagen-web bundle exec rubocop -a app/models/statistic/insulin/overall.rb spec/models/statistic/insulin/overall_spec.rb
+git cherry-pick -x a666067a7a614d17e10513947c80d069870e633e
+git status
+git add app/models/statistic/insulin/overall.rb
+git add spec/models/statistic/insulin/overall_spec.rb
+git status
+git cherry-pick --continue
+git reflow
+git reflog
+git reset --hard e493cf3ee1
+git fetch origin
+git branch
+git cherry-pick -x a666067a7a614d17e10513947c80d069870e633e
+git add spec/models/statistic/insulin/overall_spec.rb
+git add app/models/statistic/insulin/overall.rb
+git cherry-pick --continue
+git status
+git cherry-pick --skip
+git checkout -- app/models/pumps/mode.rb
+git checkout origin/release/23.6.1 -- app/models/pumps/mode.rb
+git checkout origin/release/23.6.1 -- app/models/pumps/scheduled_basal.rb
+git checkout origin/release/23.6.1 -- app/models/pumps/suspend_basal.rb
+git checkout origin/release/23.6.1 -- app/workers/insulet/delete_old_soft_deleted/delete_basal_bars_worker.rb
+zsh
+zsh
+git checkout origin/release/23.6.1 -- config/sidekiq_schedule.yml
+git checkout origin/release/23.6.1 -- lib/tasks/all_migrations.rake
+git checkout origin/release/23.6.1 -- lib/tasks/migrations_23_5.rake
+git checkout origin/release/23.6.1 -- spec/models/insulet/new_data_notification_spec.rb
+git checkout origin/release/23.6.1 -- spec/models/pumps/basal_bar_spec.rb
+git checkout origin/release/23.6.1 -- spec/models/pumps
+git checkout origin/release/23.6.1 -- spec/services/redox/
+git checkout origin/release/23.6.1 -- spec/workers/
+git checkout origin/release/23.6.1 -- app/workers
+zsh
+go run main.go
+zsh
+cd go/
+go run main.go -i data/test.csv
+wc -l data/test.csv
+go run main.go -i data/test.csv
+let res = (aws_credentials glooko-playground)
+$res | get SessionToken | pbcopy
+$res
+go run main.go -i data/test.csv -b http://us.my.local.glooko.work
+cd go
+go run main.go -i data/test.csv -b http://us.my.local.glooko.work
+go mod init github.com/glooko/scratch
+go mod tidy
+cd go/scratch/
+go run main.go
+let res = (aws_credentials glooko-playground)
+$res | get SessionToken | pbcopy
+$res
+go run main.go
+go mod tidy
+ll
+zsh
+cd go/stress/
+go run main.go -i data/test.csv -b http://us.my.local.glooko.work
+go run main.go -i data/test.csv -b http://us.my.local.glooko.work -p 50ms
+ssh prod-eu-ecs-cluster-web 
+sshx prod-eu-ecs-cluster-web
+ssh prod-eu-ecs-cluster-web
+go run main.go -i data/test.csv -b http://us.my.local.glooko.work -p 20ms
+go run main.go -i data/test.csv -b http://us.my.local.glooko.work -p 100ms
+go run main.go -i data/test.csv -b http://us.my.local.glooko.work -p 500ms
+go run main.go -i data/test.csv -b http://us.my.local.glooko.work -p 900ms
+go run main.go -i data/test.csv -b http://us.my.local.glooko.work -p 20ms
+go run main.go -i data/test.csv -b http://us.my.local.glooko.work
+ssh barkley-us-ecs-cluster
+scp barkley-us-ecs-cluster:~/test.csv .
+ssh barkley-us-ecs-cluster
+ssh barkley-us-ecs-cluster
+go run main.go -i data/barkley_input.csv -d 10m -p 75ms -o data/barkley_output.csv
+zsh
+rg chan
+rg "make(chan"
+rg "make\(chan"
+rg "make\(chan<\n>i<\n>"
+rg "make\(chan"
+zsh
+let res = (aws_credentials glooko-playground)
+$res | get SessionToken | pbcopy
+$res
+ssh prod-eu-ecs-cluster-web
+sshx qa2-us-ecs-cluster-web
+aws_credentials glooko-qa
+sshx qa2-us-ecs-cluster-web
+config nu
+aws_m set_credentials glooko-qa
+sshx qa2-us-ecs-cluster-web
+env
+sshx qa2-us-ecs-cluster-web
+source ~/sandbox/mine/dotfiles/config/nushell/config.nu
+sshx qa2-us-ecs-cluster-web
+aws_m set_credentials glooko-qa
+sshx qa2-us-ecs-cluster-web
+env
+z king
+prs
+config nu
+aws_credentials glooko-qa
+config nu
+aws_credentials glooko-playground

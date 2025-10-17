@@ -90,71 +90,18 @@ autoload bashcompinit && bashcompinit
 # Word delimiters in zsh
 export WORDCHARS="${WORDCHARS/\/}"
 
-# Glooko START
-export AWS_CREDENTIALS_FOLDER="$HOME/.aws"
-# Glooko END
-export ORG="$HOME/Dropbox/org"
-export SCRIPTS="$HOME/sandbox/scripts"
-export EDITOR="nvr"
-export LESS="-SXR"
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export JIRA_API_TOKEN=ATATT3xFfGF0fnw-URTheLdzCNJTY84zsACRQK65n2ZVeGot0Y5FNfKdS275_C4GM8-wuZpvclXVpVEBHeepi7xH67688NnhzGndhW9mrXnWx-s8bCUvIE2SX5f2Xpf6wsQst8CxwUMo6Gw6gf94LHYNK-XBhwUb_HKSd_4I1L9mDyyzDE3TZCU=6EEB9995
-# ripgrep START
-export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/.ripgreprc"
-# ripgrep END
-# Go START
-export GOPATH="$HOME/go"
-PATH="${GOPATH}/bin:$PATH"
-# Go END
-PATH="$HOME/.local/bin:$PATH"
-PATH="$HOME/bin:$PATH"
-PATH="/usr/local/bin:$PATH"
-PATH="/usr/local/opt:$PATH"
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
-PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-PATH="$SCRIPTS:$PATH"
-PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
-PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-# Java START
-PATH="$HOME/.jenv/bin:$PATH"
-PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+# Java
 eval "$(jenv init -)"
-# Java END
 # Starship START
 export STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/starship.toml
 eval "$(starship init zsh)"
-# Starship END
-# Bun START
-export BUN_INSTALL="$HOME/.bun"
-PATH="$BUN_INSTALL/bin:$PATH"
-# Bun END
-# Node START
-export NODE_PATH=$(which node)
-# Node END
-MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-MANPATH="/opt/local/share/man:$MANPATH"
-MANPATH="/opt/homebrew/share/man:$MANPATH"
-export HOMEBREW_PREFIX="/opt/homebrew"
-export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
-export HOMEBREW_REPOSITORY="/opt/homebrew"
-export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
-export PATH
-export MANPATH
-# Docker / docker compose START
-export COMPOSE_MENU=0
-# END
-# Cargo
+# rust Cargo
 . "$HOME/.cargo/env"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(atuin init zsh)"
 eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
-
-# bun completions
-[ -s "/Users/nathan/.bun/_bun" ] && source "/Users/nathan/.bun/_bun"
 
 # mise
 eval "$(mise activate zsh)"
