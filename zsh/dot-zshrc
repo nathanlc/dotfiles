@@ -36,6 +36,14 @@ setopt HIST_VERIFY
 # Correct typos in commands
 setopt CORRECT
 
+function if_macos {
+  [[ $(uname) == 'Darwin' ]] && return 0 || return 1
+}
+
+function if_def {
+  command -v "$1" >/dev/null 2>&1 && return 0 || return 1
+}
+
 # Aliases START
 alias c='khal calendar'
 alias cs='vdirsyncer sync && khal calendar'
@@ -46,7 +54,6 @@ alias ls='ls -AF --color=always --group-directories-first'
 alias lt='ls -AlhFrt --color=always'
 alias ...='cd ../..'
 alias ....='cd ../../..'
-alias hist='history -i'
 alias dc='docker compose'
 alias dx='docker compose exec'
 alias dxw='docker compose exec web zsh -ic'
@@ -66,19 +73,11 @@ alias s='for i in {1..15}; do echo; done' # Create some space in the terminal
 alias cl=clear
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 alias vc='nvim --clean'
-# alias vs='nvim --listen /tmp/nvimsocket'
-# alias v='nvr'
-alias gcs='gh copilot suggest'
-alias gce='gh copilot explain'
-# alias zz='pmset sleepnow'
-# alias dnd="bash $SCRIPTS/do_not_disturb_toggle.sh"
-# alias f="bash $SCRIPTS/search-firefox-history.sh"
-# Aliases END
 
 # Completion START
 autoload -Uz compinit && compinit
 # Use zsh-autosuggestions
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+if_macos && source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # Case insensitive path-completion
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 # Partial completion suggestions
@@ -91,17 +90,16 @@ autoload bashcompinit && bashcompinit
 export WORDCHARS="${WORDCHARS/\/}"
 
 # Java
-eval "$(jenv init -)"
+if_def jenv && eval "$(jenv init -)"
 # Starship START
 export STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/starship.toml
-eval "$(starship init zsh)"
+if_def starship && eval "$(starship init zsh)"
+
 # rust Cargo
-. "$HOME/.cargo/env"
+[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-eval "$(atuin init zsh)"
-eval "$(zoxide init zsh)"
-eval "$(direnv hook zsh)"
-
-# mise
-eval "$(mise activate zsh)"
+if_def atuin && eval "$(atuin init zsh)"
+if_def zoxide && eval "$(zoxide init zsh)"
+if_def direnv && eval "$(direnv hook zsh)"
+if_def mise && eval "$(mise activate zsh)"
