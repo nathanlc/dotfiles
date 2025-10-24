@@ -1,0 +1,13 @@
+[Unit]
+Description=kmonad macbook_pro_2015
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/kmonad /home/nathan/.config/kmonad/macbook_2015.kbd
+Restart=always
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

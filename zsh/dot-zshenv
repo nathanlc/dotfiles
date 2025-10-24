@@ -1,3 +1,4 @@
+export ZDOTDIR="$HOME"
 export AWS_CREDENTIALS_FOLDER="$HOME/.aws"
 export ORG="$HOME/Dropbox/org"
 export EDITOR="nvr"
