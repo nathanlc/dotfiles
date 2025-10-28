@@ -18,10 +18,14 @@ set $term foot
 # Your preferred application launcher
 set $menu wmenu-run
 
+font CaskaydiaMonoNerdFont 11
+
+default_border pixel 1
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg $XDG_CONFIG_HOME/sway/wallhaven-21y2vg_1920x1080.png fill
 #
 # Example configuration:
 #
@@ -113,6 +117,7 @@ input type:keyboard {
 # Workspaces:
 #
     # Switch to workspace
+    bindsym $mod+Tab workspace back_and_forth
     bindsym $mod+a workspace a
     bindsym $mod+z workspace z
     bindsym $mod+e workspace e
@@ -219,12 +224,13 @@ bar {
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %X'; do sleep 1; done
+    status_command while $XDG_CONFIG_HOME/sway/sway_bar.sh; do sleep 1; done
 
     colors {
         statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
+        background #00000000
+        focused_workspace #32323200 #00000099 #ffffff
+        inactive_workspace #32323200 #00000033 #999999
     }
 }
 

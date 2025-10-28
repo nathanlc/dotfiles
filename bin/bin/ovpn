@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+config="${OVPN_CONFIG:-glooko_stockholm_vpn.ovpn}"
+
+echo "Connecting to: ${config}"
+openvpn3 session-start -c "${config}"
+
+openvpn3 sessions-list
