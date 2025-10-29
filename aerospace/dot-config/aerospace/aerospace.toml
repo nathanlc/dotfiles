@@ -48,10 +48,10 @@ key-mapping.preset = 'qwerty'
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 [workspace-to-monitor-force-assignment]
-Q = 'DELL U2417H'
-W = 'PHL 346E2C'
-E = 'PHL 346E2C'
-R = 'PHL 346E2C'
+W = ['PHL 346E2C', 'DELL U2417H']
+E = ['PHL 346E2C', 'DELL U2417H']
+R = ['PHL 346E2C', 'DELL U2417H']
+Q = 'built-in'
 S = 'built-in'
 
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
