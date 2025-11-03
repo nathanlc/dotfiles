@@ -16,16 +16,30 @@ set $right l
 # Your preferred terminal emulator
 set $term foot
 # Your preferred application launcher
-set $menu wmenu-run
+set $menu wmenu-run -f "CaskaydiaMonoNerdFont Normal 11" -p "Run:"
 
 font CaskaydiaMonoNerdFont 11
 
+# TODO: put back to normal to set "nice" colors for client.*
 default_border pixel 1
+# TODO: check https://man.archlinux.org/man/sway.5
+# client.focused #ffffff #00ffff33 #ffffff #ffffff #ffffff
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg $XDG_CONFIG_HOME/sway/wallhaven-21y2vg_1920x1080.png fill
+
+# Macbook built-in
+output "Apple Computer Inc Color LCD Unknown" {
+    mode 2880x1800@59.990Hz
+    position 200 1080
+}
+# Work Dell
+output "Dell Inc. DELL U2417H 5K9YD895CX4L" {
+    mode 1920x1080@60Hz
+    position 0 0
+}
 #
 # Example configuration:
 #
@@ -139,8 +153,15 @@ input type:keyboard {
     bindsym $mod+Shift+d move container to workspace d
     bindsym $mod+Shift+w move container to workspace w
     bindsym $mod+Shift+x move container to workspace x
-    # Note: workspaces can have any name you want, not just numbers.
-    # We just use 1-10 as the default.
+    # Move workspace to monitor
+    bindsym $mod+Alt+$up move workspace to output up
+    bindsym $mod+Alt+$down move workspace to output down
+    bindsym $mod+Alt+$left move workspace to output left
+    bindsym $mod+Alt+$right move workspace to output right
+    bindsym $mod+Alt+Up move workspace to output up
+    bindsym $mod+Alt+Down move workspace to output down
+    bindsym $mod+Alt+Left move workspace to output left
+    bindsym $mod+Alt+Right move workspace to output right
 #
 # Layout stuff:
 #
