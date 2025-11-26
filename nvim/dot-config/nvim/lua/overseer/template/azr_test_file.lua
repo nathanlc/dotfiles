@@ -1,5 +1,6 @@
 local Path = require('plenary.path')
 
+---@type overseer.TemplateFileDefinition
 return {
   name = "Test file (AZR)",
   tags = { "test_file" },
@@ -15,12 +16,8 @@ return {
     }
   end,
   condition = {
-    callback = function(search)
-      local is_azr_dir = string.match(search.dir, "analyzer_server")
-      local is_test_file = string.match(vim.fn.expand("%:t"), "test_.*.py")
-
-      return is_azr_dir and is_test_file
-    end
+    dir = {"/Users/nathan/sandbox/glooko/A06103-analyzer_server"},
+    filetype = { "python" },
   },
 }
 

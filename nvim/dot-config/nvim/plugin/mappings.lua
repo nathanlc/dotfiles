@@ -28,9 +28,8 @@ vim.keymap.set({'n'}, '#', '#zz', {silent = true})
 vim.keymap.set({'n'}, 'n', 'nzz', {silent = true})
 vim.keymap.set({'n'}, 'N', 'Nzz', {silent = true})
 vim.keymap.set({'n'}, 'gd', 'gdzz', {silent = true})
-vim.keymap.set({'n', 'o'}, 'gs', function ()
-  require('leap.remote').action()
-end)
+vim.keymap.set({'n', 'x', 'o'}, 's', '<Plug>(leap)')
+vim.keymap.set({'n', 'o'}, 'gs', '<Plug>(leap-from-window)')
 vim.keymap.set({'n', 'o'}, 'H', '_', {silent = true})
 vim.keymap.set({'n', 'o'}, 'L', 'g_', {silent = true})
 vim.keymap.set({'n', 'o'}, 'U', '<C-^>', {silent = true})
@@ -131,14 +130,13 @@ vim.keymap.set({'n'}, '<leader>pj', [[<Cmd>lua require('plugins.project').open_j
 
 -- Tasks
 vim.keymap.set({'n'}, '<leader>to', [[<Cmd>OverseerOpen bottom<CR>]], {silent = true})
+vim.keymap.set({'n'}, '<leader>t!', [[<Cmd>OverseerToggle<CR>]], {silent = true})
 vim.keymap.set({'n'}, '<leader>tl', [[<Cmd>OverseerRun<CR>]], {silent = true})
-vim.keymap.set({'n'}, '<leader>tf', [[<Cmd>lua require("overseer").run_template({ tags = { "test_file" } })<CR>]], {silent = true})
-vim.keymap.set({'n'}, '<leader>tF', [[<Cmd>lua require("plugins.project").run_test({ target = "file" })<CR>]], {silent = true})
-vim.keymap.set({'n'}, '<leader>tp', [[<Cmd>lua require("overseer").run_template({ tags = { "test_project" } })<CR>]], {silent = true})
-vim.keymap.set({'n'}, '<leader>tc', [[<Cmd>lua require("overseer").run_template({ tags = { "check" } })<CR>]], {silent = true})
+vim.keymap.set({'n'}, '<leader>tf', [[<Cmd>lua require("overseer").run_task({ tags = { "test_file" } })<CR>]], {silent = true})
+-- vim.keymap.set({'n'}, '<leader>tF', [[<Cmd>lua require("plugins.project").run_test({ target = "file" })<CR>]], {silent = true})
+-- vim.keymap.set({'n'}, '<leader>tp', [[<Cmd>lua require("overseer").run_template({ tags = { "test_project" } })<CR>]], {silent = true})
+-- vim.keymap.set({'n'}, '<leader>tc', [[<Cmd>lua require("overseer").run_template({ tags = { "check" } })<CR>]], {silent = true})
 vim.keymap.set({'n'}, '<leader>tr', [[<Cmd>lua require("plugins.overseer").restart_latest_task()<CR>]], {silent = true})
-vim.keymap.set({'n'}, '<leader>ts', [[<Cmd>OverseerQuickAction open hsplit<CR>]], {silent = true})
-vim.keymap.set({'n'}, '<leader>tv', [[<Cmd>OverseerQuickAction open vsplit<CR>]], {silent = true})
 -- vim.keymap.set({'n'}, '<leader>ts', require('plugins.project').run_test_suite, {silent = true})
 -- vim.keymap.set({'n'}, '<leader>tc', function()
 --     require('plugins.project').run_test_current(
@@ -328,8 +326,6 @@ vim.api.nvim_set_keymap('n', '<leader>qo', ':copen 16<CR>', {noremap = true, sil
 vim.api.nvim_set_keymap('n', '<leader>qc', ':cclose<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>qj', ':cnext<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>qk', ':cprevious<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>qn', ':silent cnewer<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>qp', ':silent colder<CR>', {noremap = true, silent = true})
 
 
 -- Location list
