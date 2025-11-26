@@ -230,7 +230,7 @@ vim.api.nvim_set_keymap('n', '<leader>jc', [[<Cmd>lua require('telescope.builtin
 -- Tabs
 vim.api.nvim_set_keymap('n', 'Te', ':tabedit ', {noremap = true})
 vim.api.nvim_set_keymap('n', 'Tr', ':LualineRenameTab ', {noremap = true})
-vim.api.nvim_set_keymap('n', 'Tc', [[:tabnew<CR><Cmd>lua require('plugins.home').home()<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', 'Tc', [[<Cmd>tabnew<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', 'T<', ':-tabmove<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', 'T>', ':+tabmove<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', 'To', ':tabonly<CR>', {noremap = true, silent = true})
