@@ -1,4 +1,5 @@
 [tools]
+python = "latest"
 ruby = "latest"
 usage = "latest"
 

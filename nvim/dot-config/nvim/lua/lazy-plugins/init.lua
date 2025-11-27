@@ -13,6 +13,7 @@ return {
   "tpope/vim-fugitive",
   "tpope/vim-rhubarb",
   "andymass/vim-matchup",
+  "ggandor/leap.nvim",
   {
     "johmsalas/text-case.nvim",
     config = function() require("textcase").setup({}) end
@@ -29,10 +30,6 @@ return {
   {
     "stevearc/dressing.nvim",
     config = function() require("dressing").setup() end
-  },
-  {
-    "ggandor/leap.nvim",
-    config = function() require('leap').set_default_mappings() end,
   },
   {
     "nmac427/guess-indent.nvim",

@@ -147,11 +147,10 @@ return {
 						'diagnostics',
 						'searchcount',
 						'selectioncount',
-						'overseer',
+						{'overseer', colored = false },
 					},
 					lualine_x = {},
-					lualine_y = {
-					},
+					lualine_y = {},
 					lualine_z = { 'location' },
 				},
 				inactive_sections = {
