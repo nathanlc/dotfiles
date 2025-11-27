@@ -1,4 +1,9 @@
-source "$XDG_CONFIG_HOME/neomutt/profile.glooko"
+# Default profile (glooko)
+source "~/.config/neomutt/profile.glooko"
+
+# Folder hooks
+folder-hook 'profile.glooko' 'source ~/.config/neomutt/profile.glooko'
+folder-hook 'profile.gmail' 'source ~/.config/neomutt/profile.gmail'
 
 set send_charset="us-ascii:utf-8"
 set mime_type_query_command = "file --mime-type -b %s"
@@ -9,7 +14,7 @@ set forward_quote
 set include
 set edit_headers
 
-set mailcap_path = "$XDG_CONFIG_HOME/neomutt/mailcap"
+set mailcap_path = "~/.config/neomutt/mailcap"
 set editor = "nvim"
 unset mark_old
 unset confirm_append
@@ -51,6 +56,5 @@ macro index,pager V "<view-attachments><search>html<enter><view-mailcap><exit>" 
 # macro index,pager 'V' "<view-attachments><search>html<pipe-entry>iconv -c --to-code=UTF8 > /tmp/mutt-mail.html<enter><shell-escape>open /tmp/mutt-mail.html<enter>" "Open in web browser"
 # To move all read messages to "All" =>
 # T~R\n;ma      (shit T = tag-pattern, \n = Enter, ; = apply next command to tagged emails, ma = move to All defined above)
-
 
 color index bold default default "~N"

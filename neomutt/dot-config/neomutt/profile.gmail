@@ -1,8 +1,8 @@
 set real_name = "Nathan Lecourt"
-set from = "nathan.lecourt@glooko.com"
+set from = "nathan.lecourt@gmail.com"
 
 set mbox_type = Maildir
-set folder = "~/Documents/Maildir/glooko"
+set folder = "~/Documents/Maildir/gmail"
 set spool_file = "+INBOX"
 set record = "+Sent"
 set postponed = "+Drafts"
@@ -10,12 +10,12 @@ set mbox ="+All"
 # set trash = "+Trash"
 mailboxes =INBOX =Starred =Sent =Drafts =All # =Trash
 
-set smtp_url = "smtps://nathan.lecourt@glooko.com@smtp.gmail.com:465"
-set smtp_pass = "`security find-generic-password -s neomutt-glooko -w`"
+set smtp_url = "smtps://nathan.lecourt@gmail.com@smtp.gmail.com:465"
+set smtp_pass = "`security find-generic-password -s neomutt-personal-gmail -w`"
 set smtp_authenticators = "login"
 
-set header_cache = "~/.cache/neomutt/glooko/header_cache"
-set message_cachedir = "~/.cache/neomutt/glooko/message_cache"
+set header_cache = "~/.cache/neomutt/gmail/header_cache"
+set message_cachedir = "~/.cache/neomutt/gmail/message_cache"
 
 bind index,pager g noop
 macro index,pager gi "<change-folder>=INBOX<enter>" "Go to Inbox"
@@ -31,4 +31,4 @@ macro index mi "<save-message>=INBOX<enter>" "Move to Inbox"
 macro index gA "<enter-command>unmailboxes *<enter><enter-command>source ~/.config/neomutt/profile.glooko<enter><sync-mailbox><change-folder>!<enter>"
 macro index gZ "<enter-command>unmailboxes *<enter><enter-command>source ~/.config/neomutt/profile.gmail<enter><sync-mailbox><change-folder>!<enter>"
 
-color status black blue
+color status black red
