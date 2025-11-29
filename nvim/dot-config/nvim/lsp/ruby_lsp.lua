@@ -1,7 +1,6 @@
 ---@type vim.lsp.Config
 return {
-  -- cmd = { 'mise run lsp || mise exec -- ruby-lsp' },
-  cmd = { 'mise exec -- ruby-lsp' },
+  cmd = { 'mise', 'exec', '--', 'ruby-lsp' },
   filetypes = { 'ruby', 'eruby' },
   root_markers = { 'Gemfile', '.git' },
   init_options = {
