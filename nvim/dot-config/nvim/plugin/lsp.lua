@@ -14,4 +14,5 @@ vim.lsp.enable({
   "rubocop",
   "ruby_lsp",
   "ts_ls",
+  "pyrefly",
 })

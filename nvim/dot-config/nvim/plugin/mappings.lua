@@ -276,7 +276,7 @@ vim.api.nvim_set_keymap('n', "<leader>'n", [[<Cmd>lua require('utils.term').open
 vim.keymap.set({'n'}, "<leader>'o", [[<Cmd>term<CR>i]], {silent = true})
 vim.keymap.set({'n'}, "<leader>'s", [[<Cmd>split | term<CR>i]], {silent = true})
 vim.keymap.set({'n'}, "<leader>'v", [[<Cmd>vsplit | term<CR>i]], {silent = true})
-vim.api.nvim_set_keymap('n', "<leader>'l", [[<Cmd>lua require('telescope.builtin').buffers({default_text = "term://", initial_mode = "normal"})<CR>]], {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', "<leader>'l", [[<Cmd>lua require('telescope.builtin').buffers({default_text = "term://", initial_mode = "normal", preview = { hide_on_startup = false }})<CR>]], {noremap = true, silent = true})
 vim.keymap.set({'n'}, "<leader>'t", [[<Cmd>tabnew | term<CR>]], {silent = true})
 vim.keymap.set({'n'}, "<leader>'r", [[<Cmd>lua require('plugins.term').history()<CR>]], {silent = true})
 -- vim.api.nvim_set_keymap('t', 'jk', '<C-\\><C-N>', {noremap = true}) -- This prevents from using some tuis where j is used to scroll down.
