@@ -91,7 +91,7 @@ Create Both
 Expunge Both
 SyncState *
 
-# Channel work-gmail-trash
+# Channel gmail-trash
 # Far :work-gmail-remote:"[Gmail]/Trash"
 # Near :work-gmail-local:"Trash"
 # Create Both

@@ -1,6 +1,6 @@
 -- Must be run before lazy.
 vim.g.mapleader = ' '
-vim.g.maplocalleader = "!"
+vim.g.maplocalleader = "#"
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
@@ -26,7 +26,14 @@ require("lazy").setup(
   }
 )
 
-require("plugins.win-hoarder-layout").setup({
-  enabled = false,
-  expand_horizontal_direction = "right",
+vim.api.nvim_create_autocmd('VimEnter', {
+  group = vim.api.nvim_create_augroup('nathanlc:startup-stuff', { clear = true }),
+  pattern = '*',
+  callback = function()
+    pcall(require('plugins.project').reload_config)
+  end
 })
+-- require("plugins.win-hoarder-layout").setup({
+--   enabled = false,
+--   expand_horizontal_direction = "right",
+-- })

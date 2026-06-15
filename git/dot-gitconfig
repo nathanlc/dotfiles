@@ -11,6 +11,7 @@
     showStash = true
 [core]
 	editor = nvr --remote-wait-silent
+	excludesfile = /Users/nathan/.global-gitignore
 [diff]
     tool = nvr
 [difftool "nvr"]

@@ -1,0 +1,13 @@
+.jj/
+.project-nvim.json
+.java-version
+.project
+.projections.json
+.classpath
+.factorypath
+.sisyphus/
+org.eclipse.buildship.core.prefs
+org.eclipse.jdt.apt.core.prefs
+org.eclipse.jdt.core.prefs
+
+**/.claude/settings.local.json

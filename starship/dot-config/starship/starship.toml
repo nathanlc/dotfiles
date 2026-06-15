@@ -9,10 +9,10 @@ add_newline = true
 
 [directory]
 truncation_length = 10
-style = 'bold white'
+style = 'bold'
 
 [git_branch]
-style = 'bold white'
+style = 'bold'
 
 [git_state]
 disabled = false
@@ -25,4 +25,4 @@ disabled = true
 
 [fill]
 symbol = '-'
-style = 'white'
+style = 'dimmed'

@@ -12,7 +12,15 @@ function instance_to_mfa_profile {
     profile="qa"
   elif [[ "${environment}" == "qa2" ]]; then
     profile="qa"
+  elif [[ "${environment}" == "abby" ]]; then
+    profile="qa"
+  elif [[ "${environment}" == "rudy" ]]; then
+    profile="qa"
+  elif [[ "${environment}" == "rosita" ]]; then
+    profile="qa"
   elif [[ "${environment}" == "barkley" ]]; then
+    profile="qa"
+  elif [[ "${environment}" == "grover" ]]; then
     profile="qa"
   elif [[ "${environment}" == "bert" ]]; then
     profile="qa"
@@ -35,6 +43,10 @@ function instance_to_region {
 	"us")
 	  echo "us-east-1"
     return 0
+	  ;;
+	"ca")
+    echo "ca-central-1"
+	  return 0
 	  ;;
 	"eu")
     echo "eu-west-1"

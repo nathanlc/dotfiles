@@ -10,6 +10,7 @@ local configModal = hs.hotkey.modal.new('', nil)
 local musicModal = hs.hotkey.modal.new('', nil)
 local projectModal = hs.hotkey.modal.new('', nil)
 local inputSourceModal = hs.hotkey.modal.new('', nil)
+local insertModal = hs.hotkey.modal.new('', nil)
 
 globalModal:bind('', 'escape', function() globalModal:exit() end)
 globalModal:bind('', 'C', function()
@@ -24,9 +25,14 @@ globalModal:bind('', 'P', function()
 	globalModal:exit()
 	projectModal:enter()
 end)
-globalModal:bind('', 'I', function()
+-- L for language
+globalModal:bind('', 'L', function()
 	globalModal:exit()
 	inputSourceModal:enter()
+end)
+globalModal:bind('', 'I', function()
+	globalModal:exit()
+	insertModal:enter()
 end)
 globalModal:bind('', 'T', function()
 	hs.alert.show(os.date("%H:%M:%S"))
@@ -75,6 +81,13 @@ inputSourceModal:bind('', 'S', function()
 	inputSourceModal:exit()
 end)
 
+insertModal:bind('', 'escape', function() insertModal:exit() end)
+insertModal:bind('', 'D', function()
+	hs.eventtap.keyStrokes(os.date("%Y-%m-%d"))
+	insertModal:exit()
+end)
+
+
 ---@class Project
 ---@field jira string?
 ---@field repo string?
@@ -111,11 +124,12 @@ projectModal:bind('', 'S', function()
 	if appName == "Arc" then
 		-- Save current clipboard to restore after getting the current URL in Arc.
 		local currentlyPasted = hs.pasteboard.getContents()
-		hs.eventtap.keyStroke({"cmd", "shift"}, 'C')
+		hs.eventtap.keyStroke({ "cmd", "shift" }, 'C')
 		local url = hs.pasteboard.getContents()
 		hs.pasteboard.setContents(currentlyPasted)
 
-		local jiraTicket = url:match("https://glooko.atlassian.net/browse/([A-Za-z][A-Za-z][A-Za-z][A-Za-z]?%-%d%d%d%d?%d?)")
+		local jiraTicket = url:match(
+		"https://glooko.atlassian.net/browse/([A-Za-z][A-Za-z][A-Za-z][A-Za-z]?%-%d%d%d%d?%d?)")
 		local org, repo, prNumber = url:match("https://github%.com/([^/]+)/([^/]+)/pull/(%d+)")
 		if jiraTicket then
 			project.jira = jiraTicket
@@ -126,7 +140,7 @@ projectModal:bind('', 'S', function()
 		end
 
 		hs.alert.show("Project: " .. projectToString(project))
-	-- elseif appName == "kitty" then
+		-- elseif appName == "kitty" then
 	end
 
 	projectModal:exit()

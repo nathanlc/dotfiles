@@ -15,10 +15,7 @@ end
 
 local function get_clips()
   local clips_file_path = get_clips_file_path()
-  if not clips_file_path then
-    print('Could not get clips file path')
-    return nil
-  end
+  if not clips_file_path then error('Could not get clips file path') end
 
   local clip_lines = clips_file_path:readlines()
   local clips = {}
@@ -40,10 +37,7 @@ local function get_clips()
         value = nil
       }
     elseif next_line_type == 'delimiter' then
-      if line ~= '' then
-        print('Incorrect delimiter found, should be a blank line.')
-        return nil
-      end
+      if line ~= '' then error('Incorrect delimiter found, should be a blank line.') end
       next_line_type = 'desc'
     end
   end
@@ -61,38 +55,25 @@ function M.edit()
   vim.cmd('edit ' .. clips_file_path.filename)
 end
 
-function M.telescope(opts)
-  local pickers = require('telescope.pickers')
-  local finders = require('telescope.finders')
-  local conf = require('telescope.config').values
-  local actions = require "telescope.actions"
-  local action_state = require "telescope.actions.state"
+function M.select_and_copy()
+  local clips = get_clips()
+  local descriptions = {}
+  for _, clip in ipairs(clips) do
+    table.insert(descriptions, clip.desc)
+  end
 
-  opts = opts or {}
-  pickers.new(opts, {
-    prompt_title = "Clipboards",
-    finder = finders.new_table({
-      results = get_clips(),
-      entry_maker = function(entry)
-        return {
-          value = entry,
-          display = entry.desc .. ': ' .. entry.value,
-          ordinal = entry.desc,
-        }
-      end,
-    }),
-    sorter = conf.generic_sorter(opts),
-    attach_mappings = function(prompt_bufnr, _)
-      actions.select_default:replace(function()
-        actions.close(prompt_bufnr)
-        local selection = action_state.get_selected_entry()
-        local clip = selection.value.value
-        vim.fn.setreg('+', clip)
-      end)
-
-      return true
+  vim.ui.select(descriptions, {
+    prompt = 'Select clipboard entry: ',
+    format_item = function(item)
+      return item
     end,
-  }):find()
+  }, function(choice, idx)
+    if choice then
+      local clip = clips[idx].value
+      vim.fn.setreg('+', clip)
+    end
+  end
+  )
 end
 
 return M

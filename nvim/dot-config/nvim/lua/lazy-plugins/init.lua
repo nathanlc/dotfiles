@@ -13,7 +13,9 @@ return {
   "tpope/vim-fugitive",
   "tpope/vim-rhubarb",
   "andymass/vim-matchup",
-  "ggandor/leap.nvim",
+  {
+    url = "https://codeberg.org/andyg/leap.nvim",
+  },
   {
     "johmsalas/text-case.nvim",
     config = function() require("textcase").setup({}) end
@@ -29,7 +31,18 @@ return {
   },
   {
     "stevearc/dressing.nvim",
-    config = function() require("dressing").setup() end
+    opts = {
+      select = {
+        backend = { "fzf_lua", "fzf", "telescope", "nui", "builtin" },
+        fzf_lua = {
+          winopts = {
+            -- toggle_behavior = "default",
+            height = 0.5,
+            width = 0.8,
+          },
+        },
+      },
+    },
   },
   {
     "nmac427/guess-indent.nvim",
@@ -50,6 +63,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
+      "lewis6991/async.nvim",
     },
     lazy = false,
     config = function()
@@ -58,6 +72,7 @@ return {
   },
   {
     "Wansmer/treesj",
+    branch = "main",
     config = function()
       local tsj = require('treesj')
       tsj.setup({

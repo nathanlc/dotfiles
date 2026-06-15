@@ -2,6 +2,11 @@ return {
 	"stevearc/oil.nvim",
 	config = function()
 		require('oil').setup({
+			default_file_explorer = true,
+			buf_options = {
+				buflisted = true,
+				bufhidden = "",
+			},
 			delete_to_trash = true,
 			keymaps = {
 				["<leader><C-v>"] = "actions.select_vsplit",

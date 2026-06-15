@@ -3,47 +3,20 @@ local Term = require('utils.term')
 
 local M = {}
 
+local FollowableTerms = {}
+
 local function term_history_atuin()
   local commands = Job:new({
     'atuin',
     'search',
+    '--cwd',
+    vim.fn.getcwd(),
     '--format',
     '{command}',
     '--reverse'
   }):sync()
 
   return commands
-end
-
-function M.history(opts)
-  local pickers = require('telescope.pickers')
-  local finders = require('telescope.finders')
-  local conf = require('telescope.config').values
-  local actions = require "telescope.actions"
-  local action_state = require "telescope.actions.state"
-
-  opts = opts or {}
-  pickers.new(opts, {
-    prompt_title = "Term history",
-    finder = finders.new_table({
-      results = term_history_atuin(),
-    }),
-    sorter = conf.generic_sorter(opts),
-    attach_mappings = function(prompt_bufnr, _)
-      actions.select_default:replace(function()
-        actions.close(prompt_bufnr)
-        local selection = action_state.get_selected_entry()
-        Term.run_in_term_current(selection[1])
-      end)
-      actions.select_horizontal:replace(function()
-        actions.close(prompt_bufnr)
-        local selection = action_state.get_selected_entry()
-        Term.run_in_term(selection[1])
-      end)
-
-      return true
-    end,
-  }):find()
 end
 
 local function find_prompt_lines(opts)
@@ -116,23 +89,71 @@ local function next_prompt_line(opts)
   return nil
 end
 
-function M.jump_previous_prompt(opts)
+local function jump_to_prompt(opts)
   opts = opts or {}
   local bufnr = opts.bufnr or vim.api.nvim_get_current_buf()
-
-  vim.api.nvim_win_set_cursor(0, { previous_prompt_line({bufnr = bufnr}), 0 })
+  local target = opts.forward
+    and next_prompt_line({ bufnr = bufnr })
+    or previous_prompt_line({ bufnr = bufnr })
+  if target then
+    vim.api.nvim_win_set_cursor(0, { target, 0 })
+  end
 end
 
-function M.jump_next_prompt(opts)
-  opts = opts or {}
-  local bufnr = opts.bufnr or vim.api.nvim_get_current_buf()
-
-  vim.api.nvim_win_set_cursor(0, { next_prompt_line({bufnr = bufnr}), 0 })
-end
-
-local ok_repeatable_move, repeatable_move = pcall(require, 'nvim-treesitter.textobjects.repeatable_move' )
+local ok_repeatable_move, repeatable_move = pcall(require, 'nvim-treesitter-textobjects.repeatable_move')
 if ok_repeatable_move then
-  M.jump_previous_prompt, M.jump_next_prompt = repeatable_move.make_repeatable_move_pair(M.jump_previous_prompt, M.jump_next_prompt)
+  jump_to_prompt = repeatable_move.make_repeatable_move(jump_to_prompt)
+end
+
+function M.jump_previous_prompt()
+  jump_to_prompt({ forward = false })
+end
+
+function M.jump_next_prompt()
+  jump_to_prompt({ forward = true })
+end
+
+function M.create_or_focus(term_key, opts)
+  opts = opts or {}
+  local command = opts.command
+  local height = opts.height or 15
+
+  local term_buffer_id = FollowableTerms[term_key]
+  if term_buffer_id ~= nil and vim.api.nvim_buf_is_valid(term_buffer_id) then
+    local buffers_window_id = vim.fn.bufwinid(term_buffer_id)
+    if buffers_window_id ~= -1 then
+      vim.api.nvim_set_current_win(buffers_window_id)
+    else
+      vim.api.nvim_open_win(term_buffer_id, true, {
+        split = 'below',
+        height = height
+      })
+    end
+  else
+    if command == nil then
+      term_buffer_id = Term.open_small_term()
+    else
+      term_buffer_id = Term.run_in_small_term(command)
+    end
+    vim.b.term_title = term_key
+    FollowableTerms[term_key] = term_buffer_id
+  end
+end
+
+function M.history()
+  local history_commands = term_history_atuin() or {}
+
+  vim.ui.select(history_commands, {
+    prompt = 'Select command: ',
+    format_item = function(item)
+      return item
+    end,
+  }, function(choice)
+    if choice then
+      Term.run_in_small_term(choice)
+    end
+  end
+  )
 end
 
 return M

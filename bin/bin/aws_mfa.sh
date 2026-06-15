@@ -2,7 +2,7 @@ set -o errexit   # abort on nonzero exitstatus
 set -o nounset   # abort on unbound variable
 set -o pipefail  # don't hide errors within pipes
 
-VALID_PROFILES=(glooko-qa glooko-prod-eu glooko-prod-us glooko-prod-defr)
+VALID_PROFILES=(glooko-qa glooko-prod-eu glooko-prod-us glooko-prod-defr glooko-prod-ca)
 
 function usage {
   echo "Usage: ${0} <profile>"

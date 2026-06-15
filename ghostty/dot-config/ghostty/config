@@ -4,7 +4,8 @@ font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 14
 
 # Window / theme
-theme = Gruvbox Material
+# theme = dark:Gruvbox Material Dark,light:Gruvbox Material Light
+theme = dark:Alabaster Dark,light:Alabaster Light
 macos-titlebar-style = hidden
 # window-padding-balance = true
 window-padding-y = 2

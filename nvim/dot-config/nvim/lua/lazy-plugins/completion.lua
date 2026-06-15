@@ -19,7 +19,6 @@ return {
 		opts = {
 			enabled = function()
 				local enabled = true
-				if vim.bo.filetype == 'TelescopePrompt' then enabled = false end
 				if vim.bo.buftype == 'prompt' then enabled = false end
 				return enabled
 			end,

@@ -51,7 +51,6 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 W = ['PHL 346E2C', 'DELL U2417H']
 E = ['PHL 346E2C', 'DELL U2417H']
 R = ['PHL 346E2C', 'DELL U2417H']
-Q = 'built-in'
 S = 'built-in'
 
 # Gaps between windows (inner-*) and between monitor edges (outer-*).

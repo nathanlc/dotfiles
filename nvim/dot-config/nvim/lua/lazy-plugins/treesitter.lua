@@ -1,146 +1,80 @@
+-- nvim-treesitter `main` branch (rewrite) for nvim 0.12.
+-- The legacy `require('nvim-treesitter.configs').setup({...})` API is gone.
+-- See https://github.com/nvim-treesitter/nvim-treesitter/blob/main/README.md
+-- Keymaps live in plugin/mappings.lua under "Treesitter textobjects".
+
+local ensure_installed = {
+	"bash",
+	"css",
+	"scss",
+	"elm",
+	"go",
+	"html",
+	"java",
+	"javascript",
+	"jsdoc",
+	"lua",
+	"markdown",
+	"php",
+	"python",
+	"ruby",
+	"rust",
+	"tsx",
+	"typescript",
+	"vimdoc",
+	"zig",
+}
+
 return {
 	"nvim-treesitter/nvim-treesitter",
+	branch = "main",
+	lazy = false, -- main branch does NOT support lazy-loading
+	build = ":TSUpdate",
 	dependencies = {
-		"nvim-treesitter/nvim-treesitter-textobjects",
+		{ "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
 		"nvim-treesitter/nvim-treesitter-context",
-		"nvim-treesitter/nvim-treesitter-refactor",
 		"RRethy/nvim-treesitter-endwise",
-		'windwp/nvim-ts-autotag',
+		{ "windwp/nvim-ts-autotag", branch = "main" },
 	},
-	build = function()
-		vim.cmd("TSUpdate")
-	end,
 	config = function()
-		local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+		require("nvim-treesitter").setup({
+			install_dir = vim.fn.stdpath("data") .. "/site",
+		})
 
-		require('nvim-treesitter.configs').setup({
-			ensure_installed = {
-				"bash",
-				"elm",
-				"go",
-				"java",
-				"javascript",
-				"jsdoc",
-				"lua",
-				"markdown",
-				"php",
-				"python",
-				"ruby",
-				"rust",
-				"typescript",
-				"vimdoc",
-				"zig",
+		require("nvim-treesitter").install(ensure_installed):wait(300000)
+
+		-- Highlighting / folds / indent are no longer enabled by the plugin;
+		-- they must be turned on per-buffer.
+		vim.api.nvim_create_autocmd("FileType", {
+			group = vim.api.nvim_create_augroup("nathanlc_treesitter", { clear = true }),
+			callback = function(args)
+				local bufnr = args.buf
+				local ft = vim.bo[bufnr].filetype
+				local lang = vim.treesitter.language.get_lang(ft) or ft
+				if not lang or lang == "" then return end
+
+				local ok = pcall(vim.treesitter.start, bufnr, lang)
+				if not ok then return end
+
+				vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+				vim.wo[0][0].foldmethod = "expr"
+				vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+			end,
+		})
+
+		require("nvim-treesitter-textobjects").setup({
+			select = {
+				lookahead = true,
 			},
-			sync_install = false,
-			auto_install = true,
-			ignore_install = { "phpdoc" },
-			highlight = {
-				enable = true,
-			},
-			incremental_selection = {
-				enable = true,
-				keymaps = {
-					init_selection = "<leader>v", -- set to `false` to disable one of the mappings
-					node_incremental = "+",
-					-- scope_incremental = "grc",
-					node_decremental = "-",
-				},
-			},
-			indent = {
-				enable = true,
-			},
-			matchup = {
-				enable = true,
-				disable = {}
-			},
-			textobjects = {
-				select = {
-					enable = true,
-					lookahead = true,
-					keymaps = {
-						-- You can use the capture groups defined in textobjects.scm
-						['ib'] = '@block.inner',
-						['ab'] = '@block.outer',
-						['ac'] = '@class.outer',
-						['ic'] = '@class.inner',
-						['ii'] = '@conditional.inner',
-						['ai'] = '@conditional.outer',
-						['af'] = '@function.outer',
-						['if'] = '@function.inner',
-						['il'] = '@loop.inner',
-						['al'] = '@loop.outer',
-						['aa'] = '@parameter.outer',
-						['ia'] = '@parameter.inner',
-					},
-				},
-				move = {
-					enable = true,
-					set_jumps = true,
-					goto_previous_start = {
-						['[c'] = '@class.outer',
-						['[f'] = '@function.outer',
-						['[l'] = '@loop.outer',
-						['[i'] = '@conditional.outer',
-						['[a'] = '@parameter.inner',
-						['[b'] = '@block.inner',
-					},
-					goto_previous_end = {
-						['[C'] = '@class.outer',
-						['[F'] = '@function.outer',
-						['[L'] = '@loop.outer',
-						['[I'] = '@conditional.outer',
-						['[A'] = '@parameter.inner',
-						['[B'] = '@block.inner',
-					},
-					goto_next_start = {
-						[']c'] = '@class.outer',
-						[']f'] = '@function.outer',
-						[']l'] = '@loop.outer',
-						[']i'] = '@conditional.outer',
-						[']a'] = '@parameter.inner',
-						[']b'] = '@block.inner',
-					},
-					goto_next_end = {
-						[']C'] = '@class.outer',
-						[']F'] = '@function.outer',
-						[']L'] = '@loop.outer',
-						[']I'] = '@conditional.outer',
-						[']A'] = '@parameter.inner',
-						[']B'] = '@block.inner',
-					},
-				}
-			},
-			autotag = {
-				enable = true,
-			},
-			endwise = {
-				enable = true,
-			},
-			refactor = {
-				highlight_definitions = {
-					enable = true,
-				},
-				highlight_current_scope = {
-					enable = false,
-				},
-				smart_rename = {
-					enable = false,
-				},
-				navigation = {
-					enable = false,
-				},
+			move = {
+				set_jumps = true,
 			},
 		})
 
-		require('treesitter-context').setup({
+		require("treesitter-context").setup({
 			multiline_threshold = 15,
 		})
 
-		vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
-		vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
-		vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f_expr, { expr = true })
-		vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F_expr, { expr = true })
-		vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { expr = true })
-		vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T_expr, { expr = true })
-	end
+		require("nvim-ts-autotag").setup()
+	end,
 }

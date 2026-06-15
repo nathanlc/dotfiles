@@ -1,5 +1,3 @@
-local ts_utils = require('nvim-treesitter.ts_utils')
-local telescope = require('telescope.builtin')
 local textcase = require('textcase')
 local docs_plugin = require('plugins.docs')
 
@@ -26,69 +24,29 @@ M.cycle = function()
 end
 
 local ts_current_symbol = function()
-  local node = ts_utils.get_node_at_cursor(0)
-  if not node then
-    print('No node found under cursor.')
-    return
+  local ok, node = pcall(vim.treesitter.get_node)
+  if not ok or not node then
+    return nil
   end
-  local text_lines = ts_utils.get_node_text(node, 0)
-  return table.concat(text_lines, '')
+  return vim.treesitter.get_node_text(node, 0)
 end
 
 M.current_symbol = function()
-  if not ts_utils then
-    return vim.expand('<cexpr>')
+  local symbol = ts_current_symbol()
+  if not symbol or symbol == '' then
+    return vim.fn.expand('<cexpr>')
   end
-  return ts_current_symbol()
+  return symbol
 end
 
-M.grep = function()
-  local opts = {
-    initial_mode = 'normal',
-    default_text = M.current_symbol(),
-  }
-  telescope.live_grep(opts)
-end
-
-M.swoop = function()
-  local opts = {
-    initial_mode = 'normal',
-    default_text = M.current_symbol(),
-  }
-  telescope.current_buffer_fuzzy_find(opts)
-end
-
-M.find_files = function()
+M.current_symbol_to_file = function()
   local symbol = M.current_symbol()
 
-  local find_str = nil
   if vim.bo.filetype == 'ruby' then
-    find_str = textcase.api.to_snake_case(symbol)
+    return textcase.api.to_snake_case(symbol)
   else
-    find_str = symbol
+    return symbol
   end
-
-  local opts = {
-    initial_mode = 'normal',
-    default_text = find_str,
-  }
-  telescope.find_files(opts)
-end
-
-M.help_tags = function()
-  local opts = {
-    initial_mode = 'normal',
-    default_text = M.current_symbol(),
-  }
-  telescope.help_tags(opts)
-end
-
-M.lsp_workspace_symbols = function()
-  local opts = {
-    initial_mode = 'normal',
-    default_text = M.current_symbol(),
-  }
-  telescope.lsp_workspace_symbols(opts)
 end
 
 M.docs = function ()

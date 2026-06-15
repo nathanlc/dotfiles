@@ -1,7 +1,7 @@
 local M = {}
 
 M.open = function(url)
-	vim.cmd('silent !open "' .. url .. '"')
+	vim.fn.system('open "' .. url .. '"')
 end
 
 return M

@@ -25,7 +25,10 @@ vim.opt.list = true
 
 vim.opt.clipboard = 'unnamed'
 
-vim.opt.relativenumber = true
+-- gutter spacing is 4 by default, with relative numbers, we "never" need 3 digits
+vim.opt.numberwidth = 3
+vim.opt.number = false
+vim.opt.relativenumber = false
 
 vim.opt.hidden = true
 
@@ -59,6 +62,8 @@ vim.o.updatetime = 450
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
+vim.g.loadded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 -- vim.g.netrw_bufsettings = {
 --   'nomodifiable',
 --   'nomodified',

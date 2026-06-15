@@ -5,6 +5,7 @@ function M.open_small_term(shell)
   vim.api.nvim_command('split term://' .. shell)
   vim.cmd.wincmd("J")
   vim.api.nvim_win_set_height(0, 15)
+  return vim.api.nvim_get_current_buf()
 end
 
 local function run_command(command)
@@ -14,7 +15,7 @@ local function run_command(command)
   return vim.api.nvim_get_current_buf()
 end
 
-function M.run_in_term(command)
+function M.run_in_small_term(command)
   M.open_small_term('zsh')
   return run_command(command)
 end

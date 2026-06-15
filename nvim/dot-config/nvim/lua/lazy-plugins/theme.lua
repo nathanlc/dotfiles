@@ -2,29 +2,33 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = {
+			{ "cormacrelf/dark-notify" },
 			{ 'kyazdani42/nvim-web-devicons', opt = true },
 			{
 				'sainnhe/gruvbox-material',
 				lazy = false,
 				priority = 1000,
-
 			},
-			{
-				'projekt0n/github-nvim-theme',
-				name = 'github-theme',
-				lazy = false,
-				priority = 1000,
-			},
+			{ 'dchinmay2/alabaster.nvim' }
 		},
 		config = function()
-			-- require('github-theme').setup({})
-			-- vim.cmd('colorscheme github_dark_dimmed')
-
-			vim.g.gruvbox_material_enable_italic = true
-			vim.g.gruvbox_material_background = 'hard'
-			vim.g.gruvbox_material_foreground = 'original'
-			-- vim.g.gruvbox_material_statusline_style = 'original'
-			vim.cmd('colorscheme gruvbox-material')
+			require('dark_notify').run({
+				on_change = function(mode)
+					local next_mode = 'dark'
+					if (mode == 'dark') then
+						next_mode = 'light'
+					end
+					vim.o.background = next_mode
+					-- vim.cmd('colorscheme gruvbox-material')
+			        vim.cmd('colorscheme alabaster')
+				end
+			})
+			-- vim.g.gruvbox_material_enable_italic = true
+			-- vim.g.gruvbox_material_background = 'hard'
+			-- vim.g.gruvbox_material_foreground = 'original'
+			-- -- vim.g.gruvbox_material_statusline_style = 'original'
+			-- vim.cmd('colorscheme gruvbox-material')
+			vim.cmd('colorscheme alabaster')
 
 			-- vim.cmd([[hi Directory ctermfg=14 guifg=#F8C8DC]])
 			-- vim.cmd([[hi MoreMsg ctermfg=14 guifg=#F8C8DC]])
@@ -82,25 +86,18 @@ return {
 
 			-- local color_inactive = { fg = "NvimLightGrey4" }
 
-			local filepath = function(color)
-				local conf = {
-					'%f %m',
-				}
-				if color then
-					conf.color = color
-				end
-				return conf
+			local filepath = function()
+				return vim.b.term_title or "%f %m"
+				-- local conf = { "%f %m" } -- %{b:term_title}
+				-- return conf
 			end
-			local filetype = function(color)
+			local filetype = function()
 				local conf = {
 					'filetype',
 					separator = '',
 					icon_only = true,
 					padding = { left = 1, right = 0 },
 				}
-				if color then
-					conf.color = color
-				end
 				return conf
 			end
 
@@ -136,8 +133,8 @@ return {
 					},
 					lualine_b = {},
 					lualine_c = {
-						filetype({}),
-						filepath({}),
+						filetype(),
+						filepath,
 						{
 							'encoding',
 							show_bomb = true,
@@ -147,7 +144,7 @@ return {
 						'diagnostics',
 						'searchcount',
 						'selectioncount',
-						{'overseer', colored = false },
+						{ 'overseer', colored = false },
 					},
 					lualine_x = {},
 					lualine_y = {},
@@ -156,8 +153,7 @@ return {
 				inactive_sections = {
 					lualine_a = {},
 					lualine_b = {},
-					lualine_c = { filetype(), filepath() },
-					-- lualine_c = { filetype({}), filepath({}) },
+					lualine_c = { filetype(), filepath },
 					lualine_x = { 'location' },
 					lualine_y = {},
 					lualine_z = {},
