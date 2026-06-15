@@ -1,0 +1,20 @@
+{
+  "plugin": [
+    "oh-my-openagent@latest"
+  ],
+	"$schema": "https://opencode.ai/config.json",
+	"mcp": {
+		"figma": {
+			"enabled": false,
+			"type": "remote",
+			"url": "https://mcp.figma.com/mcp",
+			"oauth": {
+				"clientId": "***",
+				"clientSecret": "***"
+			}
+		}
+	},
+    "experimental": {
+        "disable_paste_summary": true
+    }
+}
