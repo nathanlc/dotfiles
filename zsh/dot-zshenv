@@ -14,16 +14,3 @@ export HOMEBREW_REPOSITORY="/opt/homebrew"
 export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
 # docker desktop
 export COMPOSE_MENU=0
-MANPATH="/opt/homebrew/opt/coreutils/libexec/gnuman:$MANPATH"
-MANPATH="/opt/homebrew/share/man:$MANPATH"
-PATH="/usr/local/bin:$PATH"
-PATH="${GOPATH}/bin:$PATH"
-PATH="$HOME/.local/bin:$PATH"
-PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
-PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
-PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
-PATH="$HOME/bin:$PATH"
-PATH="$HOME/.jenv/bin:$PATH"
-export PATH
-export MANPATH
