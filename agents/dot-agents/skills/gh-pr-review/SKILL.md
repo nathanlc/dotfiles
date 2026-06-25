@@ -3,11 +3,53 @@ name: gh-pr-review
 description: Do a thorough code review of the given pull request. Use when user wants a pull request to be reviewed.
 ---
 
+# gh-pr-review
+
+## Overview
 Goal is to do a thorough review of given pull request. If no PR is specified by the user, use the PR linked to the current branch.
-To do this, several independent sub agents with different models (eg claude-opus-4.6 and gpt-5.4) should perform a review.
 
-Each independent review should not only look at the diff but also look at the code base to understand the context if need be.
-Each review should categorize its findings in severity (major, high, medium, low).
+## Workflow
 
-Once the different reviews have been gathered, the findings should be compared and evaluated so that a final review can be given.
-The final review should start with a summary of the PR (what happens and where) and then the different findings ordered by severity (highest first).
+### Step 1 — Fetch the diff
+```
+gh pr diff [PR_NUMBER] > /tmp/<tmp_file_name>.patch
+```
+
+### Step 2 — Choose two models
+Use two models from different providers/architectures for diversity of findings.
+Preferred: one Anthropic Claude model (Sonnet 4.6) and one OpenAI model (GPT 5.4).
+Fall back if preferred ones are absent.
+
+**If running in Pi:** do NOT call `subagent({ action: "models" })` for model discovery — it only shows subagent role config, not available models, and will always appear to show just one model even when others are configured. Instead skip directly to step 3 and use the hardcoded preferred IDs there.
+
+### Step 3 — Spawn 2 parallel reviewer agents
+Launch both agents in parallel, each with a fresh context.
+
+**If running in Pi:** subagents inherit the session model by default — omitting `model:` means both reviewers silently use the same model, defeating the purpose. Always pass `model:` explicitly on each task with the preferred provider-prefixed IDs:
+```
+subagent({
+  tasks: [
+    {
+      agent: "reviewer",
+      model: "github-copilot/claude-sonnet-4.6"
+    },
+    {
+      agent: "reviewer",
+      model: "github-copilot/gpt-5.4"
+    }
+  ],
+  context: "fresh"
+})
+```
+
+Each reviewer should:
+- Read the patch file from step 1 — do NOT embed the diff in the task string
+- Read relevant source files from the codebase for additional context
+- Reference the specific file + line for each finding
+- Categorize findings as: major / high / medium / low
+
+### Step 4 — Synthesize into a final report
+- Start with a summary of what the PR does and where
+- Compare findings: note where reviewers agree (higher confidence) and where they differ
+- Order all findings by severity, highest first
+- Do not re-verify findings with additional bash calls unless there is genuine ambiguity
