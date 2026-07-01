@@ -1,0 +1,202 @@
+#!/usr/bin/env bash
+# agent-implement — Run agent tasks listed in a todo.md file sequentially
+#
+# Usage:
+#   agent-implement <todo.md> [--agent <agent>] [--timeout <minutes>] [--tasks-dir <dir>] [--cwd <dir>]
+#
+# todo.md format:
+#   - [x] some-task.md   ← already done (skipped)
+#   - [ ] other-task.md  ← task to do
+#
+# The script finds task files in --tasks-dir (default: tasks/ next to todo.md)
+# and runs `<agent> -p` for each pending task from --cwd (default: todo.md directory).
+# A task is considered done when its checkbox is ticked in todo.md by the agent.
+# On timeout or failure the line is annotated and execution stops.
+
+set -euo pipefail
+
+SCRIPT_NAME="agent-implement"
+
+# ── helpers ──────────────────────────────────────────────────────────────────
+
+log() {
+  echo "[$SCRIPT_NAME] [$(date '+%Y-%m-%d %H:%M:%S')] $*"
+}
+
+die() {
+  log "FATAL: $*"
+  exit 1
+}
+
+usage() {
+  cat >&2 <<EOF
+Usage: $SCRIPT_NAME <todo.md> [--agent <agent>] [--timeout <minutes>] [--tasks-dir <dir>] [--cwd <dir>]
+
+  <todo.md>           Path to a Markdown todo file with unchecked tasks
+  --agent <agent>     Agent to use: pi or claude (default: pi)
+  --timeout <mins>    Per-task timeout in minutes (default: 20)
+  --tasks-dir <dir>   Directory containing task files
+                      (default: tasks/ next to todo.md)
+  --cwd <dir>         Working directory the agent runs from
+                      (default: directory of todo.md)
+
+Checkbox conventions written back to todo.md:
+  - [x] task.md   task completed successfully
+  - [F] task.md   task failed or timed out (execution stops)
+EOF
+  exit 1
+}
+
+# Mark a pending task with a failure annotation in-place (no sed regex escaping issues)
+annotate_failed() {
+  local todo_file="$1"
+  local task_name="$2"
+  local reason="$3"
+  local tmp; tmp="$(mktemp)"
+  awk -v task="- [ ] $task_name" -v reason="$reason" '
+    $0 == task { $0 = "- [F] " substr(task, 7) " (**" reason "**)" }
+    { print }
+  ' "$todo_file" > "$tmp" && mv "$tmp" "$todo_file"
+}
+
+# ── argument parsing ──────────────────────────────────────────────────────────
+
+TODO_FILE=""
+AGENT="pi"
+TIMEOUT="20"
+TASKS_DIR=""
+CWD_ARG=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --agent)     [[ -n "${2-}" ]] || die "--agent requires a value"; AGENT="$2"; shift 2 ;;
+    --timeout)   [[ -n "${2-}" ]] || die "--timeout requires a value"; TIMEOUT="$2"; shift 2 ;;
+    --tasks-dir) [[ -n "${2-}" ]] || die "--tasks-dir requires a value"; TASKS_DIR="$2"; shift 2 ;;
+    --cwd)       [[ -n "${2-}" ]] || die "--cwd requires a value"; CWD_ARG="$2"; shift 2 ;;
+    -h|--help)   usage ;;
+    -*)          echo "$SCRIPT_NAME: unknown option: $1" >&2; usage ;;
+    *)
+      if [[ -z "$TODO_FILE" ]]; then
+        TODO_FILE="$1"; shift
+      else
+        echo "$SCRIPT_NAME: unexpected argument: $1" >&2; usage
+      fi
+      ;;
+  esac
+done
+
+[[ -n "$TODO_FILE" ]]  || { echo "$SCRIPT_NAME: todo.md path is required" >&2; usage; }
+[[ -n "$AGENT" ]]   || die "--agent requires a value"  # unreachable with default
+[[ -n "$TIMEOUT" ]] || die "--timeout requires a value"  # unreachable with default
+[[ "$TIMEOUT" =~ ^[0-9]+$ ]] || die "--timeout must be a positive integer (minutes)"
+
+[[ "$AGENT" == "pi" || "$AGENT" == "claude" ]] || die "unsupported agent '$AGENT' — must be one of: pi, claude"
+command -v "$AGENT" &>/dev/null || die "agent not found in PATH: $AGENT"
+
+TODO_FILE="$(realpath "$TODO_FILE")"
+[[ -f "$TODO_FILE" ]]  || die "todo file not found: $TODO_FILE"
+
+TODO_DIR="$(dirname "$TODO_FILE")"
+[[ -z "$TASKS_DIR" ]]  && TASKS_DIR="$TODO_DIR/tasks"
+TASKS_DIR="$(realpath "$TASKS_DIR")"
+[[ -d "$TASKS_DIR" ]]  || die "tasks directory not found: $TASKS_DIR"
+
+CWD="$(realpath "${CWD_ARG:-$TODO_DIR}")"
+[[ -d "$CWD" ]]        || die "working directory not found: $CWD"
+
+# ── discover pending tasks ────────────────────────────────────────────────────
+
+mapfile -t PENDING < <(grep -E -- '^- \[ \] ' "$TODO_FILE" | sed 's/^- \[ \] //')
+
+TOTAL="${#PENDING[@]}"
+
+if [[ "$TOTAL" -eq 0 ]]; then
+  log "No pending tasks found in $TODO_FILE — nothing to do."
+  exit 0
+fi
+
+log "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+log "todo file  : $TODO_FILE"
+log "tasks dir  : $TASKS_DIR"
+log "working dir: $CWD"
+log "agent      : $AGENT"
+log "timeout    : ${TIMEOUT}m per task"
+log "pending    : $TOTAL task(s) to run"
+log "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# ── run each task ─────────────────────────────────────────────────────────────
+
+COMPLETED=0
+
+for TASK_NAME in "${PENDING[@]}"; do
+  TASK_FILE="$TASKS_DIR/$TASK_NAME"
+  REMAINING=$(( TOTAL - COMPLETED ))
+
+  log ""
+  log "▶ Starting task ($REMAINING remaining): $TASK_NAME"
+  log "  task file : $TASK_FILE"
+
+  if [[ ! -f "$TASK_FILE" ]]; then
+    log "WARNING: task file not found — skipping: $TASK_FILE"
+    continue
+  fi
+
+  # Build the prompt for the agent
+  PROMPT="$(cat <<PROMPT
+You are working in the project at: $CWD
+
+Your task is described in the file: $TASK_FILE
+
+Read that task file carefully and complete all the work it describes.
+Follow any TDD, acceptance criteria, and coding instructions in the task.
+
+When the task is fully complete (all tests pass, all criteria met), update
+the todo file at: $TODO_FILE
+
+Change this exact line:
+  - [ ] $TASK_NAME
+to:
+  - [x] $TASK_NAME
+
+Do not mark the task done until all acceptance criteria are satisfied.
+Do not modify any other checkboxes.
+PROMPT
+)"
+
+  EXIT_CODE=0
+  (cd "$CWD" && timeout "$(( TIMEOUT * 60 ))" "$AGENT" -p "$PROMPT") || EXIT_CODE=$?
+
+  if [[ "$EXIT_CODE" -eq 124 ]]; then
+    log "ERROR: task '$TASK_NAME' timed out after ${TIMEOUT}m"
+    annotate_failed "$TODO_FILE" "$TASK_NAME" "TIMED OUT after ${TIMEOUT}m"
+    log "Stopping execution. $(( TOTAL - COMPLETED - 1 )) task(s) left incomplete."
+    exit 1
+  fi
+
+  if [[ "$EXIT_CODE" -ne 0 ]]; then
+    log "ERROR: task '$TASK_NAME' — $AGENT exited with code $EXIT_CODE"
+    annotate_failed "$TODO_FILE" "$TASK_NAME" "FAILED exit=$EXIT_CODE"
+    log "Stopping execution. $(( TOTAL - COMPLETED - 1 )) task(s) left incomplete."
+    exit 1
+  fi
+
+  # Verify the agent actually ticked the box (don't trust exit code alone)
+  # Match only the task number prefix (e.g. "001") — simpler and immune to
+  # option-like strings that could confuse grep.
+  TASK_NUM="${TASK_NAME%%-*}"
+  if grep -qF -- "- [x] $TASK_NUM" "$TODO_FILE"; then
+    log "✓ Task '$TASK_NAME' completed and marked done."
+    (( COMPLETED++ )) || true
+  else
+    log "ERROR: task '$TASK_NAME' — $AGENT exited 0 but the checkbox was not ticked."
+    log "  The agent may have failed silently. Inspect $TODO_FILE manually."
+    annotate_failed "$TODO_FILE" "$TASK_NAME" "NOT MARKED DONE — review manually"
+    log "Stopping execution. $(( TOTAL - COMPLETED - 1 )) task(s) left incomplete."
+    exit 1
+  fi
+done
+
+log ""
+log "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+log "All $TOTAL task(s) completed successfully. ✓"
+log "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
