@@ -127,6 +127,23 @@ log "━━━━━━━━━━━━━━━━━━━━━━━━━
 # ── run each task ─────────────────────────────────────────────────────────────
 
 COMPLETED=0
+AGENT_PID=""
+
+# ── Ctrl-C / SIGTERM handler ──────────────────────────────────────────────────
+
+cleanup() {
+  if [[ -n "$AGENT_PID" ]]; then
+    log ""
+    log "Interrupted — killing running agent (PID $AGENT_PID)..."
+    kill "$AGENT_PID" 2>/dev/null || true
+    wait "$AGENT_PID" 2>/dev/null || true
+    AGENT_PID=""
+  fi
+  log "Cancelled by user. $(( TOTAL - COMPLETED )) task(s) left incomplete."
+  exit 130
+}
+
+trap cleanup INT TERM
 
 for TASK_NAME in "${PENDING[@]}"; do
   TASK_FILE="$TASKS_DIR/$TASK_NAME"
@@ -166,7 +183,10 @@ PROMPT
   EXIT_CODE=0
   AGENT_ARGS=(-p "$PROMPT")
   [[ "$AGENT" == "claude" ]] && AGENT_ARGS+=(--permission-mode auto)
-  (cd "$CWD" && timeout "$(( TIMEOUT * 60 ))" "$AGENT" "${AGENT_ARGS[@]}") || EXIT_CODE=$?
+  (cd "$CWD" && timeout "$(( TIMEOUT * 60 ))" "$AGENT" "${AGENT_ARGS[@]}") &
+  AGENT_PID=$!
+  wait "$AGENT_PID" || EXIT_CODE=$?
+  AGENT_PID=""
 
   if [[ "$EXIT_CODE" -eq 124 ]]; then
     log "ERROR: task '$TASK_NAME' timed out after ${TIMEOUT}m"
