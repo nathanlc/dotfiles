@@ -1,0 +1,18 @@
+{
+  "lastChangelogVersion": "0.80.3",
+  "theme": "alabaster-light/alabaster-dark",
+  "defaultProvider": "github-copilot",
+  "defaultModel": "claude-sonnet-4.6",
+  "defaultThinkingLevel": "high",
+  "enabledModels": [
+    "claude-sonnet-4.6",
+    "gpt-5.4",
+    "gpt-5.4-mini",
+    "gemini-3.1-pro-preview",
+    "claude-haiku-4.5"
+  ],
+  "extensions": [],
+  "packages": [
+    "npm:pi-subagents"
+  ]
+}
