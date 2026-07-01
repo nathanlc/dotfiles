@@ -53,3 +53,13 @@ Each reviewer should:
 - Compare findings: note where reviewers agree (higher confidence) and where they differ
 - Order all findings by severity, highest first
 - Do not re-verify findings with additional bash calls unless there is genuine ambiguity
+
+### Step 5 — Ask the user before acting
+After presenting the final report, **always pause and ask the user** whether they want any of the findings addressed. Do not start fixing or modifying code on your own.
+
+Suggested prompt to the user:
+> "Would you like me to address any of these findings? If so, let me know which ones (e.g. all majors, specific items, everything) and I'll get started."
+
+- Wait for explicit user confirmation before making any changes
+- If the user selects specific items, confirm your understanding of the scope before proceeding
+- Only then load the `code-writing` skill and implement the requested fixes
