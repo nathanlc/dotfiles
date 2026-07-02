@@ -17,6 +17,8 @@ real problem from recurring. An empty recommendations section is a good outcome.
 
 1. **Scan the full session history and identify difficulty signals:**
    - Repeated failed attempts at the same task
+   - Trial-and-error that ended in success — several failed attempts followed by one
+     exact command, flag, or snippet that worked
    - Errors that required multiple recovery steps
    - Clarification loops — the user correcting the same misunderstanding more than once
    - Backtracking or redoing work already completed
@@ -35,6 +37,10 @@ real problem from recurring. An empty recommendations section is a good outcome.
      readable from the repo itself.
    - Is it already covered? Check whether the fact or workflow is already in a skill or
      AGENTS.md before recommending.
+   - Did the agent stumble into a working command, flag, or snippet only after failed
+     attempts? This doesn't need to be a pattern to be worth keeping — unlike the checks
+     above, capture it even as a one-off, since the exact syntax that worked is unlikely
+     to be reconstructed the same way twice from memory alone.
 
 4. **Present the output** following the template below.
 
@@ -52,6 +58,10 @@ Omit if none.
 Only include if a change would genuinely help. Be specific:
 - **New skill**: what it would cover and what phrases would trigger it
 - **AGENTS.md addition**: the exact fact or rule to add and why it isn't inferrable from the repo
+- **Known-good command**: the exact command or snippet that worked, in a fenced code
+  block, with a one-line note on what didn't work and why this did. Suggest a home for
+  it — an AGENTS.md gotcha, a skill's `scripts/` file, or just left here inline if there's
+  no durable home for it yet
 
 Omit if there is nothing worth recommending.
 
