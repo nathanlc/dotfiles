@@ -53,7 +53,6 @@ Each reviewer should:
 - Compare findings: note where reviewers agree (higher confidence) and where they differ
 - Order all findings by severity, highest first
 - Do not re-verify findings with additional bash calls unless there is genuine ambiguity
-- Do not start implementing fixes
 
 ### Step 5 — Ask the user before acting
 After presenting the final report, **always pause and ask the user** whether they want any of the findings addressed. Do not start fixing or modifying code on your own.

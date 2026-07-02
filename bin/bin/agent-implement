@@ -150,7 +150,7 @@ for TASK_NAME in "${PENDING[@]}"; do
   REMAINING=$(( TOTAL - COMPLETED ))
 
   log ""
-  log "▶ Starting task ($REMAINING remaining): $TASK_NAME"
+  log "▶ Starting task: $TASK_NAME ($REMAINING remaining)"
   log "  task file : $TASK_FILE"
 
   if [[ ! -f "$TASK_FILE" ]]; then
