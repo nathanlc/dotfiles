@@ -182,7 +182,7 @@ PROMPT
 
   EXIT_CODE=0
   AGENT_ARGS=(-p "$PROMPT")
-  [[ "$AGENT" == "claude" ]] && AGENT_ARGS+=(--permission-mode auto)
+  [[ "$AGENT" == "claude" ]] && AGENT_ARGS+=(--permission-mode auto --model opus)
   (cd "$CWD" && timeout "$(( TIMEOUT * 60 ))" "$AGENT" "${AGENT_ARGS[@]}") &
   AGENT_PID=$!
   wait "$AGENT_PID" || EXIT_CODE=$?

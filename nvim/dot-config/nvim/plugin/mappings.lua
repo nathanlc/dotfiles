@@ -348,12 +348,12 @@ vim.api.nvim_set_keymap('n', '<leader>lp', ':silent lolder<CR>', {noremap = true
 vim.api.nvim_set_keymap('n', '<leader>gs', ':Neogit<CR>', {noremap = true, silent = true})
 vim.keymap.set({'n'}, '<leader>gS', [[<Cmd>:Git<CR>]], {silent=true})
 vim.api.nvim_set_keymap('n', '<leader>gb', ':Git blame<CR>', {noremap = true, silent = true})
-vim.keymap.set({'n'}, '<leader>gl', '<Cmd>DiffViewFileHistory %<CR>', {silent=true})
-vim.keymap.set({'n'}, '<leader>gL', '<Cmd>DiffViewFileHistory<CR>', {silent=true})
+vim.keymap.set({'n'}, '<leader>gl', '<Cmd>DiffviewFileHistory %<CR>', {silent=true})
+vim.keymap.set({'n'}, '<leader>gL', '<Cmd>DiffviewFileHistory<CR>', {silent=true})
 vim.keymap.set({'n'}, '<leader>gg', "<Cmd>GBrowse<CR>", {silent = true})
 vim.keymap.set({'n'}, '<leader>gd', "<Cmd>Gdiffsplit<CR>", {silent = true})
 vim.keymap.set({'n'}, '<leader>gc', ":!gh pr create --fill --draft && gh pr view --web<CR>", {silent = true})
-vim.keymap.set({'n'}, '<leader>gj', require('plugins.github').pr_checks, {}) -- "j" for jenkins
+vim.keymap.set({'n'}, '<leader>gj', require('plugins.github').pr_checks, {})
 vim.keymap.set({'n'}, '<leader>gv', ":!gh pr view --web<CR>", {silent = true})
 
 
