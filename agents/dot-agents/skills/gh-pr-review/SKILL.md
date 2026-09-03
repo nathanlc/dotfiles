@@ -15,17 +15,40 @@ Goal is to do a thorough review of given pull request. If no PR is specified by 
 gh pr diff [PR_NUMBER] > /tmp/<tmp_file_name>.patch
 ```
 
-### Step 2 — Choose two models
-Use two models from different providers/architectures for diversity of findings if available.
-Preferred: one Anthropic Claude model (Sonnet 5) and one OpenAI model (GPT 5.4).
+### Step 2 — Decide how many reviewers
+Default is **one reviewer: you, in this session, with the current model.** Do not spawn
+subagents for the default path — a single careful pass keeps the review cheap and avoids
+handing the work to a weaker model.
+
+Use two reviewers only when the user explicitly asks for it ("two reviewers", "two models",
+"second opinion", "cross-check with another model"). Do not infer the request from the PR
+being large or risky; if you think a second opinion is worth it, say so and let the user ask.
+
+### Step 3 — Review the diff
+Whichever mode, every reviewer should:
+- Read the patch file from step 1 — if delegating, do NOT embed the diff in the task string
+- Read relevant source files from the codebase for additional context
+- Reference the specific file + line (or line range) for each finding — the artifact in
+  step 5 needs real line numbers to link to
+- Categorize findings as: major / high / medium / low
+
+**Single-reviewer mode (default):** do the review yourself, then go to step 4.
+
+**Two-reviewer mode (only when the user asked for two):**
+
+Pick two models from different providers/architectures for diversity of findings if
+available. Preferred: one Anthropic Claude model (Sonnet 5) and one OpenAI model (GPT 5.4).
 Fall back if preferred ones are absent.
 
-**If running in Pi:** do NOT call `subagent({ action: "models" })` for model discovery — it only shows subagent role config, not available models, and will always appear to show just one model even when others are configured. Instead skip directly to step 3 and use the hardcoded preferred IDs there.
+*If running in Pi:* do NOT call `subagent({ action: "models" })` for model discovery — it
+only shows subagent role config, not available models, and will always appear to show just
+one model even when others are configured. Use the hardcoded preferred IDs below instead.
 
-### Step 3 — Spawn 2 parallel reviewer agents
 Launch both agents in parallel, each with a fresh context.
 
-**If running in Pi:** subagents inherit the session model by default — omitting `model:` means both reviewers silently use the same model, defeating the purpose. Always pass `model:` explicitly on each task with the preferred provider-prefixed IDs:
+*If running in Pi:* subagents inherit the session model by default — omitting `model:` means
+both reviewers silently use the same model, defeating the purpose. Always pass `model:`
+explicitly on each task with the preferred provider-prefixed IDs:
 ```
 subagent({
   tasks: [
@@ -42,18 +65,12 @@ subagent({
 })
 ```
 
-Each reviewer should:
-- Read the patch file from step 1 — do NOT embed the diff in the task string
-- Read relevant source files from the codebase for additional context
-- Reference the specific file + line (or line range) for each finding — the artifact in
-  step 5 needs real line numbers to link to
-- Categorize findings as: major / high / medium / low
-
 ### Step 4 — Synthesize the findings
 - Start with a summary of what the PR does and where
-- Compare findings: note where reviewers agree (higher confidence) and where they differ
 - Order all findings by severity, highest first
 - Do not re-verify findings with additional bash calls unless there is genuine ambiguity
+- *Two-reviewer mode only:* compare findings — note where reviewers agree (higher
+  confidence) and where they differ
 
 ### Step 5 — Build the HTML review artifact
 The artifact is the deliverable; in chat print only a 3–5 line summary plus the artifact
@@ -82,7 +99,10 @@ verify one works.
 - Copy `assets/review-template.html` and fill in the placeholders. Keep the section order:
   header/meta → what this PR does → findings (severity order) → reviewer disagreements →
   not blocking. Drop a section only if it is genuinely empty.
-- Give every finding a stable ID (`F1`, `F2`, …) matching its `id` attribute, and mark
+- Give every finding a stable ID (`F1`, `F2`, …) matching its `id` attribute.
+- In single-reviewer mode the template's multi-reviewer bits do not apply: replace the
+  "Reviewed by MODEL_A and MODEL_B" line with the single model used, drop the `Both` badge,
+  and drop the "Reviewer disagreements" section. In two-reviewer mode, keep both and mark
   findings raised by both reviewers with the `Both` badge.
 - The template is content-only (starts at `<title>`) and self-contained — no CDN, no
   external CSS/JS. Keep it that way.
