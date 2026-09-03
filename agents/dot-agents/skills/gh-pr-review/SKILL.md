@@ -28,7 +28,7 @@ being large or risky; if you think a second opinion is worth it, say so and let 
 Whichever mode, every reviewer should:
 - Read the patch file from step 1 — if delegating, do NOT embed the diff in the task string
 - Read relevant source files from the codebase for additional context
-- Reference the specific file + line (or line range) for each finding — the artifact in
+- Reference the specific file + line (or line range) for each finding — the review file in
   step 5 needs real line numbers to link to
 - Categorize findings as: major / high / medium / low
 
@@ -72,11 +72,15 @@ subagent({
 - *Two-reviewer mode only:* compare findings — note where reviewers agree (higher
   confidence) and where they differ
 
-### Step 5 — Build the HTML review artifact
-The artifact is the deliverable; in chat print only a 3–5 line summary plus the artifact
-location. Do not paste the full report into the terminal.
+### Step 5 — Write the review to a markdown file
+The file is the deliverable; in chat print only a 3–5 line summary plus its path. Do not
+paste the full report into the terminal.
 
-**Collect the link data first** (one call, before writing any HTML):
+**Where it goes:** the path given as an argument, if one was given. Otherwise
+`pr-review-<PR_NUMBER>.md` in the root of the repository being reviewed. Always a real file
+on disk — never an Artifact, never the scratchpad, never `/tmp`.
+
+**Collect the link data first** (one call, before writing any markdown):
 ```bash
 gh pr view [PR_NUMBER] --json number,title,url,author,headRefOid,changedFiles,additions,deletions
 gh repo view --json nameWithOwner   # owner/repo of the base repo
@@ -96,31 +100,22 @@ Optional in-diff anchors (`.../pull/<n>/files#diff-<hash>R<line>`, where `<hash>
 verify one works.
 
 **Build from the template** so every review looks the same:
-- Copy `assets/review-template.html` and fill in the placeholders. Keep the section order:
+- Copy `assets/review-template.md` and fill in the placeholders. Keep the section order:
   header/meta → what this PR does → findings (severity order) → reviewer disagreements →
   not blocking. Drop a section only if it is genuinely empty.
-- Give every finding a stable ID (`F1`, `F2`, …) matching its `id` attribute.
-- In single-reviewer mode the template's multi-reviewer bits do not apply: replace the
-  "Reviewed by MODEL_A and MODEL_B" line with the single model used, drop the `Both` badge,
-  and drop the "Reviewer disagreements" section. In two-reviewer mode, keep both and mark
-  findings raised by both reviewers with the `Both` badge.
-- The template is content-only (starts at `<title>`) and self-contained — no CDN, no
-  external CSS/JS. Keep it that way.
+- Give every finding a stable ID (`F1`, `F2`, …), used in its heading.
+- In single-reviewer mode, name the single model on the header line and drop the
+  "Reviewer disagreements" section. In two-reviewer mode, keep it, and say in each finding
+  when both reviewers raised it — agreement is the confidence signal.
 
-**Publish it:**
-- *Claude Code*: write the filled file to the scratchpad and publish with the `Artifact`
-  tool, then give the user the URL. Load the `artifact-design` skill first if you deviate
-  from the template.
-- *Pi / no Artifact tool*: write `/tmp/pr-review-<pr-number>.html` and give the user the
-  path — do not open it. If the user asks for it to be opened, use `open -g` (macOS) so the
-  browser loads it in the background instead of stealing the front window.
+### Step 6 — Never act on the findings
+**Reporting is the whole job.** After writing the file, stop. Do not fix, refactor, edit,
+stage, commit, or push anything, and do not offer to — not even for a one-line change, not
+even when the fix is obvious, not even when asked to in the same breath as the review.
 
-### Step 6 — Ask the user before acting
-After handing over the artifact, **always pause and ask the user** whether they want any of the findings addressed. Do not start fixing or modifying code on your own.
+This holds because the skill runs unattended as well as interactively, and a reviewer that
+can edit the branch it is reviewing is a different and much riskier tool than one that
+cannot. The rule has to be the same in both, or it is not a rule.
 
-Suggested prompt to the user:
-> "Would you like me to address any of these findings? Give me the IDs (e.g. F1, F3), a severity (e.g. all majors), or 'everything', and I'll get started."
-
-- Wait for explicit user confirmation before making any changes
-- If the user selects specific items, confirm your understanding of the scope before proceeding
-- Only then load the `code-writing` skill and implement the requested fixes
+If fixes are wanted, they are a separate request in a separate session, where the findings
+file is the input.
