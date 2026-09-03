@@ -16,6 +16,14 @@ split_horizontal = "prefix+quote"
 [[keys.command]]
 key = "prefix+l"
 type = "popup"
+command = "herdr_workspace_switch.sh"
+description = "switch workspace"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+shift+l"
+type = "popup"
 command = "herdr_project.sh"
 description = "find project or create"
 width = "80%"
