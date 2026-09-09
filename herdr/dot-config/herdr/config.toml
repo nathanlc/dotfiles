@@ -85,5 +85,6 @@ overlay1 = "#ffffff"
 delivery = "system"
 
 [theme]
-name = "catppuccin"
-auto_switch = false
+dark_name = "terminal"
+light_name = "tokyo-night-day"
+auto_switch = true
