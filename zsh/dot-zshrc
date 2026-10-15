@@ -91,15 +91,21 @@ alias s='for i in {1..15}; do echo; done' # Create some space in the terminal
 alias cl=clear
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 alias vc='nvim --clean'
+alias ph='~/sandbox/nathanlc/personal-helper/.venv/bin/personal-helper'
 
 # Completion START
+# Completions installed by Homebrew packages (gh, jj, mise, rg, ...).
+# Appended, not prepended, so zsh's own _git/_gradle/_luarocks keep priority
+# (zsh's _git does richer partial-path matching than the one git ships).
+if_macos && fpath=($fpath /opt/homebrew/share/zsh/site-functions)
 autoload -Uz compinit && compinit
 # Use zsh-autosuggestions
 if_macos && source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # Case insensitive path-completion
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 # Partial completion suggestions
-zstyle ':completion:*' list-suffixes zstyle ':completion:*' expand prefix suffix
+zstyle ':completion:*' list-suffixes true
+zstyle ':completion:*' expand prefix suffix
 # Load bashcompinit for some old bash completions
 autoload bashcompinit && bashcompinit
 # Completion END
@@ -121,3 +127,5 @@ if_def atuin && eval "$(atuin init zsh)"
 if_def zoxide && eval "$(zoxide init zsh)"
 if_def direnv && eval "$(direnv hook zsh)"
 if_def mise && eval "$(mise activate zsh)"
+
+fpath+=~/.zfunc; autoload -Uz compinit; compinit

@@ -11,3 +11,4 @@ org.eclipse.jdt.apt.core.prefs
 org.eclipse.jdt.core.prefs
 
 **/.claude/settings.local.json
+mise.local.toml

@@ -1,8 +1,7 @@
 ---
 name: jira-implement
-description: Take a Jira ticket key, work out how to resolve it, and either implement it, plan it, or report what's blocking. Use when the user says "work on ATL-1234", "implement this ticket", "pick up GLOO-567", "can we do ATL-1234", or hands over a ticket key expecting the work to start. Produces a blocker report when the ticket is underspecified, a plan when the work is large, or the change itself when it's small.
-disable-model-invocation: true
-compatibility: Requires `acli` (Atlassian CLI). Run from inside the repository the ticket targets.
+description: Take a Jira ticket key, work out how to resolve it, and either implement it, plan it, or report what's blocking. Use when the user says "work on ATL-1234", "implement this ticket", "pick up GLOO-567", "can we do ATL-1234", or hands over a ticket key expecting the work to start. Produces a blocker report when the ticket is underspecified, a plan when the work is large, or the change itself when it's small. Claims unblocked tickets: In Progress, assigned to the user, story points and sprint filled in.
+compatibility: Requires `acli` (Atlassian CLI) and the Atlassian MCP connector (story points and sprint writes). Run from inside the repository the ticket targets.
 ---
 
 # Jira → implementation
@@ -24,7 +23,7 @@ Load it before any Jira operation. It provides field selection, the ADF-cleaning
 
 ### 1. Fetch the ticket and its surroundings
 
-Fetch the ticket with the full read field set — summary, description, status, issuetype, fixVersions, parent, issuelinks, comments, assignee, labels, and the Glooko components field.
+Fetch the ticket with the full read field set — summary, description, status, issuetype, fixVersions, parent, issuelinks, comments, assignee, labels, the Glooko components field, story points (`customfield_10008`), and sprint (`customfield_10000`).
 
 Then follow the context the ticket points at, because underspecified tickets usually have their missing half somewhere nearby:
 
@@ -73,7 +72,28 @@ Then classify each blocking finding:
 
 Being trigger-happy here is its own failure. A report of eleven findings, nine of which you could have answered yourself, gets ignored — and the two real ones go with it.
 
-### 6. Produce exactly one output
+### 6. Estimate (no blockers only)
+
+Skip this step and step 7 when step 5 produced blocking findings — a blocked ticket is not being worked on, so it stays untouched in Jira.
+
+If the ticket has no story points, estimate them from the investigation on the Fibonacci scale (1, 2, 3, 5, 8, 13). If unsure how the team calibrates, look at a few recently done tickets in the same component with points set.
+
+If the estimate is **5 or above**, stop and discuss it with the user before claiming the ticket: give the estimate, what drives it, and a proposed split into smaller tickets that can each ship independently. The user decides whether to split, keep it whole, or adjust the estimate. Don't create tickets unless asked. If they split, the remaining steps apply to whichever ticket they pick up.
+
+### 7. Claim the ticket (no blockers only)
+
+Get the cloud ID once with the Atlassian MCP `getAccessibleAtlassianResources`. Then:
+
+- **Assign** — `acli jira workitem assign --key KEY --assignee @me --yes`. If someone else is assigned, ask before taking it over.
+- **In Progress** — `acli jira workitem transition --key KEY --status "In Progress" --yes`. Skip if already In Progress. If it's further along (`Ready for Review` or later), ask rather than move it back.
+- **Story points**, if empty — Atlassian MCP `editJiraIssue` with `additional_fields: {"customfield_10008": <estimate>}`.
+- **Sprint**, if no `active` or `future` sprint is set — find the project's scrum board with `acli jira board search --project <PROJECT> --type scrum --json` (`.values[]`), then its active sprint with `acli jira board list-sprints --id <BOARD_ID> --state active --json` (`.sprints[]`). Move the ticket with Atlassian MCP `transitionJiraIssue` passing only `sprintId`. If there isn't exactly one board and one active sprint, ask which to use.
+
+acli can't write custom fields, so points and sprint go through the MCP connector. If the connector is unavailable, tell the user it needs authorizing, give them the values to set by hand, and carry on.
+
+Report what changed in one line (e.g. "ATL-1234 → In Progress, assigned to you, 3 pts, Atlas 26.S21").
+
+### 8. Produce exactly one output
 
 | Situation | Output |
 |---|---|
@@ -187,7 +207,7 @@ The confirmation is cheap and catches the expensive failure — a confidently mi
 
 Once the change is working and its tests pass, offer to commit it. Load the `commit` skill and give it the ticket key you already have — it would otherwise infer the key from the branch name or recent history, which is guesswork you can skip here.
 
-Stop at the commit. No pushing, no PR, no ticket transition — those are the user's call, and each has its own skill.
+Stop at the commit. No pushing, no PR, no further ticket transition — those are the user's call, and each has its own skill.
 
 Commit the code change only. A `<KEY>-plan.md` or `<KEY>-blockers.md` from an earlier run is a local working note, not part of the deliverable; leave it unstaged.
 
@@ -218,5 +238,6 @@ Before presenting any output:
 - `acli` fails → surface verbatim, stop.
 - Blocking findings exist → write the report and stop. Do not implement "the unambiguous part" of a ticket whose core behavior is undecided.
 - One output per run. Don't write a plan alongside a blocker report, and don't start implementing after writing either.
-- Jira stays read-only. No comments, no transitions, no field edits — the report is local, and the user decides what reaches the ticket.
+- Jira writes are limited to step 7: assignee, In Progress, story points, sprint. No comments, no other fields, no other transitions — reports and plans stay local, and the user decides what else reaches the ticket.
+- Estimate of 5 or more → discuss splitting with the user before claiming the ticket.
 - Committing is the far end of the run. Pushing, opening a PR, or moving the ticket is not part of this skill.

@@ -52,7 +52,7 @@
 )
 #| -------
 Symbols:
-! ; : %     ? ^ * = . - + => -> _ # @ | ` \ / " ' ~ &
+! ; : %     ? ^ * = . - + => -> _ # @ | ` \ / " ' ~ & < [ { ( ) } ] >
 Navigation:
 left down up right, +alt, pgup pgdown, alt+tab, cmd+tab, cmd/ctl + num
 --------|#

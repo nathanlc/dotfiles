@@ -23,5 +23,11 @@
     "ruby-lsp@claude-plugins-official": true,
     "figma@claude-plugins-official": true
   },
-  "theme": "auto"
+  "theme": "auto",
+  "remoteControlAtStartup": true,
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    }
+  }
 }
