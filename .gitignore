@@ -1,5 +1,5 @@
 .env
 .DS_Store
-.config/nushell/history.txt
+nushell/dot-config/nushell/history.txt
 .config/vdirsyncer/config
 vdirsyncer/dot-config/vdirsyncer/config
